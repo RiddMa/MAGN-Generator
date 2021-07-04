@@ -9,8 +9,13 @@
   },
   "dependencies": {
     "@ant-design/icons-vue": "^6.0.1",
+    "@antv/g2": "^4.1.19",
+    "@antv/g2plot": "^2.3.25",
     "ant-design-vue": "^2.2.0-rc.1",
     "core-js": "^3.6.5",
+    "html2canvas": "^1.0.0",
+    "moment": "^2.29.1",
+    "moment-timezone": "^0.5.33",
     "vue": "^3.0.0",
     "vue-router": "^4.0.0-0",
     "vuex": "^4.0.0-0"
@@ -30,7 +35,9 @@
     "eslint-plugin-vue": "^7.0.0",
     "less": "^4.1.1",
     "less-loader": "^7.3.0",
-    "prettier": "^2.2.1"
+    "naive-ui": "^2.15.2",
+    "prettier": "^2.2.1",
+    "vfonts": "^0.1.0"
   },
   "eslintConfig": {
     "root": true,
@@ -43,7 +50,8 @@
       "@vue/prettier"
     ],
     "parserOptions": {
-      "parser": "babel-eslint"
+      "parser": "babel-eslint",
+      "allowImportExportEverywhere": true
     },
     "rules": {}
   },
