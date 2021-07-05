@@ -3,6 +3,7 @@ import { createStore } from "vuex";
 export default createStore({
   state: {
     showCommentInput: true,
+    fitPhone: true,
     movie: {
       title: "The Shawshank Redemption",
       year: 1995,
@@ -25,6 +26,9 @@ export default createStore({
     },
     setMovieComment(state, newComment) {
       state.movie.comment = newComment;
+    },
+    setFitPhone(state, toBool) {
+      state.fitPhone = toBool;
     },
   },
   getters: {

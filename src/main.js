@@ -1,10 +1,6 @@
 import { createApp } from "vue";
-import Vue from "vue";
-import { ref, reactive } from "vue";
 import router from "./router";
 import store from "./store";
-import html2canvas from "html2canvas";
-import { downloadImage } from "@/Util";
 import {
   Layout,
   Button,

@@ -1,21 +1,28 @@
 <template>
   <div class="home">
-    <Settings></Settings>
-    <Review></Review>
+    <!--    <div v-if="fitPhone">-->
+    <!--      <router-view></router-view>-->
+    <!--    </div>-->
+    <!--    <div v-else>-->
+    <!--      <router-view></router-view>-->
+    <!--    </div>-->
+    <ReviewPhone v-if="fitPhone"></ReviewPhone>
+    <Review v-else></Review>
     <div class="customFooter">Designed by Ridd.</div>
   </div>
 </template>
 
 <script>
-// @ is an alias to /src
 import Review from "@/components/Review";
 import Settings from "@/components/Settings";
 import html2canvas from "html2canvas";
 import { mapState } from "vuex";
+import ReviewPhone from "@/components/ReviewPhone";
 
 export default {
   name: "Home",
   components: {
+    ReviewPhone,
     Review,
     Settings,
   },
@@ -26,8 +33,19 @@ export default {
   },
   computed: {
     ...mapState({
+      fitPhone: (state) => state.fitPhone,
       showCommentInput: (state) => state.showCommentInput,
     }),
+  },
+  mounted() {
+    console.log(document.body.clientWidth);
+    if (document.body.clientWidth < 550) {
+      this.$store.commit("setFitPhone", true);
+      // this.$router.push("/mobile");
+    } else {
+      this.$store.commit("setFitPhone", false);
+      // this.$router.push("/desktop");
+    }
   },
   methods: {
     /**

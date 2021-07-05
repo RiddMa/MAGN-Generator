@@ -6,6 +6,23 @@ const routes = [
     path: "/",
     name: "Home",
     component: Home,
+    children: [
+      {
+        path: "/desktop",
+        name: "MAGN-Generator",
+        component: () => import("../components/Review"),
+      },
+      {
+        path: "/mobile",
+        name: "MAGN-Generator",
+        component: () => import("../components/ReviewPhone"),
+      },
+      {
+        path: "/settings",
+        name: "MAGN-Generator",
+        component: () => import("../components/Settings"),
+      },
+    ],
   },
   {
     path: "/about",

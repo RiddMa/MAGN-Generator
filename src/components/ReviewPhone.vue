@@ -2,7 +2,7 @@
   <div>
     <a-row class="toImage" id="toImage" ref="toImage">
       <a-col flex="auto"></a-col>
-      <a-col :xxl="14" :xl="18" :lg="20" :md="22" :sm="24" :xs="24">
+      <a-col>
         <a-card class="reviewCard">
           <a-row align="middle" justify="start" type="flex">
             <a-col>
@@ -15,16 +15,6 @@
                 type="success"
                 >{{ title + " - " + year }}
               </a-typography-title>
-              <!--              <NGradientText-->
-              <!--                class="awesomeTitle"-->
-              <!--                id="awesomeTitle"-->
-              <!--                ref="awesomeTitle"-->
-              <!--                v-if="showTitleInput === false"-->
-              <!--                size="24"-->
-              <!--                type="success"-->
-              <!--                @click="showTitleInput = true"-->
-              <!--                >{{ title + " - " + year }}-->
-              <!--              </NGradientText>-->
               <a-input-search
                 v-if="searchText === '' || showTitleInput === true"
                 v-model:value="searchText"
@@ -44,113 +34,136 @@
             class="reviewContentCard"
             id="ratingCard"
           >
-            <div v-if="!fitPhone">
-              <!--            剧情-->
-              <a-row class="ratingRow">
-                <a-col>
-                  <span class="uglyMargin"> 剧情 </span>
+            <!--            剧情-->
+            <div>
+              <a-row class="ratingHeader">
+                <a-col :span="24">
+                  <a-divider>剧情</a-divider>
                 </a-col>
+              </a-row>
+              <a-row class="ratingRow">
                 <a-col flex="auto"></a-col>
-                <a-col>
+                <a-col :span="14">
                   <a-rate
-                    class="ratings"
+                    class="ratingsPhone"
                     v-model:value="rating.screenplay"
                     allow-clear
                     @change="handleRateChange"
                     :count="10"
                   />
                 </a-col>
-                <a-col :span="2">
+                <a-col :span="4">
                   <span v-if="rating.screenplay !== 0" class="uglyMargin">
                     {{ rating.screenplay }}/10
                   </span>
                 </a-col>
-              </a-row>
-              <!--            视效/摄影-->
-              <a-row class="ratingRow">
-                <a-col>
-                  <span class="uglyMargin"> 视效/摄影 </span>
-                </a-col>
                 <a-col flex="auto"></a-col>
-                <a-col>
+              </a-row>
+            </div>
+            <!--            视效/摄影-->
+            <div>
+              <a-row class="ratingHeader">
+                <a-col :span="24">
+                  <a-divider>视效/摄影</a-divider>
+                </a-col>
+              </a-row>
+              <a-row class="ratingRow">
+                <a-col flex="auto"></a-col>
+                <a-col :span="14">
                   <a-rate
-                    class="ratings"
+                    class="ratingsPhone"
                     v-model:value="rating.visual"
                     allow-clear
                     @change="handleRateChange"
                     :count="10"
                   />
                 </a-col>
-                <a-col :span="2">
+                <a-col :span="4">
                   <span v-if="rating.visual !== 0" class="uglyMargin">
                     {{ rating.visual }}/10
                   </span>
                 </a-col>
-              </a-row>
-              <!--            演出/剪辑-->
-              <a-row class="ratingRow">
-                <a-col>
-                  <span class="uglyMargin"> 演出/剪辑 </span>
-                </a-col>
                 <a-col flex="auto"></a-col>
-                <a-col>
+              </a-row>
+            </div>
+            <!--            演出/剪辑-->
+            <div>
+              <a-row class="ratingHeader">
+                <a-col :span="24">
+                  <a-divider>演出/剪辑</a-divider>
+                </a-col>
+              </a-row>
+              <a-row class="ratingRow">
+                <a-col flex="auto"></a-col>
+                <a-col :span="14">
                   <a-rate
-                    class="ratings"
+                    class="ratingsPhone"
                     v-model:value="rating.editing"
                     allow-clear
                     @change="handleRateChange"
                     :count="10"
                   />
                 </a-col>
-                <a-col :span="2">
+                <a-col :span="4">
                   <span v-if="rating.editing !== 0" class="uglyMargin">
                     {{ rating.editing }}/10
                   </span>
                 </a-col>
-              </a-row>
-              <!--            音乐/音效-->
-              <a-row class="ratingRow">
-                <a-col>
-                  <span class="uglyMargin"> 音乐/音效 </span>
-                </a-col>
                 <a-col flex="auto"></a-col>
-                <a-col>
+              </a-row>
+            </div>
+            <!--            音乐/音效-->
+            <div>
+              <a-row class="ratingHeader">
+                <a-col :span="24">
+                  <a-divider>音乐/音效</a-divider>
+                </a-col>
+              </a-row>
+              <a-row class="ratingRow">
+                <a-col flex="auto"></a-col>
+                <a-col :span="14">
                   <a-rate
-                    class="ratings"
+                    class="ratingsPhone"
                     v-model:value="rating.sound"
                     allow-clear
                     @change="handleRateChange"
                     :count="10"
                   />
                 </a-col>
-                <a-col :span="2">
+                <a-col :span="4">
                   <span v-if="rating.sound !== 0" class="uglyMargin">
                     {{ rating.sound }}/10
                   </span>
                 </a-col>
-              </a-row>
-              <!--            <a-divider orientation="left"></a-divider>-->
-              <a-row class="avgRow" align="middle" justify="center">
                 <a-col flex="auto"></a-col>
-                <a-col>
-                  <div
-                    class="radarChart"
-                    id="radarChart"
-                    ref="radarChart"
-                  ></div>
+              </a-row>
+            </div>
+            <div>
+              <a-row class="ratingHeader">
+                <a-col :span="24">
+                  <a-divider> 总分 </a-divider>
                 </a-col>
                 <a-col flex="auto"></a-col>
               </a-row>
-              <a-row class="ratingRow">
-                <a-col>
-                  <span class="uglyMargin"> 总分 </span>&nbsp;&nbsp;&nbsp;&nbsp;
-                </a-col>
+              <a-row>
                 <a-col flex="auto"></a-col>
-                <a-col :span="2">
+                <a-col :span="4">
                   <span v-if="avg !== 0" class="uglyMargin">
                     {{ avg }}/10
                   </span>
                 </a-col>
+                <a-col flex="auto"></a-col>
+              </a-row>
+              <a-row class="avgRow" align="middle" justify="center">
+                <a-col flex="auto"></a-col>
+                <a-col>
+                  <div
+                    class="radarChartPhone"
+                    id="radarChartPhone"
+                    ref="radarChartPhone"
+                  ></div>
+                </a-col>
+                <a-col flex="auto"></a-col>
               </a-row>
             </div>
           </a-card>
@@ -175,8 +188,7 @@
       </a-col>
       <a-col flex="auto"></a-col>
     </a-row>
-    <a-button @click="capture('radarChart')">get chart</a-button>
-    <a-button @click="capture('toImage')">get image</a-button>
+    <a-button @click="scrollAndCapture()">Get Image</a-button>
   </div>
 </template>
 
@@ -190,7 +202,7 @@ import { downloadImage } from "@/Util";
 import html2canvas from "html2canvas";
 
 export default {
-  name: "Review",
+  name: "ReviewPhone",
   components: {
     NGradientText,
     NInput,
@@ -233,7 +245,6 @@ export default {
       },
     }),
   },
-
   methods: {
     handleRateChange() {
       if (this.avg === 0) {
@@ -248,14 +259,14 @@ export default {
     getPic() {
       downloadImage(this.radarPlot);
     },
-    drawRadar(divClass) {
+    drawRadar() {
       const data = [
         { name: "剧情", rating: this.rating.screenplay },
         { name: "视效\n/摄影", rating: this.rating.visual },
         { name: "演出\n/剪辑", rating: this.rating.editing },
         { name: "音乐\n/音效", rating: this.rating.sound },
       ];
-      this.radarPlot = new Radar(divClass, {
+      this.radarPlot = new Radar("radarChartPhone", {
         data: data,
         xField: "name",
         yField: "rating",
@@ -267,29 +278,6 @@ export default {
             nice: true,
           },
         },
-        // xAxis: {
-        //   line: null,
-        //   tickLine: null,
-        //   grid: {
-        //     line: {
-        //       style: {
-        //         lineDash: null,
-        //       },
-        //     },
-        //   },
-        // },
-        // yAxis: {
-        //   line: null,
-        //   tickLine: null,
-        //   grid: {
-        //     line: {
-        //       type: 'line',
-        //       style: {
-        //         lineDash: null,
-        //       },
-        //     },
-        //   },
-        // },
         autoFit: true,
         tooltip: {
           showCrosshairs: false,
@@ -315,17 +303,62 @@ export default {
       ];
       this.radarPlot.changeData(data);
     },
+    // async capture() {
+    //   await this.updateComment();
+    //   await this.$store.commit("setCommentInput", false);
+    //   const rect = document.querySelector("#toImage").getBoundingClientRect();
+    //   console.log(rect);
+    //   let scrollTop =
+    //     document.documentElement.scrollTop || document.body.scrollTop; // 获取滚动轴滚动的长度
+    //   document.querySelector("#toImage").getBoundingClientRect(); //eslint-disable-line
+    //   html2canvas(document.querySelector("#toImage"), {
+    //     allowTaint: true,
+    //     useCORS: true,
+    //     backgroundColor: null,
+    //     scale: 3,
+    //     width: rect.width,
+    //     height: rect.height,
+    //     scrollX: 0,
+    //     scrollY: 0,
+    //   }).then(function (canvas) {
+    //     document.body.appendChild(canvas);
+    //   });
+    //   await this.$store.commit("setCommentInput", true);
+    // },
+    scrollAndCapture() {
+      this.toTop(window, () => this.capture());
+    },
+    toTop(element = window, callback) {
+      element.scrollTo({
+        top: 0,
+        left: 0,
+        behavior: "smooth",
+      });
+      if (!callback) return;
+      if (element === window ? element.scrollY === 0 : element.scrollTop === 0)
+        return callback();
+      let running = function (event) {
+        let top = this === window ? this.scrollY : this.scrollTop;
+        if (top === 0) {
+          this.removeEventListener("scroll", running);
+          return callback();
+        }
+      };
+      element.addEventListener("scroll", running, false);
+    },
     async capture() {
       await this.updateComment();
       await this.$store.commit("setCommentInput", false);
-      const rect = document.querySelector("#toImage").getBoundingClientRect();
-      let scrollTop =
-        document.documentElement.scrollTop || document.body.scrollTop; // 获取滚动轴滚动的长度
-      document.querySelector("#toImage").getBoundingClientRect(); //eslint-disable-line
-      html2canvas(document.querySelector("#toImage"), {
-        width: rect.width,
-        height: rect.height,
-        scrollY: -scrollTop, // 页面存在滚动时，需要设置此属性，解决绘图偏移问题
+      const targetDom = document.getElementById("toImage");
+      html2canvas(targetDom, {
+        width: targetDom.clientWidth,
+        height: targetDom.clientHeight,
+        scrollX: 0,
+        scrollY: -window.scrollY,
+        allowTaint: true,
+        useCORS: true,
+        backgroundColor: null,
+        scale: 3,
       }).then(function (canvas) {
         document.body.appendChild(canvas);
       });
@@ -334,21 +367,8 @@ export default {
   },
   mounted() {
     this.tmpComment = this.comment;
-    // if (document.getElementById("ratingCard").offsetWidth < 440) {
-    //   this.fitPhone = true;
-    //   this.$forceUpdate();
-    // } else {
-    //   this.fitPhone = false;
-    //   this.$forceUpdate();
-    // }
+    this.drawRadar();
   },
-  // updated() {
-  //   if (this.fitPhone) {
-  //     this.drawRadar("radarChartPhone");
-  //   } else {
-  //     this.drawRadar("radarChart");
-  //   }
-  // },
 };
 </script>
 
@@ -365,6 +385,26 @@ export default {
   margin: 0 0 2vh 0;
   padding: 0;
 }
+.ratingHeader {
+  margin: 0;
+  max-height: 30px;
+  display: flex;
+  display: -webkit-flex; /* Safari */
+  align-items: center; /*指定垂直居中*/
+  alignment: center;
+  align-content: center;
+  align-self: center;
+}
+.ratingTotalHeader {
+  margin: 0;
+  max-height: 30px;
+  display: flex;
+  display: -webkit-flex; /* Safari */
+  align-items: center; /*指定垂直居中*/
+  alignment: center;
+  align-content: center;
+  align-self: center;
+}
 .ratingRow {
   margin: 0 2vw;
   display: flex;
@@ -373,9 +413,6 @@ export default {
   alignment: center;
   align-content: center;
   align-self: center;
-}
-.ratings {
-  padding-bottom: 1px;
 }
 .ratingsPhone {
   padding-bottom: 1px;
@@ -401,6 +438,6 @@ export default {
   display: flex;
   display: -webkit-flex; /* Safari */
   align-items: center; /*指定垂直居中*/
-  max-height: 265px;
+  max-height: 230px;
 }
 </style>
