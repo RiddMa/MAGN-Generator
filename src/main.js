@@ -23,6 +23,7 @@ import {
   Space,
   Input,
   Collapse,
+  Typography,
 } from "ant-design-vue";
 import App from "./App.vue";
 
@@ -45,4 +46,5 @@ app.use(Rate);
 app.use(Space);
 app.use(Input);
 app.use(Collapse);
+app.use(Typography);
 app.use(store).use(router).mount("#app");

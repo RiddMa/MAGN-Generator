@@ -1,5 +1,5 @@
 {
-  "name": "mgn-gen",
+  "name": "magn-gen",
   "version": "0.1.0",
   "private": true,
   "scripts": {
@@ -12,7 +12,9 @@
     "@antv/g2": "^4.1.19",
     "@antv/g2plot": "^2.3.25",
     "ant-design-vue": "^2.2.0-rc.1",
+    "canvas2image": "^1.0.5",
     "core-js": "^3.6.5",
+    "dom-to-image": "^2.6.0",
     "html2canvas": "^1.0.0",
     "moment": "^2.29.1",
     "moment-timezone": "^0.5.33",

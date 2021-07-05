@@ -1,9 +1,8 @@
 <template>
   <div class="home">
     <Settings></Settings>
-    <Review class="toImage" id="toImage" ref="toImage"></Review>
-    <a-button @click="capture">capture</a-button>
-    <a-button @click="clickGeneratePicture">clickgen</a-button>
+    <Review></Review>
+    <div class="customFooter">Designed by Ridd.</div>
   </div>
 </template>
 
@@ -12,6 +11,7 @@
 import Review from "@/components/Review";
 import Settings from "@/components/Settings";
 import html2canvas from "html2canvas";
+import { mapState } from "vuex";
 
 export default {
   name: "Home",
@@ -23,6 +23,11 @@ export default {
     return {
       imgURL: "",
     };
+  },
+  computed: {
+    ...mapState({
+      showCommentInput: (state) => state.showCommentInput,
+    }),
   },
   methods: {
     /**
@@ -79,19 +84,12 @@ export default {
         document.body.removeChild(aLink);
       };
     },
-    capture() {
-      const rect = document.querySelector("#toImage").getBoundingClientRect();
-      let scrollTop =
-        document.documentElement.scrollTop || document.body.scrollTop; // 获取滚动轴滚动的长度
-      console.log(document.querySelector("#toImage").getBoundingClientRect()); //eslint-disable-line
-      html2canvas(document.querySelector("#toImage"), {
-        width: rect.width,
-        height: rect.height,
-        scrollY: -scrollTop, // 页面存在滚动时，需要设置此属性，解决绘图偏移问题
-      }).then(function (canvas) {
-        document.body.appendChild(canvas);
-      });
-    },
   },
 };
 </script>
+
+<style scoped>
+.customFooter {
+  padding: 25px 0 50px 0;
+}
+</style>

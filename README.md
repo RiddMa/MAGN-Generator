@@ -1,4 +1,6 @@
-# mgn-gen
+# MAGN-Generator
+
+MAGN影评定型文生成器
 
 ## Project setup
 ```
