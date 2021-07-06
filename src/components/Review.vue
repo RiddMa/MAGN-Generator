@@ -4,6 +4,7 @@
       <a-col flex="auto"></a-col>
       <a-col :xxl="14" :xl="18" :lg="20" :md="22" :sm="24" :xs="24">
         <a-card class="reviewCard">
+          <!--          标题-->
           <a-row align="middle" justify="start" type="flex">
             <a-col>
               <a-typography-title
@@ -12,19 +13,8 @@
                 ref="awesomeTitle"
                 v-if="showTitleInput === false"
                 @click="showTitleInput = true"
-                type="success"
-                >{{ title + " - " + year }}
+                >{{ movie.title + " - " + movie.year }}
               </a-typography-title>
-              <!--              <NGradientText-->
-              <!--                class="awesomeTitle"-->
-              <!--                id="awesomeTitle"-->
-              <!--                ref="awesomeTitle"-->
-              <!--                v-if="showTitleInput === false"-->
-              <!--                size="24"-->
-              <!--                type="success"-->
-              <!--                @click="showTitleInput = true"-->
-              <!--                >{{ title + " - " + year }}-->
-              <!--              </NGradientText>-->
               <a-input-search
                 v-if="searchText === '' || showTitleInput === true"
                 v-model:value="searchText"
@@ -36,7 +26,7 @@
               />
             </a-col>
             <a-col flex="auto"></a-col>
-            <a-col> {{ reviewDate }} </a-col>
+            <a-col> {{ movie.reviewDate }} </a-col>
           </a-row>
           <a-card
             size="small"
@@ -54,15 +44,15 @@
                 <a-col>
                   <a-rate
                     class="ratings"
-                    v-model:value="rating.screenplay"
+                    v-model:value="movie.rating.screenplay"
                     allow-clear
                     @change="handleRateChange"
                     :count="10"
                   />
                 </a-col>
                 <a-col :span="2">
-                  <span v-if="rating.screenplay !== 0" class="uglyMargin">
-                    {{ rating.screenplay }}/10
+                  <span v-if="movie.rating.screenplay !== 0" class="uglyMargin">
+                    {{ movie.rating.screenplay }}/10
                   </span>
                 </a-col>
               </a-row>
@@ -75,15 +65,15 @@
                 <a-col>
                   <a-rate
                     class="ratings"
-                    v-model:value="rating.visual"
+                    v-model:value="movie.rating.visual"
                     allow-clear
                     @change="handleRateChange"
                     :count="10"
                   />
                 </a-col>
                 <a-col :span="2">
-                  <span v-if="rating.visual !== 0" class="uglyMargin">
-                    {{ rating.visual }}/10
+                  <span v-if="movie.rating.visual !== 0" class="uglyMargin">
+                    {{ movie.rating.visual }}/10
                   </span>
                 </a-col>
               </a-row>
@@ -96,15 +86,15 @@
                 <a-col>
                   <a-rate
                     class="ratings"
-                    v-model:value="rating.editing"
+                    v-model:value="movie.rating.editing"
                     allow-clear
                     @change="handleRateChange"
                     :count="10"
                   />
                 </a-col>
                 <a-col :span="2">
-                  <span v-if="rating.editing !== 0" class="uglyMargin">
-                    {{ rating.editing }}/10
+                  <span v-if="movie.rating.editing !== 0" class="uglyMargin">
+                    {{ movie.rating.editing }}/10
                   </span>
                 </a-col>
               </a-row>
@@ -117,15 +107,15 @@
                 <a-col>
                   <a-rate
                     class="ratings"
-                    v-model:value="rating.sound"
+                    v-model:value="movie.rating.sound"
                     allow-clear
                     @change="handleRateChange"
                     :count="10"
                   />
                 </a-col>
                 <a-col :span="2">
-                  <span v-if="rating.sound !== 0" class="uglyMargin">
-                    {{ rating.sound }}/10
+                  <span v-if="movie.rating.sound !== 0" class="uglyMargin">
+                    {{ movie.rating.sound }}/10
                   </span>
                 </a-col>
               </a-row>
@@ -147,8 +137,8 @@
                 </a-col>
                 <a-col flex="auto"></a-col>
                 <a-col :span="2">
-                  <span v-if="avg !== 0" class="uglyMargin">
-                    {{ avg }}/10
+                  <span v-if="movie.rating.avg !== 0" class="uglyMargin">
+                    {{ movie.rating.avg }}/10
                   </span>
                 </a-col>
               </a-row>
@@ -168,7 +158,7 @@
           <!--            v-if="showCommentInput === false"-->
           <a-card v-if="!showCommentInput" hoverable class="reviewContentCard">
             <a-typography-paragraph style="white-space: pre-wrap">
-              {{ comment }}
+              {{ movie.comment }}
             </a-typography-paragraph>
           </a-card>
         </a-card>
@@ -186,7 +176,6 @@ import { ref } from "vue";
 import { mapState } from "vuex";
 import { Radar } from "@antv/g2plot";
 import moment from "moment";
-import { downloadImage } from "@/Util";
 import html2canvas from "html2canvas";
 
 export default {
@@ -213,49 +202,29 @@ export default {
     return { tmpComment }; // notice here count is returned so the template can access it.
   },
   computed: {
-    reviewDate() {
-      moment.locale("zh-cn");
-      return moment().format("L");
-    },
     ...mapState({
       fitPhone: (state) => state.fitPhone,
       showCommentInput: (state) => state.showCommentInput,
-      rating: (state) => state.movie.rating,
-      title: (state) => state.movie.title,
-      year: (state) => state.movie.year,
-      comment: (state) => state.movie.comment,
-      avg: (state) => {
-        return (
-          Object.values(state.movie.rating).reduce(function (sum, cur) {
-            return sum + cur;
-          }) / Object.keys(state.movie.rating).length
-        );
-      },
+      movie: (state) => state.movie,
     }),
   },
 
   methods: {
     handleRateChange() {
-      if (this.avg === 0) {
-        this.radarPlot.destroy();
-        this.drawRadar("radarChartPhone");
-      }
+      this.$store.commit("setMovieRatingAvg");
       this.updateRadar();
     },
     async updateComment() {
       await this.$store.commit("setMovieComment", this.tmpComment);
     },
-    getPic() {
-      downloadImage(this.radarPlot);
-    },
-    drawRadar(divClass) {
+    drawRadar() {
       const data = [
-        { name: "剧情", rating: this.rating.screenplay },
-        { name: "视效\n/摄影", rating: this.rating.visual },
-        { name: "演出\n/剪辑", rating: this.rating.editing },
-        { name: "音乐\n/音效", rating: this.rating.sound },
+        { name: "剧情", rating: this.movie.rating.screenplay },
+        { name: "演出\n/剪辑", rating: this.movie.rating.editing },
+        { name: "视效\n/摄影", rating: this.movie.rating.visual },
+        { name: "音乐\n/音效", rating: this.movie.rating.sound },
       ];
-      this.radarPlot = new Radar(divClass, {
+      this.radarPlot = new Radar("radarChart", {
         data: data,
         xField: "name",
         yField: "rating",
@@ -267,29 +236,6 @@ export default {
             nice: true,
           },
         },
-        // xAxis: {
-        //   line: null,
-        //   tickLine: null,
-        //   grid: {
-        //     line: {
-        //       style: {
-        //         lineDash: null,
-        //       },
-        //     },
-        //   },
-        // },
-        // yAxis: {
-        //   line: null,
-        //   tickLine: null,
-        //   grid: {
-        //     line: {
-        //       type: 'line',
-        //       style: {
-        //         lineDash: null,
-        //       },
-        //     },
-        //   },
-        // },
         autoFit: true,
         tooltip: {
           showCrosshairs: false,
@@ -308,10 +254,10 @@ export default {
     },
     updateRadar() {
       const data = [
-        { name: "剧情", rating: this.rating.screenplay },
-        { name: "视效/摄影", rating: this.rating.visual },
-        { name: "演出/剪辑", rating: this.rating.editing },
-        { name: "音乐/音效", rating: this.rating.sound },
+        { name: "剧情", rating: this.movie.rating.screenplay },
+        { name: "演出\n/剪辑", rating: this.movie.rating.editing },
+        { name: "视效\n/摄影", rating: this.movie.rating.visual },
+        { name: "音乐\n/音效", rating: this.movie.rating.sound },
       ];
       this.radarPlot.changeData(data);
     },
@@ -333,22 +279,9 @@ export default {
     },
   },
   mounted() {
-    this.tmpComment = this.comment;
-    // if (document.getElementById("ratingCard").offsetWidth < 440) {
-    //   this.fitPhone = true;
-    //   this.$forceUpdate();
-    // } else {
-    //   this.fitPhone = false;
-    //   this.$forceUpdate();
-    // }
+    this.tmpComment = this.movie.comment;
+    this.drawRadar();
   },
-  // updated() {
-  //   if (this.fitPhone) {
-  //     this.drawRadar("radarChartPhone");
-  //   } else {
-  //     this.drawRadar("radarChart");
-  //   }
-  // },
 };
 </script>
 
@@ -356,6 +289,7 @@ export default {
 .awesomeTitle {
   text-align: start;
   vertical-align: center;
+  color: #40ba83;
 }
 .reviewCard {
   margin: 2vh 4vw;

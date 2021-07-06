@@ -6,6 +6,8 @@
     <!--    <div v-else>-->
     <!--      <router-view></router-view>-->
     <!--    </div>-->
+    <router-view></router-view>
+    <Settings></Settings>
     <ReviewPhone v-if="fitPhone"></ReviewPhone>
     <Review v-else></Review>
     <div class="customFooter">Designed by Ridd.</div>
@@ -17,6 +19,7 @@ import Review from "@/components/Review";
 import Settings from "@/components/Settings";
 import html2canvas from "html2canvas";
 import { mapState } from "vuex";
+import { ref } from "vue";
 import ReviewPhone from "@/components/ReviewPhone";
 
 export default {
@@ -27,8 +30,13 @@ export default {
     Settings,
   },
   data() {
+    return {};
+  },
+  setup() {
+    let imgURL = ref("");
+
     return {
-      imgURL: "",
+      imgURL,
     };
   },
   computed: {
@@ -38,7 +46,6 @@ export default {
     }),
   },
   mounted() {
-    console.log(document.body.clientWidth);
     if (document.body.clientWidth < 550) {
       this.$store.commit("setFitPhone", true);
       // this.$router.push("/mobile");
@@ -46,6 +53,8 @@ export default {
       this.$store.commit("setFitPhone", false);
       // this.$router.push("/desktop");
     }
+    this.$store.commit("setReviewDate");
+    this.$store.commit("setMovieRatingAvg");
   },
   methods: {
     /**

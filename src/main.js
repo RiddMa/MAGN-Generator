@@ -20,6 +20,8 @@ import {
   Input,
   Collapse,
   Typography,
+  BackTop,
+  Checkbox,
 } from "ant-design-vue";
 import App from "./App.vue";
 
@@ -43,4 +45,6 @@ app.use(Space);
 app.use(Input);
 app.use(Collapse);
 app.use(Typography);
+app.use(BackTop);
+app.use(Checkbox);
 app.use(store).use(router).mount("#app");

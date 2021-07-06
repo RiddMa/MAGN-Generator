@@ -1,5 +1,6 @@
 <template>
   <div id="nav">
+    <a-back-top visibilityHeight="20" />
     <router-link to="/">Home</router-link> |
     <router-link to="/about">About</router-link>
   </div>
@@ -25,6 +26,10 @@
 }
 
 #nav a.router-link-exact-active {
-  color: #42b983;
+  color: #00c198;
+}
+
+.ant-back-top {
+  bottom: 100px;
 }
 </style>

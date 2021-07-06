@@ -249,7 +249,7 @@ export default {
     handleRateChange() {
       if (this.avg === 0) {
         this.radarPlot.destroy();
-        this.drawRadar("radarChartPhone");
+        this.drawRadarPhone("radarChartPhone");
       }
       this.updateRadar();
     },
@@ -259,7 +259,7 @@ export default {
     getPic() {
       downloadImage(this.radarPlot);
     },
-    drawRadar() {
+    drawRadarPhone() {
       const data = [
         { name: "剧情", rating: this.rating.screenplay },
         { name: "视效\n/摄影", rating: this.rating.visual },
@@ -367,7 +367,7 @@ export default {
   },
   mounted() {
     this.tmpComment = this.comment;
-    this.drawRadar();
+    this.drawRadarPhone();
   },
 };
 </script>
@@ -376,6 +376,7 @@ export default {
 .awesomeTitle {
   text-align: start;
   vertical-align: center;
+  color: #40ba83;
 }
 .reviewCard {
   margin: 2vh 4vw;
