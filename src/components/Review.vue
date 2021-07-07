@@ -2,32 +2,10 @@
   <div>
     <a-row class="toImage" id="toImage" ref="toImage">
       <a-col flex="auto"></a-col>
-      <a-col :xxl="14" :xl="18" :lg="20" :md="22" :sm="24" :xs="24">
+      <a-col :xxl="14" :xl="16" :lg="18" :md="20" :sm="22" :xs="24">
         <a-card class="reviewCard">
           <!--          标题-->
-          <a-row align="middle" justify="start" type="flex">
-            <a-col>
-              <a-typography-title
-                class="awesomeTitle"
-                id="awesomeTitle"
-                ref="awesomeTitle"
-                v-if="showTitleInput === false"
-                @click="showTitleInput = true"
-                >{{ movie.title + " - " + movie.year }}
-              </a-typography-title>
-              <a-input-search
-                v-if="searchText === '' || showTitleInput === true"
-                v-model:value="searchText"
-                placeholder="输入电影名称…"
-                enter-button="确认"
-                size="large"
-                allowclear
-                @search="showTitleInput = false"
-              />
-            </a-col>
-            <a-col flex="auto"></a-col>
-            <a-col> {{ movie.reviewDate }} </a-col>
-          </a-row>
+          <Title></Title>
           <a-card
             size="small"
             hoverable
@@ -37,10 +15,11 @@
             <div v-if="!fitPhone">
               <!--            剧情-->
               <a-row class="ratingRow">
-                <a-col>
-                  <span class="uglyMargin"> 剧情 </span>
+                <a-col flex="auto">
+                  <n-divider>
+                    <span class="dividerCenter">剧情</span>
+                  </n-divider>
                 </a-col>
-                <a-col flex="auto"></a-col>
                 <a-col>
                   <a-rate
                     class="ratings"
@@ -55,13 +34,15 @@
                     {{ movie.rating.screenplay }}/10
                   </span>
                 </a-col>
+                <a-col flex="auto"><n-divider></n-divider></a-col>
               </a-row>
-              <!--            视效/摄影-->
+              <!--              视效/摄影-->
               <a-row class="ratingRow">
-                <a-col>
-                  <span class="uglyMargin"> 视效/摄影 </span>
+                <a-col flex="auto">
+                  <n-divider>
+                    <span class="dividerCenter">视效/摄影</span>
+                  </n-divider>
                 </a-col>
-                <a-col flex="auto"></a-col>
                 <a-col>
                   <a-rate
                     class="ratings"
@@ -76,13 +57,15 @@
                     {{ movie.rating.visual }}/10
                   </span>
                 </a-col>
+                <a-col flex="auto"><n-divider></n-divider></a-col>
               </a-row>
               <!--            演出/剪辑-->
               <a-row class="ratingRow">
-                <a-col>
-                  <span class="uglyMargin"> 演出/剪辑 </span>
+                <a-col flex="auto">
+                  <n-divider>
+                    <span class="dividerCenter">演出/剪辑</span>
+                  </n-divider>
                 </a-col>
-                <a-col flex="auto"></a-col>
                 <a-col>
                   <a-rate
                     class="ratings"
@@ -97,13 +80,15 @@
                     {{ movie.rating.editing }}/10
                   </span>
                 </a-col>
+                <a-col flex="auto"><n-divider></n-divider></a-col>
               </a-row>
               <!--            音乐/音效-->
               <a-row class="ratingRow">
-                <a-col>
-                  <span class="uglyMargin"> 音乐/音效 </span>
+                <a-col flex="auto">
+                  <n-divider>
+                    <span class="dividerCenter">音乐/音效</span>
+                  </n-divider>
                 </a-col>
-                <a-col flex="auto"></a-col>
                 <a-col>
                   <a-rate
                     class="ratings"
@@ -118,8 +103,17 @@
                     {{ movie.rating.sound }}/10
                   </span>
                 </a-col>
+                <a-col flex="auto"><n-divider></n-divider></a-col>
               </a-row>
-              <!--            <a-divider orientation="left"></a-divider>-->
+              <!--              统计-->
+              <div class="dividerRow">
+                <n-divider>
+                  总分&nbsp-&nbsp
+                  <span v-if="movie.rating.avg !== 0" class="uglyMargin">
+                    {{ movie.rating.avg }}/10
+                  </span>
+                </n-divider>
+              </div>
               <a-row class="avgRow" align="middle" justify="center">
                 <a-col flex="auto"></a-col>
                 <a-col>
@@ -131,21 +125,10 @@
                 </a-col>
                 <a-col flex="auto"></a-col>
               </a-row>
-              <a-row class="ratingRow">
-                <a-col>
-                  <span class="uglyMargin"> 总分 </span>&nbsp;&nbsp;&nbsp;&nbsp;
-                </a-col>
-                <a-col flex="auto"></a-col>
-                <a-col :span="2">
-                  <span v-if="movie.rating.avg !== 0" class="uglyMargin">
-                    {{ movie.rating.avg }}/10
-                  </span>
-                </a-col>
-              </a-row>
             </div>
           </a-card>
           <NInput
-            class="reviewContentCard"
+            class="reviewInputCard"
             v-if="showCommentInput"
             v-model:value="tmpComment"
             type="textarea"
@@ -153,40 +136,45 @@
             :autosize="{
               minRows: 3,
             }"
-            style="text-align: start"
           />
+
           <!--            v-if="showCommentInput === false"-->
-          <a-card v-if="!showCommentInput" hoverable class="reviewContentCard">
+          <a-card v-if="!showCommentInput" hoverable class="reviewCommentCard">
             <a-typography-paragraph style="white-space: pre-wrap">
               {{ movie.comment }}
             </a-typography-paragraph>
           </a-card>
+          <a-row>
+            <a-col flex="auto"></a-col>
+            <a-col class="dateRow"> {{ movie.reviewDate }} </a-col>
+          </a-row>
         </a-card>
       </a-col>
       <a-col flex="auto"></a-col>
     </a-row>
-    <a-button @click="capture('radarChart')">get chart</a-button>
-    <a-button @click="capture('toImage')">get image</a-button>
+    <a-button @click="scrollAndCapture">get image</a-button>
+    <a-button @click="getDivider">get divider</a-button>
   </div>
 </template>
 
 <script>
-import { NGradientText, NInput } from "naive-ui";
+import Title from "../components/Title";
+import { NGradientText, NInput, NDivider } from "naive-ui";
 import { ref } from "vue";
 import { mapState } from "vuex";
 import { Radar } from "@antv/g2plot";
-import moment from "moment";
 import html2canvas from "html2canvas";
 
 export default {
   name: "Review",
   components: {
+    Title,
     NGradientText,
     NInput,
+    NDivider,
   },
   data() {
     return {
-      showTitleInput: false,
       radarPlot: undefined,
       searchText: "The Shawshank Redemption",
       review: {
@@ -261,21 +249,59 @@ export default {
       ];
       this.radarPlot.changeData(data);
     },
+    scrollAndCapture() {
+      this.toTop(window, () => this.capture());
+    },
+    toTop(element = window, callback) {
+      element.scrollTo({
+        top: 0,
+        left: 0,
+        behavior: "smooth",
+      });
+      if (!callback) return;
+      if (element === window ? element.scrollY === 0 : element.scrollTop === 0)
+        return callback();
+      let running = function (event) {
+        let top = this === window ? this.scrollY : this.scrollTop;
+        if (top === 0) {
+          this.removeEventListener("scroll", running);
+          return callback();
+        }
+      };
+      element.addEventListener("scroll", running, false);
+    },
     async capture() {
       await this.updateComment();
       await this.$store.commit("setCommentInput", false);
-      const rect = document.querySelector("#toImage").getBoundingClientRect();
-      let scrollTop =
-        document.documentElement.scrollTop || document.body.scrollTop; // 获取滚动轴滚动的长度
-      document.querySelector("#toImage").getBoundingClientRect(); //eslint-disable-line
-      html2canvas(document.querySelector("#toImage"), {
-        width: rect.width,
-        height: rect.height,
-        scrollY: -scrollTop, // 页面存在滚动时，需要设置此属性，解决绘图偏移问题
+      const targetDom = document.getElementById("toImage");
+      html2canvas(targetDom, {
+        width: targetDom.clientWidth,
+        height: targetDom.clientHeight,
+        scrollX: 0,
+        scrollY: -window.scrollY,
+        allowTaint: true,
+        useCORS: true,
+        backgroundColor: null,
+        scale: 3,
       }).then(function (canvas) {
         document.body.appendChild(canvas);
       });
       await this.$store.commit("setCommentInput", true);
+    },
+    getDivider() {
+      const targetDom = document.getElementById("divider");
+      html2canvas(targetDom, {
+        width: targetDom.clientWidth,
+        height: targetDom.clientHeight,
+        scrollX: 0,
+        scrollY: -window.scrollY,
+        allowTaint: true,
+        useCORS: true,
+        backgroundColor: null,
+        scale: 3,
+      }).then(function (canvas) {
+        document.body.appendChild(canvas);
+      });
     },
   },
   mounted() {
@@ -286,17 +312,25 @@ export default {
 </script>
 
 <style scoped>
-.awesomeTitle {
-  text-align: start;
-  vertical-align: center;
-  color: #40ba83;
+.reviewCard,
+.reviewContentCard,
+.reviewCommentCard {
+  border-color: rgba(66, 185, 131, 0.5);
 }
 .reviewCard {
-  margin: 2vh 4vw;
+  margin: 2em 4vw;
 }
 .reviewContentCard {
   text-align: start;
-  margin: 0 0 2vh 0;
+  margin: 1em 0 2em 0;
+  padding: 0;
+}
+.reviewInputCard {
+  text-align: start;
+}
+.reviewCommentCard {
+  text-align: start;
+  margin: 2em 0 1em 0;
   padding: 0;
 }
 .ratingRow {
@@ -310,31 +344,39 @@ export default {
 }
 .ratings {
   padding-bottom: 1px;
-}
-.ratingsPhone {
-  padding-bottom: 1px;
-  width: 150px;
+  margin: 0 1vw;
 }
 .uglyMargin {
   float: right;
+  margin-right: 1vw;
 }
 .avgRow {
-  margin: 1vh 2vw 0 2vw;
-  /*display: flex;*/
-  /*display: -webkit-flex; !* Safari *!*/
+  margin: 0 2vw;
+  display: flex;
+  display: -webkit-flex; /* Safari */
   align-items: center; /*指定垂直居中*/
 }
 .radarChart {
+  margin-bottom: 1em;
   display: flex;
   display: -webkit-flex; /* Safari */
   align-items: center; /*指定垂直居中*/
   max-width: 50vw;
-  max-height: 33vh;
+  max-height: 300px;
 }
-.radarChartPhone {
-  display: flex;
-  display: -webkit-flex; /* Safari */
-  align-items: center; /*指定垂直居中*/
-  max-height: 265px;
+.dividerRow {
+  margin-left: 2vw;
+  margin-right: 2vw;
+}
+.dividerCenter {
+  width: 75px;
+  text-align: center;
+}
+.n-divider:not(.n-divider--vertical) {
+  margin-top: 1vw; /*这里没错！是vw*/
+  margin-bottom: 1vw;
+}
+.dateRow {
+  margin: 1em 0 0 0;
 }
 </style>

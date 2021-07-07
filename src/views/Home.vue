@@ -46,7 +46,7 @@ export default {
     }),
   },
   mounted() {
-    if (document.body.clientWidth < 550) {
+    if (document.body.clientWidth < 720) {
       this.$store.commit("setFitPhone", true);
       // this.$router.push("/mobile");
     } else {

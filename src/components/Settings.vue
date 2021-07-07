@@ -1,6 +1,6 @@
 <template>
   <div>
-    <a-collapse :bordered="false">
+    <a-collapse v-model:activeKey="activeKey" :bordered="false">
       <a-collapse-panel key="1" header="选项">
         <a-row>
           <a-col flex="auto"></a-col>
@@ -35,15 +35,99 @@
                 />
               </a-col>
             </a-row>
-            <a-row class="searchRow">
+            <a-row v-if="!fitPhone" class="searchRow">
               <a-checkbox-group
-                class="genreCheckbox"
                 v-model:value="genreChecked"
-                name="genreCheckbox"
-                :options="genreOptions"
-                @change="onCheckboxChange"
+                @change="setMovieGenre"
               >
-
+                <div v-if="!fitPhone">
+                  <a-row style="margin-bottom: 1vh">
+                    <a-col flex="auto"></a-col>
+                    <a-col class="checkboxCol">
+                      <a-space>
+                        <a-checkbox
+                          class="genreCheckbox"
+                          value="action"
+                          name="type"
+                        >
+                          动作
+                        </a-checkbox>
+                        <a-checkbox
+                          class="genreCheckbox"
+                          value="sci_fi"
+                          name="type"
+                        >
+                          科幻
+                        </a-checkbox>
+                        <a-checkbox
+                          class="genreCheckbox"
+                          value="adventure"
+                          name="type"
+                        >
+                          冒险
+                        </a-checkbox>
+                        <a-checkbox
+                          class="genreCheckbox"
+                          value="drama"
+                          name="type"
+                        >
+                          剧情
+                        </a-checkbox>
+                        <a-checkbox
+                          class="genreCheckbox"
+                          value="animation"
+                          name="type"
+                        >
+                          动漫/动画
+                        </a-checkbox>
+                      </a-space>
+                    </a-col>
+                    <a-col flex="auto"></a-col>
+                  </a-row>
+                  <a-row>
+                    <a-col flex="auto"></a-col>
+                    <a-col class="checkboxCol">
+                      <a-space>
+                        <a-checkbox
+                          class="genreCheckbox"
+                          value="fantasy"
+                          name="type"
+                        >
+                          奇幻/幻想
+                        </a-checkbox>
+                        <a-checkbox
+                          class="genreCheckbox"
+                          value="thriller"
+                          name="type"
+                        >
+                          悬疑/惊险
+                        </a-checkbox>
+                        <a-checkbox
+                          class="genreCheckbox"
+                          value="historical"
+                          name="type"
+                        >
+                          历史/记录
+                        </a-checkbox>
+                        <a-checkbox
+                          class="genreCheckbox"
+                          value="comedy"
+                          name="type"
+                        >
+                          喜剧
+                        </a-checkbox>
+                        <a-checkbox
+                          class="genreCheckbox"
+                          value="horror"
+                          name="type"
+                        >
+                          恐怖
+                        </a-checkbox>
+                      </a-space>
+                    </a-col>
+                    <a-col flex="auto"></a-col>
+                  </a-row>
+                </div>
               </a-checkbox-group>
             </a-row>
           </a-col>
@@ -56,66 +140,52 @@
 </template>
 
 <script>
-import { mapState } from "vuex";
+import { mapState, mapGetters } from "vuex";
+import { NCheckbox, NCheckboxGroup } from "naive-ui";
+
+import { ref } from "vue";
+import { defineComponent, reactive, toRefs } from "vue";
+
+const { useMessage } = require("naive-ui");
 export default {
   name: "Settings",
+  components: {
+    NCheckbox,
+    NCheckboxGroup,
+  },
+
   data() {
+    return {};
+  },
+  setup() {
+    const activeKey = ref([1]);
+    const genreRef = ref(null);
+
     return {
-      genreOptions: [
-        {
-          label: "动作",
-          value: "action",
-        },
-        {
-          label: "科幻",
-          value: "sci_fi",
-        },
-        {
-          label: "冒险",
-          value: "adventure",
-        },
-        {
-          label: "剧情",
-          value: "drama",
-        },
-        {
-          label: "动画/动漫",
-          value: "animation",
-        },
-        {
-          label: "奇幻/幻想",
-          value: "fantasy",
-        },
-        {
-          label: "悬疑/惊险",
-          value: "thriller",
-        },
-        {
-          label: "历史/纪录",
-          value: "historical",
-        },
-        {
-          label: "喜剧",
-          value: "comedy",
-        },
-        {
-          label: "恐怖",
-          value: "horror",
-        },
-      ],
+      activeKey,
+      genreChecked: genreRef,
     };
   },
-  setup() {},
   computed: {
-    genreChecked() {
-      return ["drama"];
-    },
     ...mapState({
+      fitPhone: (state) => state.fitPhone,
       movie: (state) => state.movie,
     }),
+    ...mapGetters({
+      genreList: "genreList",
+    }),
+  },
+  mounted() {
+    this.setMovieGenre(this.genreList);
   },
   methods: {
     onCheckboxChange() {},
+    setMovieGenre(newGenre) {
+      this.genreChecked = newGenre;
+      this.$store.commit("setMovieGenre", newGenre);
+
+      // console.log(JSON.stringify(value));
+    },
   },
 };
 </script>
@@ -124,7 +194,13 @@ export default {
 .searchRow {
   margin: 0 0 2vh 0;
 }
-.genreCheckbox{
-
+.genreCheckbox {
+  width: 100px;
+  text-align: start;
+}
+.checkboxCol {
+}
+.ant-checkbox-group {
+  width: 100%;
 }
 </style>

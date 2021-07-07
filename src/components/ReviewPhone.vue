@@ -439,6 +439,6 @@ export default {
   display: flex;
   display: -webkit-flex; /* Safari */
   align-items: center; /*指定垂直居中*/
-  max-height: 230px;
+  max-height: 240px;
 }
 </style>

@@ -1,6 +1,6 @@
 <template>
   <div id="nav">
-    <a-back-top visibilityHeight="20" />
+<!--    <a-back-top visibilityHeight="20" />-->
     <router-link to="/">Home</router-link> |
     <router-link to="/about">About</router-link>
   </div>
