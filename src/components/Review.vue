@@ -137,8 +137,6 @@
               minRows: 3,
             }"
           />
-
-          <!--            v-if="showCommentInput === false"-->
           <a-card v-if="!showCommentInput" hoverable class="reviewCommentCard">
             <a-typography-paragraph style="white-space: pre-wrap">
               {{ movie.comment }}
@@ -153,7 +151,6 @@
       <a-col flex="auto"></a-col>
     </a-row>
     <a-button @click="scrollAndCapture">get image</a-button>
-    <a-button @click="getDivider">get divider</a-button>
   </div>
 </template>
 
@@ -249,8 +246,9 @@ export default {
       ];
       this.radarPlot.changeData(data);
     },
-    scrollAndCapture() {
-      this.toTop(window, () => this.capture());
+    async scrollAndCapture() {
+      await this.toTop(window, () => this.capture());
+
     },
     toTop(element = window, callback) {
       element.scrollTo({
@@ -302,6 +300,24 @@ export default {
       }).then(function (canvas) {
         document.body.appendChild(canvas);
       });
+    },
+    animateScroll(element, speed) {
+      let rect = element.getBoundingClientRect();
+      //获取元素相对窗口的top值，此处应加上窗口本身的偏移
+      let top = window.pageYOffset + rect.top;
+      let currentTop = 0;
+      let requestId;
+      //采用requestAnimationFrame，平滑动画
+      function step(timestamp) {
+        currentTop += speed;
+        if (currentTop <= top) {
+          window.scrollTo(0, currentTop);
+          requestId = window.requestAnimationFrame(step);
+        } else {
+          window.cancelAnimationFrame(requestId);
+        }
+      }
+      window.requestAnimationFrame(step);
     },
   },
   mounted() {

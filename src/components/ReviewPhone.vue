@@ -4,30 +4,7 @@
       <a-col flex="auto"></a-col>
       <a-col>
         <a-card class="reviewCard">
-          <a-row align="middle" justify="start" type="flex">
-            <a-col>
-              <a-typography-title
-                class="awesomeTitle"
-                id="awesomeTitle"
-                ref="awesomeTitle"
-                v-if="showTitleInput === false"
-                @click="showTitleInput = true"
-                type="success"
-                >{{ title + " - " + year }}
-              </a-typography-title>
-              <a-input-search
-                v-if="searchText === '' || showTitleInput === true"
-                v-model:value="searchText"
-                placeholder="输入电影名称…"
-                enter-button="确认"
-                size="large"
-                allowclear
-                @search="showTitleInput = false"
-              />
-            </a-col>
-            <a-col flex="auto"></a-col>
-            <a-col> {{ reviewDate }} </a-col>
-          </a-row>
+          <Title></Title>
           <a-card
             size="small"
             hoverable
@@ -38,7 +15,7 @@
             <div>
               <a-row class="ratingHeader">
                 <a-col :span="24">
-                  <a-divider>剧情</a-divider>
+                  <n-divider>剧情</n-divider>
                 </a-col>
               </a-row>
               <a-row class="ratingRow">
@@ -46,15 +23,15 @@
                 <a-col :span="14">
                   <a-rate
                     class="ratingsPhone"
-                    v-model:value="rating.screenplay"
+                    v-model:value="movie.rating.screenplay"
                     allow-clear
                     @change="handleRateChange"
                     :count="10"
                   />
                 </a-col>
                 <a-col :span="4">
-                  <span v-if="rating.screenplay !== 0" class="uglyMargin">
-                    {{ rating.screenplay }}/10
+                  <span v-if="movie.rating.screenplay !== 0" class="uglyMargin">
+                    {{ movie.rating.screenplay }}/10
                   </span>
                 </a-col>
                 <a-col flex="auto"></a-col>
@@ -64,7 +41,7 @@
             <div>
               <a-row class="ratingHeader">
                 <a-col :span="24">
-                  <a-divider>视效/摄影</a-divider>
+                  <n-divider>视效/摄影</n-divider>
                 </a-col>
               </a-row>
               <a-row class="ratingRow">
@@ -72,15 +49,15 @@
                 <a-col :span="14">
                   <a-rate
                     class="ratingsPhone"
-                    v-model:value="rating.visual"
+                    v-model:value="movie.rating.visual"
                     allow-clear
                     @change="handleRateChange"
                     :count="10"
                   />
                 </a-col>
                 <a-col :span="4">
-                  <span v-if="rating.visual !== 0" class="uglyMargin">
-                    {{ rating.visual }}/10
+                  <span v-if="movie.rating.visual !== 0" class="uglyMargin">
+                    {{ movie.rating.visual }}/10
                   </span>
                 </a-col>
                 <a-col flex="auto"></a-col>
@@ -90,7 +67,7 @@
             <div>
               <a-row class="ratingHeader">
                 <a-col :span="24">
-                  <a-divider>演出/剪辑</a-divider>
+                  <n-divider>演出/剪辑</n-divider>
                 </a-col>
               </a-row>
               <a-row class="ratingRow">
@@ -98,15 +75,15 @@
                 <a-col :span="14">
                   <a-rate
                     class="ratingsPhone"
-                    v-model:value="rating.editing"
+                    v-model:value="movie.rating.editing"
                     allow-clear
                     @change="handleRateChange"
                     :count="10"
                   />
                 </a-col>
                 <a-col :span="4">
-                  <span v-if="rating.editing !== 0" class="uglyMargin">
-                    {{ rating.editing }}/10
+                  <span v-if="movie.rating.editing !== 0" class="uglyMargin">
+                    {{ movie.rating.editing }}/10
                   </span>
                 </a-col>
                 <a-col flex="auto"></a-col>
@@ -116,7 +93,7 @@
             <div>
               <a-row class="ratingHeader">
                 <a-col :span="24">
-                  <a-divider>音乐/音效</a-divider>
+                  <n-divider>音乐/音效</n-divider>
                 </a-col>
               </a-row>
               <a-row class="ratingRow">
@@ -124,15 +101,15 @@
                 <a-col :span="14">
                   <a-rate
                     class="ratingsPhone"
-                    v-model:value="rating.sound"
+                    v-model:value="movie.rating.sound"
                     allow-clear
                     @change="handleRateChange"
                     :count="10"
                   />
                 </a-col>
                 <a-col :span="4">
-                  <span v-if="rating.sound !== 0" class="uglyMargin">
-                    {{ rating.sound }}/10
+                  <span v-if="movie.rating.sound !== 0" class="uglyMargin">
+                    {{ movie.rating.sound }}/10
                   </span>
                 </a-col>
                 <a-col flex="auto"></a-col>
@@ -141,15 +118,15 @@
             <div>
               <a-row class="ratingHeader">
                 <a-col :span="24">
-                  <a-divider> 总分 </a-divider>
+                  <n-divider> 总分 </n-divider>
                 </a-col>
                 <a-col flex="auto"></a-col>
               </a-row>
               <a-row>
                 <a-col flex="auto"></a-col>
                 <a-col :span="4">
-                  <span v-if="avg !== 0" class="uglyMargin">
-                    {{ avg }}/10
+                  <span v-if="movie.rating.avg !== 0" class="uglyMargin">
+                    {{ movie.rating.avg }}/10
                   </span>
                 </a-col>
                 <a-col flex="auto"></a-col>
@@ -168,7 +145,7 @@
             </div>
           </a-card>
           <NInput
-            class="reviewContentCard"
+            class="reviewInputCard"
             v-if="showCommentInput"
             v-model:value="tmpComment"
             type="textarea"
@@ -176,14 +153,16 @@
             :autosize="{
               minRows: 3,
             }"
-            style="text-align: start"
           />
-          <!--            v-if="showCommentInput === false"-->
           <a-card v-if="!showCommentInput" hoverable class="reviewContentCard">
             <a-typography-paragraph style="white-space: pre-wrap">
-              {{ comment }}
+              {{ movie.comment }}
             </a-typography-paragraph>
           </a-card>
+          <a-row>
+            <a-col flex="auto"></a-col>
+            <a-col class="dateRow"> {{ movie.reviewDate }} </a-col>
+          </a-row>
         </a-card>
       </a-col>
       <a-col flex="auto"></a-col>
@@ -193,23 +172,23 @@
 </template>
 
 <script>
-import { NGradientText, NInput } from "naive-ui";
+import Title from "@/components/Title";
+import { NGradientText, NInput, NDivider } from "naive-ui";
 import { ref } from "vue";
 import { mapState } from "vuex";
 import { Radar } from "@antv/g2plot";
-import moment from "moment";
-import { downloadImage } from "@/Util";
 import html2canvas from "html2canvas";
 
 export default {
   name: "ReviewPhone",
   components: {
+    Title,
     NGradientText,
     NInput,
+    NDivider,
   },
   data() {
     return {
-      showTitleInput: false,
       radarPlot: undefined,
       searchText: "The Shawshank Redemption",
       review: {
@@ -225,46 +204,26 @@ export default {
     return { tmpComment }; // notice here count is returned so the template can access it.
   },
   computed: {
-    reviewDate() {
-      moment.locale("zh-cn");
-      return moment().format("L");
-    },
     ...mapState({
       fitPhone: (state) => state.fitPhone,
       showCommentInput: (state) => state.showCommentInput,
-      rating: (state) => state.movie.rating,
-      title: (state) => state.movie.title,
-      year: (state) => state.movie.year,
-      comment: (state) => state.movie.comment,
-      avg: (state) => {
-        return (
-          Object.values(state.movie.rating).reduce(function (sum, cur) {
-            return sum + cur;
-          }) / Object.keys(state.movie.rating).length
-        );
-      },
+      movie: (state) => state.movie,
     }),
   },
   methods: {
     handleRateChange() {
-      if (this.avg === 0) {
-        this.radarPlot.destroy();
-        this.drawRadarPhone("radarChartPhone");
-      }
+      this.$store.commit("setMovieRatingAvg");
       this.updateRadar();
     },
     async updateComment() {
       await this.$store.commit("setMovieComment", this.tmpComment);
     },
-    getPic() {
-      downloadImage(this.radarPlot);
-    },
     drawRadarPhone() {
       const data = [
-        { name: "剧情", rating: this.rating.screenplay },
-        { name: "视效\n/摄影", rating: this.rating.visual },
-        { name: "演出\n/剪辑", rating: this.rating.editing },
-        { name: "音乐\n/音效", rating: this.rating.sound },
+        { name: "剧情", rating: this.movie.rating.screenplay },
+        { name: "演出\n/剪辑", rating: this.movie.rating.editing },
+        { name: "视效\n/摄影", rating: this.movie.rating.visual },
+        { name: "音乐\n/音效", rating: this.movie.rating.sound },
       ];
       this.radarPlot = new Radar("radarChartPhone", {
         data: data,
@@ -296,35 +255,13 @@ export default {
     },
     updateRadar() {
       const data = [
-        { name: "剧情", rating: this.rating.screenplay },
-        { name: "视效/摄影", rating: this.rating.visual },
-        { name: "演出/剪辑", rating: this.rating.editing },
-        { name: "音乐/音效", rating: this.rating.sound },
+        { name: "剧情", rating: this.movie.rating.screenplay },
+        { name: "演出\n/剪辑", rating: this.movie.rating.editing },
+        { name: "视效\n/摄影", rating: this.movie.rating.visual },
+        { name: "音乐\n/音效", rating: this.movie.rating.sound },
       ];
       this.radarPlot.changeData(data);
     },
-    // async capture() {
-    //   await this.updateComment();
-    //   await this.$store.commit("setCommentInput", false);
-    //   const rect = document.querySelector("#toImage").getBoundingClientRect();
-    //   console.log(rect);
-    //   let scrollTop =
-    //     document.documentElement.scrollTop || document.body.scrollTop; // 获取滚动轴滚动的长度
-    //   document.querySelector("#toImage").getBoundingClientRect(); //eslint-disable-line
-    //   html2canvas(document.querySelector("#toImage"), {
-    //     allowTaint: true,
-    //     useCORS: true,
-    //     backgroundColor: null,
-    //     scale: 3,
-    //     width: rect.width,
-    //     height: rect.height,
-    //     scrollX: 0,
-    //     scrollY: 0,
-    //   }).then(function (canvas) {
-    //     document.body.appendChild(canvas);
-    //   });
-    //   await this.$store.commit("setCommentInput", true);
-    // },
     scrollAndCapture() {
       this.toTop(window, () => this.capture());
     },
@@ -366,24 +303,32 @@ export default {
     },
   },
   mounted() {
-    this.tmpComment = this.comment;
+    this.tmpComment = this.movie.comment;
     this.drawRadarPhone();
   },
 };
 </script>
 
 <style scoped>
-.awesomeTitle {
-  text-align: start;
-  vertical-align: center;
-  color: #40ba83;
+.reviewCard,
+.reviewContentCard,
+.reviewCommentCard {
+  border-color: rgba(66, 185, 131, 0.5);
 }
 .reviewCard {
-  margin: 2vh 4vw;
+  margin: 2em 4vw;
 }
 .reviewContentCard {
   text-align: start;
-  margin: 0 0 2vh 0;
+  margin: 1em 0 2em 0;
+  padding: 0;
+}
+.reviewInputCard {
+  text-align: start;
+}
+.reviewCommentCard {
+  text-align: start;
+  margin: 2em 0 1em 0;
   padding: 0;
 }
 .ratingHeader {

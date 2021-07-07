@@ -8,8 +8,9 @@
     <!--    </div>-->
     <router-view></router-view>
     <Settings></Settings>
+    <Review v-if="!fitPhone"></Review>
     <ReviewPhone v-if="fitPhone"></ReviewPhone>
-    <Review v-else></Review>
+
     <div class="customFooter">Designed by Ridd.</div>
   </div>
 </template>
@@ -46,6 +47,7 @@ export default {
     }),
   },
   mounted() {
+    console.log(document.body.clientWidth);
     if (document.body.clientWidth < 720) {
       this.$store.commit("setFitPhone", true);
       // this.$router.push("/mobile");

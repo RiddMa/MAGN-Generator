@@ -35,7 +35,7 @@
                 />
               </a-col>
             </a-row>
-            <a-row v-if="!fitPhone" class="searchRow">
+            <a-row class="searchRow">
               <a-checkbox-group
                 v-model:value="genreChecked"
                 @change="setMovieGenre"
@@ -128,6 +128,110 @@
                     <a-col flex="auto"></a-col>
                   </a-row>
                 </div>
+                <div v-if="fitPhone">
+                  <a-row class="checkboxRow">
+                    <a-col flex="auto"></a-col>
+                    <a-col class="checkboxCol">
+                      <a-space>
+                        <a-checkbox
+                          class="genreCheckbox"
+                          value="action"
+                          name="type"
+                        >
+                          动作
+                        </a-checkbox>
+                        <a-checkbox
+                          class="genreCheckbox"
+                          value="sci_fi"
+                          name="type"
+                        >
+                          科幻
+                        </a-checkbox>
+                        <a-checkbox
+                          class="genreCheckbox"
+                          value="adventure"
+                          name="type"
+                        >
+                          冒险
+                        </a-checkbox>
+                      </a-space>
+                    </a-col>
+                    <a-col flex="auto"></a-col>
+                  </a-row>
+                  <a-row class="checkboxRow">
+                    <a-col flex="auto"></a-col>
+                    <a-col class="checkboxCol">
+                      <a-space>
+                        <a-checkbox
+                          class="genreCheckbox"
+                          value="drama"
+                          name="type"
+                        >
+                          剧情
+                        </a-checkbox>
+                        <a-checkbox
+                          class="genreCheckbox"
+                          value="animation"
+                          name="type"
+                        >
+                          动漫/动画
+                        </a-checkbox>
+                        <a-checkbox
+                          class="genreCheckbox"
+                          value="fantasy"
+                          name="type"
+                        >
+                          奇幻/幻想
+                        </a-checkbox>
+                      </a-space>
+                    </a-col>
+                    <a-col flex="auto"></a-col>
+                  </a-row>
+                  <a-row class="checkboxRow">
+                    <a-col flex="auto"></a-col>
+                    <a-col class="checkboxCol">
+                      <a-space>
+                        <a-checkbox
+                          class="genreCheckbox"
+                          value="thriller"
+                          name="type"
+                        >
+                          悬疑/惊险
+                        </a-checkbox>
+                        <a-checkbox
+                          class="genreCheckbox"
+                          value="historical"
+                          name="type"
+                        >
+                          历史/记录
+                        </a-checkbox>
+                        <a-checkbox
+                          class="genreCheckbox"
+                          value="comedy"
+                          name="type"
+                        >
+                          喜剧
+                        </a-checkbox>
+                      </a-space>
+                    </a-col>
+                    <a-col flex="auto"></a-col>
+                  </a-row>
+                  <a-row class="checkboxRow">
+                    <a-col flex="auto"></a-col>
+                    <a-col class="checkboxCol">
+                      <a-space>
+                        <a-checkbox
+                          class="genreCheckbox"
+                          value="horror"
+                          name="type"
+                        >
+                          恐怖
+                        </a-checkbox>
+                      </a-space>
+                    </a-col>
+                    <a-col flex="auto"></a-col>
+                  </a-row>
+                </div>
               </a-checkbox-group>
             </a-row>
           </a-col>
@@ -197,6 +301,9 @@ export default {
 .genreCheckbox {
   width: 100px;
   text-align: start;
+}
+.checkboxRow {
+  margin-bottom: 0.5em;
 }
 .checkboxCol {
 }
