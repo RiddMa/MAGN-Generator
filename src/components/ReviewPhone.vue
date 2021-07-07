@@ -373,17 +373,11 @@ export default {
   /*display: -webkit-flex; !* Safari *!*/
   align-items: center; /*指定垂直居中*/
 }
-.radarChart {
-  display: flex;
-  display: -webkit-flex; /* Safari */
-  align-items: center; /*指定垂直居中*/
-  max-width: 50vw;
-  max-height: 33vh;
-}
 .radarChartPhone {
+  padding: 0.5vw;
   display: flex;
   display: -webkit-flex; /* Safari */
   align-items: center; /*指定垂直居中*/
-  max-height: 240px;
+  max-height: 250px;
 }
 </style>

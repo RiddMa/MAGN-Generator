@@ -248,7 +248,6 @@ export default {
     },
     async scrollAndCapture() {
       await this.toTop(window, () => this.capture());
-
     },
     toTop(element = window, callback) {
       element.scrollTo({
@@ -377,7 +376,6 @@ export default {
   display: flex;
   display: -webkit-flex; /* Safari */
   align-items: center; /*指定垂直居中*/
-  max-width: 50vw;
   max-height: 300px;
 }
 .dividerRow {
