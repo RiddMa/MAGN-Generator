@@ -150,7 +150,7 @@
       </a-col>
       <a-col flex="auto"></a-col>
     </a-row>
-    <a-button @click="scrollAndCapture">get image</a-button>
+<!--    <a-button @click="scrollAndCapture">get image</a-button>-->
   </div>
 </template>
 
