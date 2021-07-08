@@ -150,7 +150,7 @@
       </a-col>
       <a-col flex="auto"></a-col>
     </a-row>
-<!--    <a-button @click="scrollAndCapture">get image</a-button>-->
+    <!--    <a-button @click="scrollAndCapture">get image</a-button>-->
   </div>
 </template>
 
@@ -184,11 +184,19 @@ export default {
       },
     };
   },
-  setup() {
-    const tmpComment = ref("");
-    return { tmpComment }; // notice here count is returned so the template can access it.
-  },
+  // setup() {
+  //   const tmpComment = ref("");
+  //   return { tmpComment }; // notice here count is returned so the template can access it.
+  // },
   computed: {
+    tmpComment: {
+      get: function () {
+        return this.$store.state.movie.comment;
+      },
+      set: function () {
+        this.$store.commit("setMovieComment", this.tmpComment);
+      },
+    },
     ...mapState({
       fitPhone: (state) => state.fitPhone,
       showCommentInput: (state) => state.showCommentInput,

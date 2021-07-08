@@ -22,6 +22,7 @@ import Settings from "@/components/Settings";
 import { mapState } from "vuex";
 import { ref } from "vue";
 import ReviewPhone from "@/components/ReviewPhone";
+const html2canvas = require("html2canvas");
 
 export default {
   name: "Home",
@@ -82,7 +83,6 @@ export default {
       element.addEventListener("scroll", running, false);
     },
     async capture() {
-      await this.updateComment();
       await this.$store.commit("setCommentInput", false);
       const targetDom = document.getElementById("toImage");
       html2canvas(targetDom, {
