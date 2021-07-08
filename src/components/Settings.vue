@@ -245,18 +245,11 @@
 
 <script>
 import { mapState, mapGetters } from "vuex";
-import { NCheckbox, NCheckboxGroup } from "naive-ui";
-
 import { ref } from "vue";
-import { defineComponent, reactive, toRefs } from "vue";
 
-const { useMessage } = require("naive-ui");
 export default {
   name: "Settings",
-  components: {
-    NCheckbox,
-    NCheckboxGroup,
-  },
+  components: {},
 
   data() {
     return {};

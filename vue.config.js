@@ -1,3 +1,4 @@
+const webpack = require('webpack')
 module.exports = {
   productionSourceMap: false,
   css: {
@@ -21,4 +22,9 @@ module.exports = {
     },
   },
   lintOnSave: false, //关闭eslint检查
+  configureWebpack: {
+    plugins: [
+      new webpack.IgnorePlugin(/^\.\/locale$/, /moment$/),
+    ]
+  }
 };

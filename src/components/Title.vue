@@ -51,7 +51,6 @@
 </template>
 
 <script>
-import { ref } from "vue";
 import { mapGetters, mapState } from "vuex";
 export default {
   name: "Title",

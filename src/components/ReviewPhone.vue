@@ -144,7 +144,7 @@
               </a-row>
             </div>
           </a-card>
-          <NInput
+          <n-input
             class="reviewInputCard"
             v-if="showCommentInput"
             v-model:value="tmpComment"
@@ -154,7 +154,7 @@
               minRows: 3,
             }"
           />
-          <a-card v-if="!showCommentInput" hoverable class="reviewContentCard">
+          <a-card v-if="!showCommentInput" hoverable class="reviewCommentCard">
             <a-typography-paragraph style="white-space: pre-wrap">
               {{ movie.comment }}
             </a-typography-paragraph>
@@ -173,19 +173,21 @@
 
 <script>
 import Title from "@/components/Title";
-import { NGradientText, NInput, NDivider } from "naive-ui";
 import { ref } from "vue";
 import { mapState } from "vuex";
-import { Radar } from "@antv/g2plot";
-import html2canvas from "html2canvas";
+const html2canvas = require("html2canvas");
+const { Radar } = require("@antv/g2plot");
+import { NInput } from "naive-ui/lib/input";
+import "naive-ui/lib/input/styles";
+import { NDivider } from "naive-ui/lib/divider";
+import "naive-ui/lib/divider/styles";
 
 export default {
   name: "ReviewPhone",
   components: {
     Title,
-    NGradientText,
     NInput,
-    NDivider,
+    NDivider
   },
   data() {
     return {
@@ -274,7 +276,7 @@ export default {
       if (!callback) return;
       if (element === window ? element.scrollY === 0 : element.scrollTop === 0)
         return callback();
-      let running = function (event) {
+      let running = function () {
         let top = this === window ? this.scrollY : this.scrollTop;
         if (top === 0) {
           this.removeEventListener("scroll", running);
@@ -341,16 +343,16 @@ export default {
   align-content: center;
   align-self: center;
 }
-.ratingTotalHeader {
-  margin: 0;
-  max-height: 30px;
-  display: flex;
-  display: -webkit-flex; /* Safari */
-  align-items: center; /*指定垂直居中*/
-  alignment: center;
-  align-content: center;
-  align-self: center;
-}
+/*.ratingTotalHeader {*/
+/*  margin: 0;*/
+/*  max-height: 30px;*/
+/*  display: flex;*/
+/*  display: -webkit-flex; !* Safari *!*/
+/*  align-items: center; !*指定垂直居中*!*/
+/*  alignment: center;*/
+/*  align-content: center;*/
+/*  align-self: center;*/
+/*}*/
 .ratingRow {
   margin: 0 2vw;
   display: flex;

@@ -1,5 +1,7 @@
 import { createStore } from "vuex";
-import moment from "moment";
+const moment = require("moment");
+require("moment/locale/zh-cn");
+moment.locale("zh-cn");
 
 export default createStore({
   state: {

@@ -127,7 +127,7 @@
               </a-row>
             </div>
           </a-card>
-          <NInput
+          <n-input
             class="reviewInputCard"
             v-if="showCommentInput"
             v-model:value="tmpComment"
@@ -155,18 +155,20 @@
 </template>
 
 <script>
-import Title from "../components/Title";
-import { NGradientText, NInput, NDivider } from "naive-ui";
+import Title from "@/components/Title";
 import { ref } from "vue";
 import { mapState } from "vuex";
-import { Radar } from "@antv/g2plot";
-import html2canvas from "html2canvas";
+const html2canvas = require("html2canvas");
+const { Radar } = require("@antv/g2plot");
+import { NInput } from "naive-ui/lib/input";
+import "naive-ui/lib/input/styles";
+import { NDivider } from "naive-ui/lib/divider";
+import "naive-ui/lib/divider/styles";
 
 export default {
   name: "Review",
   components: {
     Title,
-    NGradientText,
     NInput,
     NDivider,
   },
@@ -258,7 +260,7 @@ export default {
       if (!callback) return;
       if (element === window ? element.scrollY === 0 : element.scrollTop === 0)
         return callback();
-      let running = function (event) {
+      let running = function () {
         let top = this === window ? this.scrollY : this.scrollTop;
         if (top === 0) {
           this.removeEventListener("scroll", running);
@@ -284,21 +286,6 @@ export default {
         document.body.appendChild(canvas);
       });
       await this.$store.commit("setCommentInput", true);
-    },
-    getDivider() {
-      const targetDom = document.getElementById("divider");
-      html2canvas(targetDom, {
-        width: targetDom.clientWidth,
-        height: targetDom.clientHeight,
-        scrollX: 0,
-        scrollY: -window.scrollY,
-        allowTaint: true,
-        useCORS: true,
-        backgroundColor: null,
-        scale: 3,
-      }).then(function (canvas) {
-        document.body.appendChild(canvas);
-      });
     },
     animateScroll(element, speed) {
       let rect = element.getBoundingClientRect();
