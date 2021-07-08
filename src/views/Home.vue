@@ -47,13 +47,16 @@ export default {
   },
   mounted() {
     console.log(document.body.clientWidth);
-    if (document.body.clientWidth < 720) {
-      this.$store.commit("setFitPhone", true);
-    } else {
-      this.$store.commit("setFitPhone", false);
-    }
-    this.$store.commit("setReviewDate");
-    this.$store.commit("setMovieRatingAvg");
+    setTimeout(() => {
+      if (document.body.clientWidth < 720) {
+        this.$store.commit("setFitPhone", true);
+      } else {
+        this.$store.commit("setFitPhone", false);
+      }
+      this.$store.commit("setReviewDate");
+      this.$store.commit("setMovieRatingAvg");
+      console.log(document.body.clientWidth);
+    }, 0);
   },
   methods: {},
 };

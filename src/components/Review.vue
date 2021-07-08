@@ -277,11 +277,9 @@ export default {
         width: targetDom.clientWidth,
         height: targetDom.clientHeight,
         scrollX: 0,
-        scrollY: -window.scrollY,
+        scrollY: 0,
         allowTaint: true,
         useCORS: true,
-        backgroundColor: null,
-        scale: 3,
       }).then(function (canvas) {
         document.body.appendChild(canvas);
       });
@@ -360,8 +358,8 @@ export default {
 }
 .radarChart {
   margin-bottom: 1em;
-  display: flex;
-  display: -webkit-flex; /* Safari */
+  /*display: flex;*/
+  /*display: -webkit-flex; !* Safari *!*/
   align-items: center; /*指定垂直居中*/
   max-height: 300px;
 }

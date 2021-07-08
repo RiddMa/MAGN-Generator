@@ -175,8 +175,8 @@
 import Title from "@/components/Title";
 import { ref } from "vue";
 import { mapState } from "vuex";
-const html2canvas = require("html2canvas");
-const { Radar } = require("@antv/g2plot");
+import html2canvas from "html2canvas";
+import { Radar } from "@antv/g2plot";
 import { NInput } from "naive-ui/lib/input";
 import "naive-ui/lib/input/styles";
 import { NDivider } from "naive-ui/lib/divider";
@@ -187,7 +187,7 @@ export default {
   components: {
     Title,
     NInput,
-    NDivider
+    NDivider,
   },
   data() {
     return {
@@ -293,11 +293,9 @@ export default {
         width: targetDom.clientWidth,
         height: targetDom.clientHeight,
         scrollX: 0,
-        scrollY: -window.scrollY,
+        scrollY: 0,
         allowTaint: true,
         useCORS: true,
-        backgroundColor: null,
-        scale: 3,
       }).then(function (canvas) {
         document.body.appendChild(canvas);
       });
@@ -376,9 +374,9 @@ export default {
   align-items: center; /*指定垂直居中*/
 }
 .radarChartPhone {
-  padding: 0.5vw;
-  display: flex;
-  display: -webkit-flex; /* Safari */
+  padding: 1rem;
+  /*display: flex;*/
+  /*display: -webkit-flex; !* Safari *!*/
   align-items: center; /*指定垂直居中*/
   max-height: 250px;
 }
