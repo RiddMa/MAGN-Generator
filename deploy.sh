@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 cd ~/MAGN-Generator &&
-git fetch -all &&
+git fetch --all &&
 git reset --hard origin/master &&
 git pull &&
 npm run build &&
