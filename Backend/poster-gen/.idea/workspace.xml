@@ -2,98 +2,8 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="cf8e3b74-af5d-4fa3-b4ab-4f4646d1a60a" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/../../.idea/.gitignore" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../../.idea/MAGN-Generator.iml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../../.idea/codeStyles/codeStyleConfig.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../../.idea/modules.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../../.idea/prettier.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../../.idea/vcs.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/jsLibraryMappings.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/modules.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/poster-gen.iml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/vcs.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/app.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/google.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/local.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/package-lock.json" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/package.json" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/ridd.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/screenshot.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../../Frontend/src/assets/PingFangSC/PingFang Bold.ttf" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../../Frontend/src/assets/PingFangSC/PingFang ExtraLight.ttf" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../../Frontend/src/assets/PingFangSC/PingFang Heavy.ttf" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../../Frontend/src/assets/PingFangSC/PingFang Light.ttf" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../../Frontend/src/assets/PingFangSC/PingFang Medium.ttf" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../../Frontend/src/assets/PingFangSC/PingFang Regular.ttf" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../../Frontend/src/assets/San Francisco Pro/SF-Pro-Display-Black.otf" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../../Frontend/src/assets/San Francisco Pro/SF-Pro-Display-BlackItalic.otf" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../../Frontend/src/assets/San Francisco Pro/SF-Pro-Display-Bold.otf" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../../Frontend/src/assets/San Francisco Pro/SF-Pro-Display-BoldItalic.otf" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../../Frontend/src/assets/San Francisco Pro/SF-Pro-Display-Heavy.otf" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../../Frontend/src/assets/San Francisco Pro/SF-Pro-Display-HeavyItalic.otf" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../../Frontend/src/assets/San Francisco Pro/SF-Pro-Display-Light.otf" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../../Frontend/src/assets/San Francisco Pro/SF-Pro-Display-LightItalic.otf" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../../Frontend/src/assets/San Francisco Pro/SF-Pro-Display-Medium.otf" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../../Frontend/src/assets/San Francisco Pro/SF-Pro-Display-MediumItalic.otf" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../../Frontend/src/assets/San Francisco Pro/SF-Pro-Display-Regular.otf" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../../Frontend/src/assets/San Francisco Pro/SF-Pro-Display-RegularItalic.otf" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../../Frontend/src/assets/San Francisco Pro/SF-Pro-Display-Semibold.otf" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../../Frontend/src/assets/San Francisco Pro/SF-Pro-Display-SemiboldItalic.otf" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../../Frontend/src/assets/San Francisco Pro/SF-Pro-Display-Thin.otf" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../../Frontend/src/assets/San Francisco Pro/SF-Pro-Display-ThinItalic.otf" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../../Frontend/src/assets/San Francisco Pro/SF-Pro-Display-Ultralight.otf" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../../Frontend/src/assets/San Francisco Pro/SF-Pro-Display-UltralightItalic.otf" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../../Frontend/src/assets/San Francisco Pro/SF-Pro-Rounded-Black.otf" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../../Frontend/src/assets/San Francisco Pro/SF-Pro-Rounded-Bold.otf" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../../Frontend/src/assets/San Francisco Pro/SF-Pro-Rounded-Heavy.otf" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../../Frontend/src/assets/San Francisco Pro/SF-Pro-Rounded-Light.otf" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../../Frontend/src/assets/San Francisco Pro/SF-Pro-Rounded-Medium.otf" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../../Frontend/src/assets/San Francisco Pro/SF-Pro-Rounded-Regular.otf" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../../Frontend/src/assets/San Francisco Pro/SF-Pro-Rounded-Semibold.otf" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../../Frontend/src/assets/San Francisco Pro/SF-Pro-Rounded-Thin.otf" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../../Frontend/src/assets/San Francisco Pro/SF-Pro-Rounded-Ultralight.otf" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../../Frontend/src/assets/San Francisco Pro/SF-Pro-Text-Black.otf" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../../Frontend/src/assets/San Francisco Pro/SF-Pro-Text-BlackItalic.otf" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../../Frontend/src/assets/San Francisco Pro/SF-Pro-Text-Bold.otf" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../../Frontend/src/assets/San Francisco Pro/SF-Pro-Text-BoldItalic.otf" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../../Frontend/src/assets/San Francisco Pro/SF-Pro-Text-Heavy.otf" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../../Frontend/src/assets/San Francisco Pro/SF-Pro-Text-HeavyItalic.otf" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../../Frontend/src/assets/San Francisco Pro/SF-Pro-Text-Light.otf" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../../Frontend/src/assets/San Francisco Pro/SF-Pro-Text-LightItalic.otf" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../../Frontend/src/assets/San Francisco Pro/SF-Pro-Text-Medium.otf" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../../Frontend/src/assets/San Francisco Pro/SF-Pro-Text-MediumItalic.otf" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../../Frontend/src/assets/San Francisco Pro/SF-Pro-Text-Regular.otf" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../../Frontend/src/assets/San Francisco Pro/SF-Pro-Text-RegularItalic.otf" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../../Frontend/src/assets/San Francisco Pro/SF-Pro-Text-Semibold.otf" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../../Frontend/src/assets/San Francisco Pro/SF-Pro-Text-SemiboldItalic.otf" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../../Frontend/src/assets/San Francisco Pro/SF-Pro-Text-Thin.otf" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../../Frontend/src/assets/San Francisco Pro/SF-Pro-Text-ThinItalic.otf" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../../Frontend/src/assets/San Francisco Pro/SF-Pro-Text-Ultralight.otf" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../../Frontend/src/assets/San Francisco Pro/SF-Pro-Text-UltralightItalic.otf" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../../Frontend/src/main.css" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../../.gitignore" beforeDir="false" afterPath="$PROJECT_DIR$/../../Frontend/.gitignore" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../../babel.config.js" beforeDir="false" afterPath="$PROJECT_DIR$/../../Frontend/babel.config.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../../deploy.sh" beforeDir="false" afterPath="$PROJECT_DIR$/../../Frontend/deploy.sh" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../../nginx.conf" beforeDir="false" afterPath="$PROJECT_DIR$/../../Frontend/nginx.conf" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../../package-lock.json" beforeDir="false" afterPath="$PROJECT_DIR$/../../Frontend/package-lock.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../../package.json" beforeDir="false" afterPath="$PROJECT_DIR$/../../Frontend/package.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../../public/favicon.ico" beforeDir="false" afterPath="$PROJECT_DIR$/../../Frontend/public/favicon.ico" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../../public/index.html" beforeDir="false" afterPath="$PROJECT_DIR$/../../Frontend/public/index.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../../src/App.vue" beforeDir="false" afterPath="$PROJECT_DIR$/../../Frontend/src/App.vue" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../../src/Util.js" beforeDir="false" afterPath="$PROJECT_DIR$/../../Frontend/src/Util.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../../src/assets/g2-theme.json" beforeDir="false" afterPath="$PROJECT_DIR$/../../Frontend/src/assets/g2-theme.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../../src/assets/logo.png" beforeDir="false" afterPath="$PROJECT_DIR$/../../Frontend/src/assets/logo.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../../src/components/Review.vue" beforeDir="false" afterPath="$PROJECT_DIR$/../../Frontend/src/components/Review.vue" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../../src/components/ReviewPhone.vue" beforeDir="false" afterPath="$PROJECT_DIR$/../../Frontend/src/components/ReviewPhone.vue" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../../src/components/Settings.vue" beforeDir="false" afterPath="$PROJECT_DIR$/../../Frontend/src/components/Settings.vue" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../../src/components/Title.vue" beforeDir="false" afterPath="$PROJECT_DIR$/../../Frontend/src/components/Title.vue" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../../src/main.js" beforeDir="false" afterPath="$PROJECT_DIR$/../../Frontend/src/main.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../../src/router/index.js" beforeDir="false" afterPath="$PROJECT_DIR$/../../Frontend/src/router/index.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../../src/store/index.js" beforeDir="false" afterPath="$PROJECT_DIR$/../../Frontend/src/store/index.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../../src/views/About.vue" beforeDir="false" afterPath="$PROJECT_DIR$/../../Frontend/src/views/About.vue" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../../src/views/Home.vue" beforeDir="false" afterPath="$PROJECT_DIR$/../../Frontend/src/views/Home.vue" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../../vue.config.js" beforeDir="false" afterPath="$PROJECT_DIR$/../../Frontend/vue.config.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../Frontend/package.json" beforeDir="false" afterPath="$PROJECT_DIR$/../../Frontend/package.json" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -158,7 +68,7 @@
       <option name="presentableId" value="Default" />
       <updated>1625817272220</updated>
       <workItem from="1625817274127" duration="4691000" />
-      <workItem from="1625827439336" duration="620000" />
+      <workItem from="1625827439336" duration="627000" />
     </task>
     <servers />
   </component>
