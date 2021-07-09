@@ -3,10 +3,7 @@
   <component name="ChangeListManager">
     <list default="true" id="cf8e3b74-af5d-4fa3-b4ab-4f4646d1a60a" name="Default Changelist" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../../Frontend/src/components/ReviewPhone.vue" beforeDir="false" afterPath="$PROJECT_DIR$/../../Frontend/src/components/ReviewPhone.vue" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../../Frontend/src/components/Settings.vue" beforeDir="false" afterPath="$PROJECT_DIR$/../../Frontend/src/components/Settings.vue" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/../../Frontend/src/views/About.vue" beforeDir="false" afterPath="$PROJECT_DIR$/../../Frontend/src/views/About.vue" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../../Frontend/vue.config.js" beforeDir="false" afterPath="$PROJECT_DIR$/../../Frontend/vue.config.js" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
