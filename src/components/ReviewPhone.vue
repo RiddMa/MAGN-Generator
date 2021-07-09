@@ -147,7 +147,7 @@
           <n-input
             class="reviewInputCard"
             v-if="showCommentInput"
-            v-model:value="tmpComment"
+            v-model:value="comment"
             type="textarea"
             placeholder="输入影评…"
             :autosize="{
@@ -167,16 +167,13 @@
       </a-col>
       <a-col flex="auto"></a-col>
     </a-row>
-    <!--    <a-button @click="scrollAndCapture()">Get Image</a-button>-->
   </div>
 </template>
 
 <script>
 import Title from "@/components/Title";
-import { ref } from "vue";
 import { mapState } from "vuex";
 import html2canvas from "html2canvas";
-import { Radar } from "@antv/g2plot";
 import { NInput } from "naive-ui/lib/input";
 import "naive-ui/lib/input/styles";
 import { NDivider } from "naive-ui/lib/divider";
@@ -191,7 +188,6 @@ export default {
   },
   data() {
     return {
-      radarPlot: undefined,
       searchText: "The Shawshank Redemption",
       review: {
         screenplay: "",
@@ -201,68 +197,33 @@ export default {
       },
     };
   },
-  setup() {
-    const tmpComment = ref("");
-    return { tmpComment }; // notice here count is returned so the template can access it.
-  },
   computed: {
+    comment: {
+      get: function () {
+        return this.$store.state.movie.comment;
+      },
+      set: function (newComment) {
+        this.$store.commit("setMovieComment", newComment);
+      },
+    },
+    movie: {
+      get: function () {
+        return this.$store.state.movie;
+      },
+      set: function (newMovieProp) {
+        this.$store.commit("setMovie", newMovieProp);
+      },
+    },
     ...mapState({
       fitPhone: (state) => state.fitPhone,
       showCommentInput: (state) => state.showCommentInput,
-      movie: (state) => state.movie,
+      radarPlot: (state) => state.radarPlot,
     }),
   },
   methods: {
     handleRateChange() {
       this.$store.commit("setMovieRatingAvg");
-      this.updateRadar();
-    },
-    async updateComment() {
-      await this.$store.commit("setMovieComment", this.tmpComment);
-    },
-    drawRadarPhone() {
-      const data = [
-        { name: "剧情", rating: this.movie.rating.screenplay },
-        { name: "演出\n/剪辑", rating: this.movie.rating.editing },
-        { name: "视效\n/摄影", rating: this.movie.rating.visual },
-        { name: "音乐\n/音效", rating: this.movie.rating.sound },
-      ];
-      this.radarPlot = new Radar("radarChartPhone", {
-        data: data,
-        xField: "name",
-        yField: "rating",
-        padding: "auto",
-        meta: {
-          rating: {
-            alias: "评分",
-            min: 0,
-            max: 10,
-          },
-        },
-        autoFit: true,
-        tooltip: {
-          showCrosshairs: false,
-        },
-        color: "#42C090",
-        point: {
-          size: 2,
-        },
-        area: {
-          style: {
-            fill: "#61DDAA",
-          },
-        },
-      });
-      this.radarPlot.render();
-    },
-    updateRadar() {
-      const data = [
-        { name: "剧情", rating: this.movie.rating.screenplay },
-        { name: "演出\n/剪辑", rating: this.movie.rating.editing },
-        { name: "视效\n/摄影", rating: this.movie.rating.visual },
-        { name: "音乐\n/音效", rating: this.movie.rating.sound },
-      ];
-      this.radarPlot.changeData(data);
+      this.$store.commit("updateRadar");
     },
     scrollAndCapture() {
       this.toTop(window, () => this.capture());
@@ -286,7 +247,6 @@ export default {
       element.addEventListener("scroll", running, false);
     },
     async capture() {
-      await this.updateComment();
       await this.$store.commit("setCommentInput", false);
       const targetDom = document.getElementById("toImage");
       html2canvas(targetDom, {
@@ -303,8 +263,7 @@ export default {
     },
   },
   mounted() {
-    this.tmpComment = this.movie.comment;
-    this.drawRadarPhone();
+    this.$store.commit("drawRadar", "radarChartPhone");
   },
 };
 </script>

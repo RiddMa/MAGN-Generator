@@ -2,6 +2,7 @@ import { createStore } from "vuex";
 const moment = require("moment");
 require("moment/locale/zh-cn");
 moment.locale("zh-cn");
+const { Radar } = require("@antv/g2plot");
 
 export default createStore({
   state: {
@@ -9,6 +10,7 @@ export default createStore({
     showCommentInput: true,
     searchText: "The Shawshank Redemption",
     fitPhone: true,
+    radarPlot: undefined,
     movie: {
       reviewDate: null,
       title: "The Shawshank Redemption",
@@ -80,6 +82,9 @@ export default createStore({
     setFitPhone(state, toBool) {
       state.fitPhone = toBool;
     },
+    setMovie(state, newMovieProp) {
+      state.movie = newMovieProp;
+    },
     clearMovie(state) {
       state.movie = {
         title: "",
@@ -107,6 +112,50 @@ export default createStore({
         comment: "",
       };
     },
+    drawRadar(state,container) {
+      const data = [
+        { name: "剧情", rating: state.movie.rating.screenplay },
+        { name: "演出\n/剪辑", rating: state.movie.rating.editing },
+        { name: "视效/摄影", rating: state.movie.rating.visual },
+        { name: "音乐\n/音效", rating: state.movie.rating.sound },
+      ];
+      state.radarPlot = new Radar(container, {
+        data: data,
+        xField: "name",
+        yField: "rating",
+        padding: "auto",
+        meta: {
+          rating: {
+            alias: "评分",
+            min: 0,
+            max: 10,
+          },
+        },
+        autoFit: true,
+        tooltip: {
+          showCrosshairs: false,
+        },
+        color: "#42C090",
+        point: {
+          size: 2,
+        },
+        area: {
+          style: {
+            fill: "#61DDAA",
+          },
+        },
+      });
+      state.radarPlot.render();
+    },
+    updateRadar(state) {
+      const data = [
+        { name: "剧情", rating: state.movie.rating.screenplay },
+        { name: "演出\n/剪辑", rating: state.movie.rating.editing },
+        { name: "视效/摄影", rating: state.movie.rating.visual },
+        { name: "音乐\n/音效", rating: state.movie.rating.sound },
+      ];
+      state.radarPlot.changeData(data);
+    },
   },
   getters: {
     titleWithYear: (state) => {
@@ -118,6 +167,14 @@ export default createStore({
           return sum + cur;
         }) / Object.keys(state.movie.rating).length
       );
+    },
+    radarData: (state) => {
+      return [
+        { name: "剧情", rating: state.movie.rating.screenplay },
+        { name: "演出\n/剪辑", rating: state.movie.rating.editing },
+        { name: "视效/摄影", rating: state.movie.rating.visual },
+        { name: "音乐\n/音效", rating: state.movie.rating.sound },
+      ];
     },
     genreList: (state) => {
       let genreList = [];

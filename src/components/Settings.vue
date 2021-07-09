@@ -239,11 +239,10 @@
               <a-col flex="auto"></a-col>
               <a-col>
                 <a-button type="primary" @click="onClearAllClicked"
-                >清空全部</a-button
+                  >清空全部</a-button
                 >
               </a-col>
               <a-col flex="auto"></a-col>
-
             </a-row>
           </a-col>
           <a-col flex="auto"></a-col>
@@ -287,12 +286,12 @@ export default {
       genreList: "genreList",
     }),
   },
-  mounted() {
-  },
+  mounted() {},
   methods: {
     onCheckboxChange() {},
     onClearAllClicked() {
       this.$store.commit("clearMovie");
+      this.$store.commit("updateRadar");
     },
   },
 };
