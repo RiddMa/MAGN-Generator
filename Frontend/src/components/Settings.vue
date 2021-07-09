@@ -29,7 +29,7 @@
               </a-input>
             </a-row>
             <a-row class="searchRow">
-              <a-col :span="18">
+              <a-col flex="auto">
                 <a-input
                   class="inputField"
                   v-model:value="movie.titleCN"
@@ -38,15 +38,14 @@
                   @pressEnter=""
                 />
               </a-col>
-              <a-col flex="auto"></a-col>
-              <a-col :span="5">
+              <a-col :span="1"></a-col>
+              <a-col :span="6">
                 <a-input-number
                   class="inputField"
                   v-model:value="movie.year"
                   placeholder="输入电影年份…"
                   :max="maxYear"
                   :min="1888"
-                  style="min-width: 100px"
                 />
               </a-col>
             </a-row>
