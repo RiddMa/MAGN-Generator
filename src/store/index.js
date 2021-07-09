@@ -13,7 +13,7 @@ export default createStore({
       reviewDate: null,
       title: "The Shawshank Redemption",
       titleCN: "肖申克的救赎",
-      year: 1994,
+      year: "1994",
       genre: {
         action: false,
         adventure: false,
@@ -84,7 +84,7 @@ export default createStore({
       state.movie = {
         title: "",
         titleCN: "",
-        year: 0,
+        year: "",
         genre: {
           action: false,
           sci_fi: false,
@@ -102,6 +102,7 @@ export default createStore({
           screenplay: 0,
           sound: 0,
           editing: 0,
+          avg: 0,
         },
         comment: "",
       };

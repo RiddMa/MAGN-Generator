@@ -228,7 +228,7 @@ export default {
           rating: {
             alias: "评分",
             min: 0,
-            nice: true,
+            max: 10,
           },
         },
         autoFit: true,

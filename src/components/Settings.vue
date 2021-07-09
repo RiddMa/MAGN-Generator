@@ -1,7 +1,7 @@
 <template>
   <div>
     <a-collapse v-model:activeKey="activeKey" :bordered="false">
-      <a-collapse-panel key="1" header="选项">
+      <a-collapse-panel key="1" header="选项&nbsp&nbsp&nbsp&nbsp">
         <a-row>
           <a-col flex="auto"></a-col>
           <a-col :xxl="11" :xl="15" :lg="17" :md="19" :sm="22" :xs="24">
@@ -36,10 +36,11 @@
               </a-col>
             </a-row>
             <a-row class="searchRow">
-              <a-checkbox-group
-                v-model:value="genreChecked"
-                @change="setMovieGenre"
-              >
+              <!--              <a-checkbox-group-->
+              <!--                v-model:value="genreChecked"-->
+              <!--                @change="setMovieGenre"-->
+              <!--              >-->
+              <a-checkbox-group v-model:value="genreChecked">
                 <div v-if="!fitPhone">
                   <a-row style="margin-bottom: 1vh">
                     <a-col flex="auto"></a-col>
@@ -234,10 +235,19 @@
                 </div>
               </a-checkbox-group>
             </a-row>
+            <a-row>
+              <a-col flex="auto"></a-col>
+              <a-col>
+                <a-button type="primary" @click="onClearAllClicked"
+                >清空全部</a-button
+                >
+              </a-col>
+              <a-col flex="auto"></a-col>
+
+            </a-row>
           </a-col>
           <a-col flex="auto"></a-col>
         </a-row>
-        <a-row> </a-row>
       </a-collapse-panel>
     </a-collapse>
   </div>
@@ -256,14 +266,19 @@ export default {
   },
   setup() {
     const activeKey = ref([1]);
-    const genreRef = ref(null);
-
     return {
       activeKey,
-      genreChecked: genreRef,
     };
   },
   computed: {
+    genreChecked: {
+      get: function () {
+        return this.$store.getters.genreList;
+      },
+      set: function (newGenre) {
+        this.$store.commit("setMovieGenre", newGenre);
+      },
+    },
     ...mapState({
       fitPhone: (state) => state.fitPhone,
       movie: (state) => state.movie,
@@ -273,15 +288,11 @@ export default {
     }),
   },
   mounted() {
-    this.setMovieGenre(this.genreList);
   },
   methods: {
     onCheckboxChange() {},
-    setMovieGenre(newGenre) {
-      this.genreChecked = newGenre;
-      this.$store.commit("setMovieGenre", newGenre);
-
-      // console.log(JSON.stringify(value));
+    onClearAllClicked() {
+      this.$store.commit("clearMovie");
     },
   },
 };

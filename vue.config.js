@@ -1,6 +1,14 @@
 const webpack = require('webpack')
 module.exports = {
   productionSourceMap: false,
+  chainWebpack: (config) => {
+    config
+      .plugin('html')
+      .tap((args) => {
+        args[0].title = 'MAG(N)影评生成';
+        return args;
+      });
+  },
   css: {
     loaderOptions: {
       less: {

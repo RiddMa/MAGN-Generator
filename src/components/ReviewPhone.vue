@@ -167,7 +167,7 @@
       </a-col>
       <a-col flex="auto"></a-col>
     </a-row>
-<!--    <a-button @click="scrollAndCapture()">Get Image</a-button>-->
+    <!--    <a-button @click="scrollAndCapture()">Get Image</a-button>-->
   </div>
 </template>
 
@@ -236,7 +236,7 @@ export default {
           rating: {
             alias: "评分",
             min: 0,
-            nice: true,
+            max: 10,
           },
         },
         autoFit: true,
