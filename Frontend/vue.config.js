@@ -15,6 +15,11 @@ module.exports = {
             "primary-color": "#40BA83",
             "link-color": "#40BA83",
             "border-radius-base": "5px",
+            "font-size-base": "14px",
+            "font-family":
+              "-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial,'Noto Sans', sans-serif, 'Apple Color Emoji','Segoe UI Emoji','Segoe UI Symbol','Noto Color Emoji'",
+            "font-size-sm":"13px",
+
           },
           javascriptEnabled: true,
         },

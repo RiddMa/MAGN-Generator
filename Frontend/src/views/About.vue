@@ -3,17 +3,25 @@
     <a-row class="toImage" id="toImage" ref="toImage">
       <a-col flex="auto"></a-col>
       <a-col :xxl="14" :xl="16" :lg="18" :md="20" :sm="22" :xs="24">
-        <a-card hoverable>
+        <a-card>
           <a-typography-title class="awesomeTitle">
             MAG(N) 影评生成器
           </a-typography-title>
-          <a-typography-title class="aboutText" :level="2"
+          <a-typography-title class="aboutTitle" :level="2">
+            当前版本：v0.4.0
+          </a-typography-title>
+          <a-typography-paragraph class="aboutText">
+            目前实现的功能：填写电影英文标题、中文标题、年份；选择电影类型；从四个维度进行0-10星评分，计算总平均分并显示评分雷达图。
+            <br/>
+            尚未实现：后端——用户系统、数据库、豆瓣IMDb关联搜索、服务端渲染生成海报图。
+          </a-typography-paragraph>
+          <a-typography-title class="aboutTitle" :level="2"
             >用途？
           </a-typography-title>
           <a-typography-paragraph class="aboutText">
             记录个人观影进度，并生成高质量的海报图片供发朋友圈使用。
           </a-typography-paragraph>
-          <a-typography-title class="aboutText" :level="2"
+          <a-typography-title class="aboutTitle" :level="2"
             >使用指南
           </a-typography-title>
           <a-typography-paragraph class="aboutText">
@@ -29,7 +37,7 @@
           <a-typography-paragraph class="aboutText">
             在下方卡片，可以预览生成海报图片样式。从四个维度，点击星星来进行打分（评分维度参考了学院奖奖项设置）。在最下方输入框，输入影评内容。
           </a-typography-paragraph>
-          <a-typography-title class="aboutText" :level="2"
+          <a-typography-title class="aboutTitle" :level="2"
             >相关链接
           </a-typography-title>
           <a-typography-paragraph class="aboutText">
@@ -62,6 +70,11 @@
   color: #40ba83;
 }
 .aboutText {
+  font-size: 16px;
+  text-align: start;
+  alignment: left;
+}
+.aboutTitle {
   text-align: start;
   alignment: left;
 }

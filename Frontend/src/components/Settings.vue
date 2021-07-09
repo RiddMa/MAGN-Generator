@@ -29,7 +29,7 @@
               </a-input>
             </a-row>
             <a-row class="searchRow">
-              <a-col flex="auto">
+              <a-col :span="18">
                 <a-input
                   class="inputField"
                   v-model:value="movie.titleCN"
@@ -39,7 +39,7 @@
                 />
               </a-col>
               <a-col :span="1"></a-col>
-              <a-col :span="6">
+              <a-col :span="5">
                 <a-input-number
                   class="inputField"
                   v-model:value="movie.year"
@@ -317,7 +317,7 @@ export default {
   margin: 0 0 2vh 0;
 }
 .genreCheckbox {
-  width: 100px;
+  width: 110px;
   text-align: start;
 }
 .checkboxRow {
