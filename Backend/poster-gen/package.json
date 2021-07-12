@@ -1,6 +1,7 @@
 {
   "name": "poster-gen",
   "version": "0.0.1",
+  "private": true,
   "description": "",
   "main": "index.js",
   "scripts": {
@@ -11,6 +12,15 @@
   "license": "ISC",
   "dependencies": {
     "koa": "^2.13.1",
+    "koa-route": "^3.2.0",
+    "koa-router": "^10.0.0",
+    "koa-sendfile": "^3.0.0",
+    "koa2-cors": "^2.0.6",
     "puppeteer": "^10.1.0"
+  },
+  "devDependencies": {
+    "koa-bodyparser": "^4.3.0",
+    "koa-static": "^5.0.0",
+    "mime-types": "^2.1.31"
   }
 }

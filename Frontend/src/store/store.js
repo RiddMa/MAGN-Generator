@@ -1,11 +1,17 @@
 import { createStore } from "vuex";
+import netStore from "@/store/net";
+
+const { Radar } = require("@antv/g2plot");
+
 const moment = require("moment");
 require("moment/locale/zh-cn");
 moment.locale("zh-cn");
-const { Radar } = require("@antv/g2plot");
 
 export default createStore({
-  state: {
+  modules: {
+    netStore: netStore,
+  },
+  state: () => ({
     showTitleInput: false,
     showCommentInput: true,
     searchText: "The Shawshank Redemption",
@@ -38,7 +44,7 @@ export default createStore({
       comment:
         "瑞德说，希望是危险的东西，是精神苦闷的根源。重重挤压之下的牢狱里呆了三十年的他的确有资格这么说。因为从进来的那一天起，狱长就说过，「把灵魂交给上帝，把身体交给我。」除了他能弄来的香烟和印着裸女的扑克牌，任何其他异动在这个黑暗的高墙之内似乎都无法生长。\n然而安迪告诉他，「记住，希望是好事——甚至也许是人间至善。而美好的事永不消失。」",
     },
-  },
+  }),
   mutations: {
     setSearchText(state, searched) {
       state.searchText = searched;
@@ -249,5 +255,4 @@ export default createStore({
     },
   },
   actions: {},
-  modules: {},
 });

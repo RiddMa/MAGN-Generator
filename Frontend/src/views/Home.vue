@@ -4,7 +4,9 @@
     <Review v-if="!fitPhone"></Review>
     <ReviewPhone v-if="fitPhone"></ReviewPhone>
     <a-button @click="scrollAndCapture">Draw Canvas</a-button>
+    <a-button @click="getPosterFromServer">Server Side Render</a-button>
     <div class="customFooter">Designed by Ridd.</div>
+    <img id="poster" />
   </div>
 </template>
 
@@ -14,6 +16,8 @@ import Settings from "@/components/Settings";
 import { mapState } from "vuex";
 import { ref } from "vue";
 import ReviewPhone from "@/components/ReviewPhone";
+import axios from "axios";
+
 const html2canvas = require("html2canvas");
 
 export default {
@@ -36,10 +40,10 @@ export default {
     ...mapState({
       fitPhone: (state) => state.fitPhone,
       showCommentInput: (state) => state.showCommentInput,
+      posterURL: (state) => state.netStore.posterURL,
     }),
   },
   mounted() {
-    console.log(document.body.clientWidth);
     setTimeout(() => {
       if (document.body.clientWidth < 720) {
         this.$store.commit("setFitPhone", true);
@@ -48,7 +52,6 @@ export default {
       }
       this.$store.commit("setReviewDate");
       this.$store.commit("setMovieRatingAvg");
-      console.log(document.body.clientWidth);
     }, 0);
   },
   methods: {
@@ -87,6 +90,26 @@ export default {
         document.body.appendChild(canvas);
       });
       await this.$store.commit("setCommentInput", true);
+    },
+    // async getPosterFromServer() {
+    //   let response = await axios.post(
+    //     "http://localhost:8081/api/download",
+    //     {
+    //       tid: "admin",
+    //     },
+    //     {
+    //       responseType: "blob",
+    //     }
+    //   );
+    //   let urlCreator = window.URL || window.webkitURL;
+    //   document.querySelector("#poster").src = urlCreator.createObjectURL(
+    //     response.data
+    //   );
+    // },
+    async getPosterFromServer() {
+      await this.$store.dispatch("getPoster", "admin");
+      console.log(this.posterURL);
+      document.querySelector("#poster").src = this.posterURL;
     },
   },
 };

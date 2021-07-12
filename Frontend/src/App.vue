@@ -7,16 +7,30 @@
   </div>
   <router-view />
 </template>
+<script>
+export default {
+  mounted() {
+    try {
+      this.$store.dispatch("initStore");
+    } catch (err) {
+      console.log(err);
+    }
+  },
+};
+</script>
 
 <style>
 html,
 body {
-  font-family: "Noto Sans SC", sans-serif;
+  font-family: "Helvetica Neue", Helvetica, Arial, "PingFang SC",
+    "Hiragino Sans GB", "Heiti SC", "Microsoft YaHei", "WenQuanYi Micro Hei",
+    sans-serif;
 }
 
 #app {
-  /*font-family: "Roboto", Avenir, Helvetica, Arial, sans-serif;*/
-  font-family: "Noto Sans SC", sans-serif;
+  font-family: "Helvetica Neue", Helvetica, Arial, "PingFang SC",
+    "Hiragino Sans GB", "Heiti SC", "Microsoft YaHei", "WenQuanYi Micro Hei",
+    sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   text-align: center;
