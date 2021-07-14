@@ -6,23 +6,23 @@ const routes = [
     path: "/",
     name: "Home",
     component: Home,
-    children: [
-      {
-        path: "/desktop",
-        name: "MAGN-Generator",
-        component: () => import("../components/Review"),
-      },
-      {
-        path: "/mobile",
-        name: "MAGN-Generator",
-        component: () => import("../components/ReviewPhone"),
-      },
-      {
-        path: "/settings",
-        name: "MAGN-Generator",
-        component: () => import("../components/Settings"),
-      },
-    ],
+    // children: [
+    //   {
+    //     path: "/desktop",
+    //     name: "MAGN-Generator",
+    //     component: () => import("../components/Review"),
+    //   },
+    //   {
+    //     path: "/mobile",
+    //     name: "MAGN-Generator",
+    //     component: () => import("../components/ReviewPhone"),
+    //   },
+    //   {
+    //     path: "/settings",
+    //     name: "MAGN-Generator",
+    //     component: () => import("../components/Settings"),
+    //   },
+    // ],
   },
   {
     path: "/about",
@@ -32,6 +32,10 @@ const routes = [
     // which is lazy-loaded when the route is visited.
     component: () =>
       import(/* webpackChunkName: "about" */ "../views/About.vue"),
+  },
+  {
+    path: "/user/:id",
+    component: () => import("../views/User"),
   },
 ];
 

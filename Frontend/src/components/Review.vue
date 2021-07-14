@@ -1,8 +1,16 @@
 <template>
-  <div>
-    <a-row class="toImage" id="toImage" ref="toImage">
+  <div class="toImage" id="toImage" ref="toImage">
+    <a-row>
       <a-col flex="auto"></a-col>
-      <a-col :xxl="14" :xl="16" :lg="18" :md="20" :sm="22" :xs="24">
+      <a-col
+        :xxl="14"
+        :xl="16"
+        :lg="18"
+        :md="20"
+        :sm="22"
+        :xs="24"
+        id="toImageCol"
+      >
         <a-card class="reviewCard">
           <!--          标题-->
           <Title></Title>
@@ -34,7 +42,9 @@
                     {{ movie.rating.screenplay }}/10
                   </span>
                 </a-col>
-                <a-col flex="auto"><n-divider></n-divider></a-col>
+                <a-col flex="auto">
+                  <n-divider></n-divider>
+                </a-col>
               </a-row>
               <!--              视效/摄影-->
               <a-row class="ratingRow">
@@ -57,7 +67,9 @@
                     {{ movie.rating.visual }}/10
                   </span>
                 </a-col>
-                <a-col flex="auto"><n-divider></n-divider></a-col>
+                <a-col flex="auto">
+                  <n-divider></n-divider>
+                </a-col>
               </a-row>
               <!--            演出/剪辑-->
               <a-row class="ratingRow">
@@ -80,7 +92,9 @@
                     {{ movie.rating.editing }}/10
                   </span>
                 </a-col>
-                <a-col flex="auto"><n-divider></n-divider></a-col>
+                <a-col flex="auto">
+                  <n-divider></n-divider>
+                </a-col>
               </a-row>
               <!--            音乐/音效-->
               <a-row class="ratingRow">
@@ -103,14 +117,16 @@
                     {{ movie.rating.sound }}/10
                   </span>
                 </a-col>
-                <a-col flex="auto"><n-divider></n-divider></a-col>
+                <a-col flex="auto">
+                  <n-divider></n-divider>
+                </a-col>
               </a-row>
               <!--              统计-->
               <div class="dividerRow">
                 <n-divider>
                   总分
-                  <span v-if="movie.rating.avg !== 0" class="uglyMargin">
-                    &nbsp;-&nbsp;{{ movie.rating.avg }}/10
+                  <span v-if="avgScore !== 0" class="uglyMargin">
+                    &nbsp;-&nbsp;{{ avgScore }}/10
                   </span>
                 </n-divider>
               </div>
@@ -144,7 +160,7 @@
           </a-card>
           <a-row>
             <a-col flex="auto"></a-col>
-            <a-col class="dateRow"> {{ movie.reviewDate }} </a-col>
+            <a-col class="dateRow"> {{ movie.reviewDate }}</a-col>
           </a-row>
         </a-card>
       </a-col>
@@ -155,12 +171,13 @@
 
 <script>
 import Title from "@/components/Title";
-import { mapState } from "vuex";
-const html2canvas = require("html2canvas");
+import { mapState, mapGetters } from "vuex";
 import { NInput } from "naive-ui/lib/input";
 import "naive-ui/lib/input/styles";
 import { NDivider } from "naive-ui/lib/divider";
 import "naive-ui/lib/divider/styles";
+
+const html2canvas = require("html2canvas");
 
 export default {
   name: "Review",
@@ -202,11 +219,14 @@ export default {
       showCommentInput: (state) => state.showCommentInput,
       radarPlot: (state) => state.radarPlot,
     }),
+    ...mapGetters({
+      avgScore: "avgScore",
+    }),
   },
 
   methods: {
     handleRateChange() {
-      this.$store.commit("setMovieRatingAvg");
+      // this.$store.commit("setMovieRatingAvg");
       this.$store.commit("updateRadar");
     },
     async scrollAndCapture() {
@@ -247,7 +267,11 @@ export default {
     },
   },
   mounted() {
-    this.$store.commit("drawRadar", "radarChart");
+    if (this.$route.fullPath === "/") {
+      this.$store.commit("drawRadar", "radarChart");
+    } else {
+      this.$store.commit("drawRadarNoAnimation", "radarChart");
+    }
   },
 };
 </script>
@@ -258,22 +282,27 @@ export default {
 .reviewCommentCard {
   border-color: rgba(66, 185, 131, 0.5);
 }
+
 .reviewCard {
   margin: 2em 4vw;
 }
+
 .reviewContentCard {
   text-align: start;
   margin: 1em 0 2em 0;
   padding: 0;
 }
+
 .reviewInputCard {
   text-align: start;
 }
+
 .reviewCommentCard {
   text-align: start;
   margin: 2em 0 1em 0;
   padding: 0;
 }
+
 .ratingRow {
   margin: 0 2vw;
   display: flex;
@@ -283,20 +312,24 @@ export default {
   align-content: center;
   align-self: center;
 }
+
 .ratings {
   padding-bottom: 1px;
   margin: 0 1vw;
 }
+
 .uglyMargin {
   float: right;
   margin-right: 1vw;
 }
+
 .avgRow {
   margin: 0 2vw;
   display: flex;
   display: -webkit-flex; /* Safari */
   align-items: center; /*指定垂直居中*/
 }
+
 .radarChart {
   margin-bottom: 1em;
   /*display: flex;*/
@@ -304,18 +337,22 @@ export default {
   align-items: center; /*指定垂直居中*/
   max-height: 300px;
 }
+
 .dividerRow {
   margin-left: 2vw;
   margin-right: 2vw;
 }
+
 .dividerCenter {
   width: 75px;
   text-align: center;
 }
+
 .n-divider:not(.n-divider--vertical) {
   margin-top: 1vw; /*这里没错！是vw*/
   margin-bottom: 1vw;
 }
+
 .dateRow {
   margin: 1em 0 0 0;
 }

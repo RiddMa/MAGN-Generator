@@ -3,10 +3,15 @@
     <Settings></Settings>
     <Review v-if="!fitPhone"></Review>
     <ReviewPhone v-if="fitPhone"></ReviewPhone>
-    <a-button @click="scrollAndCapture">Draw Canvas</a-button>
-    <a-button @click="getPosterFromServer">Server Side Render</a-button>
+    <a-space>
+      <a-button @click="scrollAndCapture">Draw Canvas</a-button>
+      <a-button @click="sendMovieDetail">Send Movie Detail</a-button>
+      <a-button @click="getPosterFromServer">Server Side Render</a-button>
+      <a-button @click="getMovieAttr">getMovieAttr</a-button>
+    </a-space>
+
     <div class="customFooter">Designed by Ridd.</div>
-    <img id="poster" />
+    <img class="poster" id="poster" alt="Movie Poster" src="" />
   </div>
 </template>
 
@@ -14,9 +19,7 @@
 import Review from "@/components/Review";
 import Settings from "@/components/Settings";
 import { mapState } from "vuex";
-import { ref } from "vue";
 import ReviewPhone from "@/components/ReviewPhone";
-import axios from "axios";
 
 const html2canvas = require("html2canvas");
 
@@ -30,12 +33,6 @@ export default {
   data() {
     return {};
   },
-  setup() {
-    let imgURL = ref("");
-    return {
-      imgURL,
-    };
-  },
   computed: {
     ...mapState({
       fitPhone: (state) => state.fitPhone,
@@ -43,17 +40,7 @@ export default {
       posterURL: (state) => state.netStore.posterURL,
     }),
   },
-  mounted() {
-    setTimeout(() => {
-      if (document.body.clientWidth < 720) {
-        this.$store.commit("setFitPhone", true);
-      } else {
-        this.$store.commit("setFitPhone", false);
-      }
-      this.$store.commit("setReviewDate");
-      this.$store.commit("setMovieRatingAvg");
-    }, 0);
-  },
+  mounted() {},
   methods: {
     async scrollAndCapture() {
       await this.toTop(window, () => this.capture());
@@ -107,9 +94,15 @@ export default {
     //   );
     // },
     async getPosterFromServer() {
+      await this.$store.dispatch("sendMovieAttr", "admin");
       await this.$store.dispatch("getPoster", "admin");
-      console.log(this.posterURL);
       document.querySelector("#poster").src = this.posterURL;
+    },
+    async sendMovieDetail() {
+      await this.$store.dispatch("sendMovieAttr");
+    },
+    async getMovieAttr() {
+      await this.$store.dispatch("getMovieAttr", "admin");
     },
   },
 };
@@ -118,5 +111,8 @@ export default {
 <style scoped>
 .customFooter {
   padding: 25px 0 50px 0;
+}
+.poster {
+  width: 100%;
 }
 </style>

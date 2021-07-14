@@ -61,26 +61,70 @@ const netStore = {
         console.log(e);
       }
     },
+    async sendMovieAttr(context, tid) {
+      return new Promise((resolve, reject) => {
+        context.state.instance
+          .post("/generatePoster/" + tid, {
+            movie: context.rootState.movie,
+          })
+          .then((response) => {
+            resolve(response);
+          })
+          .catch((e) => {
+            reject(e.response.data.errors);
+          });
+      });
+    },
     async getPoster(context, tid) {
-      return new Promise((resolve) => {
-        setTimeout(async () => {
-          try {
-            let response = await context.state.instance.post(
-              "/download",
-              {
-                tid: tid,
-              },
-              {
-                responseType: "blob",
-              }
-            );
+      return new Promise((resolve, reject) => {
+        context.state.instance
+          .post(
+            "/getPoster",
+            {
+              tid: tid,
+            },
+            {
+              responseType: "blob",
+            }
+          )
+          .then((response) => {
             let urlCreator = window.URL || window.webkitURL;
             context.state.posterURL = urlCreator.createObjectURL(response.data);
-          } catch (e) {
-            console.log(e);
-          }
-          resolve();
-        }, 0);
+            resolve(response);
+          })
+          .catch((e) => {
+            reject(e.response.data.errors);
+          });
+      });
+    },
+    async getMovieAttr(context, tid) {
+      return new Promise((resolve, reject) => {
+        context.state.instance
+          .post("/getMovieAttr", {
+            tid: tid,
+          })
+          .then((response) => {
+            context.rootState.movie = response.data;
+            context.commit("updateRadar");
+            resolve(response);
+          })
+          .catch((e) => {
+            reject(e.response.data.errors);
+          });
+      });
+    },
+    async getMovieAttrTid(context, tid) {
+      return new Promise((resolve, reject) => {
+        context.state.instance
+          .post("/getMovieAttr/" + tid)
+          .then((response) => {
+            context.rootState.movie = response.data;
+            context.commit("updateRadar");
+            resolve(response);
+          })
+          .catch((e) => {
+            reject(e.response.data.errors);
+          });
       });
     },
   },

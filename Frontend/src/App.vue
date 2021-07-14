@@ -12,6 +12,13 @@ export default {
   mounted() {
     try {
       this.$store.dispatch("initStore");
+      if (document.body.clientWidth < 720) {
+        this.$store.commit("setFitPhone", true);
+      } else {
+        this.$store.commit("setFitPhone", false);
+      }
+      this.$store.commit("setReviewDate");
+      this.$store.commit("setMovieRatingAvg");
     } catch (err) {
       console.log(err);
     }

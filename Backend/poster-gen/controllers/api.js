@@ -1,29 +1,42 @@
-let movies = [
-  {
-    title: "The Shawshank Redemption",
-    year: 1994,
-  },
-  {
-    name: "The Godfather",
-    year: 1972,
-  },
-];
+function prepareMovieAttr() {
+  const moment = require("moment");
+  require("moment/locale/zh-cn");
+  moment.locale("zh-cn");
+  let movie = {
+    reviewDate: moment().format("L"),
+    title: "The Godfather",
+    titleCN: "教父",
+    year: "1972",
+    genre: {
+      action: false,
+      adventure: false,
+      animation: false,
+      comedy: false,
+      drama: true,
+      fantasy: false,
+      historical: false,
+      horror: false,
+      sci_fi: false,
+      thriller: true,
+    },
+    rating: {
+      visual: 9,
+      screenplay: 10,
+      sound: 9,
+      editing: 10,
+      avg: 0,
+    },
+    comment: "测试",
+  };
+  return movie;
+}
 
 module.exports = {
-  "GET /api/movies": async (ctx, next) => {
-    // ctx.response.body = {
-    //   movies: movies,
-    // };
-    await ctx.rest(ctx, next, {
-      movies: movies,
-    });
+  "POST /api/getMovieAttr": async (ctx, next) => {
+    await ctx.rest(ctx, next, prepareMovieAttr());
   },
-  "POST /api/movies": async (ctx, next) => {
-    let p = {
-      title: ctx.request.body.title,
-      year: ctx.request.body.year,
-    };
-    movies.push(p);
-    await ctx.rest(ctx, next, p);
+  "POST /api/getMovieAttr/:tid": async (ctx, next) => {
+    console.log(ctx.params.tid);
+    await ctx.rest(ctx, next, prepareMovieAttr());
   },
 };

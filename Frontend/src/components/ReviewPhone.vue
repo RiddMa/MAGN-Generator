@@ -125,8 +125,8 @@
               <a-row>
                 <a-col flex="auto"></a-col>
                 <a-col :span="4">
-                  <span v-if="movie.rating.avg !== 0" class="uglyMargin">
-                    {{ movie.rating.avg }}/10
+                  <span v-if="avgScore !== 0" class="uglyMargin">
+                    {{ avgScore }}/10
                   </span>
                 </a-col>
                 <a-col flex="auto"></a-col>
@@ -172,7 +172,7 @@
 
 <script>
 import Title from "@/components/Title";
-import { mapState } from "vuex";
+import { mapState, mapGetters } from "vuex";
 import html2canvas from "html2canvas";
 import { NInput } from "naive-ui/lib/input";
 import "naive-ui/lib/input/styles";
@@ -219,10 +219,12 @@ export default {
       showCommentInput: (state) => state.showCommentInput,
       radarPlot: (state) => state.radarPlot,
     }),
+    ...mapGetters({
+      avgScore: "avgScore",
+    }),
   },
   methods: {
     handleRateChange() {
-      this.$store.commit("setMovieRatingAvg");
       this.$store.commit("updateRadar");
     },
     scrollAndCapture() {
