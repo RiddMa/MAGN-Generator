@@ -78,21 +78,6 @@ export default {
       });
       await this.$store.commit("setCommentInput", true);
     },
-    // async getPosterFromServer() {
-    //   let response = await axios.post(
-    //     "http://localhost:8081/api/download",
-    //     {
-    //       tid: "admin",
-    //     },
-    //     {
-    //       responseType: "blob",
-    //     }
-    //   );
-    //   let urlCreator = window.URL || window.webkitURL;
-    //   document.querySelector("#poster").src = urlCreator.createObjectURL(
-    //     response.data
-    //   );
-    // },
     async getPosterFromServer() {
       await this.$store.dispatch("sendMovieAttr", "admin");
       await this.$store.dispatch("getPoster", "admin");

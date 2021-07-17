@@ -6,8 +6,13 @@ const Fs = require("fs");
 const Controller = require("./controller");
 const Rest = require("./middlewares/rest");
 const APIError = require("./middlewares/error").APIError;
+const Db = require("./middlewares/db");
 const app = new Koa();
+
 const port = 8081;
+const dbName = "magn";
+
+Db.connect2Db(dbName);
 
 //logger
 app.use(async (ctx, next) => {

@@ -17,7 +17,9 @@
     "koa-sendfile": "^3.0.0",
     "koa2-cors": "^2.0.6",
     "moment": "^2.29.1",
-    "puppeteer": "^10.1.0"
+    "puppeteer": "^10.1.0",
+    "jsonwebtoken": "^8.5.1",
+    "mongoose": "^5.13.2"
   },
   "devDependencies": {
     "koa-bodyparser": "^4.3.0",
