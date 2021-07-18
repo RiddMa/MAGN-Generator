@@ -11,19 +11,22 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
+    "jsonwebtoken": "^8.5.1",
     "koa": "^2.13.1",
+    "koa-logger": "^3.2.1",
     "koa-route": "^3.2.0",
     "koa-router": "^10.0.0",
     "koa-sendfile": "^3.0.0",
     "koa2-cors": "^2.0.6",
     "moment": "^2.29.1",
+    "mongoose": "^5.13.2",
     "puppeteer": "^10.1.0",
-    "jsonwebtoken": "^8.5.1",
-    "mongoose": "^5.13.2"
+    "scrypt-kdf": "^2.0.1"
   },
   "devDependencies": {
     "koa-bodyparser": "^4.3.0",
     "koa-static": "^5.0.0",
-    "mime-types": "^2.1.31"
+    "mime-types": "^2.1.31",
+    "string-random": "^0.1.3"
   }
 }

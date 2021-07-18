@@ -1,13 +1,5 @@
 import axios from "axios";
-import QS from "qs"; // 引入qs模块，用来序列化post类型的数据，后面会提到
-
-// if (process.env.NODE_ENV === "development") {
-//   axios.defaults.baseURL = "https://www.baidu.com";
-// } else if (process.env.NODE_ENV === "debug") {
-//   axios.defaults.baseURL = "https://www.ceshi.com";
-// } else if (process.env.NODE_ENV === "production") {
-//   axios.defaults.baseURL = "https://www.production.com";
-// }
+import QS from "qs";
 
 const netStore = {
   state: {
@@ -50,13 +42,25 @@ const netStore = {
       );
       context.state.instance = newInstance;
     },
-    async login(context, username, password) {
+    async userLogin(context, username, password) {
       try {
-        let data = await context.state.instance.post("/login", {
+        let response = await context.state.instance.post("/login", {
           username: username,
           password: password,
         });
-        console.log(data);
+        return { status: response.status, data: response.data };
+      } catch (e) {
+        console.log(e);
+      }
+    },
+    async userRegister(context, userInfo) {
+      console.log(userInfo);
+      try {
+        let response = await context.state.instance.post("/register", {
+          username: userInfo.username,
+          password: userInfo.password,
+        });
+        return { status: response.status, data: response.data };
       } catch (e) {
         console.log(e);
       }

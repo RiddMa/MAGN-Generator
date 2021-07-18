@@ -1,4 +1,5 @@
-module.exports = async (ctx, next, data) => {
+module.exports = async (ctx, next, status, data) => {
+  ctx.response.status = status;
   ctx.response.type = "application/json";
   ctx.response.body = data;
   try {

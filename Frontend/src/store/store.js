@@ -1,5 +1,7 @@
 import { createStore } from "vuex";
 import netStore from "@/store/net";
+import userStore from "@/store/user";
+import movieStore from "@/store/movie";
 
 const { Radar } = require("@antv/g2plot");
 
@@ -10,6 +12,8 @@ moment.locale("zh-cn");
 export default createStore({
   modules: {
     netStore: netStore,
+    userStore: userStore,
+    movieStore: movieStore,
   },
   state: () => ({
     showTitleInput: false,

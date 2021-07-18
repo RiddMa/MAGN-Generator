@@ -54,6 +54,6 @@ module.exports = {
     console.log("Going to " + url);
     const res = await getScreenshot(url, tid, width, height);
     console.log(res, Date.now());
-    await ctx.rest(ctx, next, { filename: res });
+    await ctx.rest(ctx, next, 200, { filename: res });
   },
 };

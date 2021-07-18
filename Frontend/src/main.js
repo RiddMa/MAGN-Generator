@@ -17,6 +17,7 @@ import {
   Collapse,
   Typography,
   BackTop,
+  Form,
 } from "ant-design-vue";
 
 const app = createApp(App);
@@ -35,4 +36,5 @@ app.use(Space);
 app.use(Collapse);
 app.use(Typography);
 app.use(BackTop);
+app.use(Form);
 app.use(store).use(router).mount("#app");

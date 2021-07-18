@@ -16,6 +16,7 @@
     "canvas2image": "^1.0.5",
     "core-js": "^3.6.5",
     "html2canvas": "^1.0.0",
+    "md5": "^2.3.0",
     "moment": "^2.29.1",
     "moment-timezone": "^0.5.33",
     "naive-ui": "^2.15.2",

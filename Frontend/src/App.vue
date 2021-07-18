@@ -2,13 +2,21 @@
   <div id="nav">
     <!--    <a-back-top visibilityHeight="20" />-->
     <router-link to="/">Home</router-link>
+<!--    <n-divider class="navBarDivider" vertical />-->
+    |
+    <router-link to="/user">User</router-link>
     |
     <router-link to="/about">About</router-link>
   </div>
   <router-view />
 </template>
 <script>
+import { NDivider } from "naive-ui/lib/divider";
+import "naive-ui/lib/divider/styles";
 export default {
+  components: {
+    NDivider,
+  },
   mounted() {
     try {
       this.$store.dispatch("initStore");
@@ -59,5 +67,8 @@ body {
 
 .ant-back-top {
   bottom: 100px;
+}
+.navBarDivider {
+  background-color: #404040;
 }
 </style>
