@@ -2,6 +2,7 @@ const Koa = require("koa");
 const Cors = require("koa2-cors");
 const BodyParser = require("koa-bodyparser");
 const Logger = require("koa-logger");
+const Jwt = require("koa-jwt");
 const Controller = require("./controller");
 const Rest = require("./middlewares/rest");
 const APIError = require("./middlewares/error").APIError;
@@ -19,6 +20,11 @@ app.use(Logger());
 // });
 app.use(Cors());
 app.use(BodyParser());
+app.use(
+  Jwt({ secret: Config.tokenSecret }).unless({
+    path: [/^\/api\/login/, /^\/api\/register/, /^\/api\/internal/],
+  })
+);
 app.use(Controller()); //scan router
 app.context.APIError = APIError;
 app.context.rest = Rest;

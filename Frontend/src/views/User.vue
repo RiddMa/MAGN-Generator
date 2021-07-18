@@ -1,13 +1,14 @@
-<template>
-
-</template>
+<template></template>
 
 <script>
 export default {
-  name: "UserProfile"
+  name: "UserProfile",
+  mounted() {
+    if (localStorage.getItem("token") === null) {
+      this.$router.push("/login");
+    }
+  },
 };
 </script>
 
-<style scoped>
-
-</style>
+<style scoped></style>

@@ -1,8 +1,8 @@
 <template>
   <div class="toImage" id="toImage" ref="toImage">
-    <a-row>
-      <a-col flex="auto"></a-col>
-      <a-col
+    <Row>
+      <Col flex="auto"></Col>
+      <Col
         :xxl="14"
         :xl="16"
         :lg="18"
@@ -22,13 +22,13 @@
           >
             <div v-if="!fitPhone">
               <!--            剧情-->
-              <a-row class="ratingRow">
-                <a-col flex="auto">
+              <Row class="ratingRow">
+                <Col flex="auto">
                   <n-divider>
                     <span class="dividerCenter">剧情</span>
                   </n-divider>
-                </a-col>
-                <a-col>
+                </Col>
+                <Col>
                   <a-rate
                     class="ratings"
                     v-model:value="movie.rating.screenplay"
@@ -36,24 +36,24 @@
                     @change="handleRateChange"
                     :count="10"
                   />
-                </a-col>
-                <a-col :span="2">
+                </Col>
+                <Col :span="2">
                   <span v-if="movie.rating.screenplay !== 0" class="uglyMargin">
                     {{ movie.rating.screenplay }}/10
                   </span>
-                </a-col>
-                <a-col flex="auto">
+                </Col>
+                <Col flex="auto">
                   <n-divider></n-divider>
-                </a-col>
-              </a-row>
+                </Col>
+              </Row>
               <!--              视效/摄影-->
-              <a-row class="ratingRow">
-                <a-col flex="auto">
+              <Row class="ratingRow">
+                <Col flex="auto">
                   <n-divider>
                     <span class="dividerCenter">视效/摄影</span>
                   </n-divider>
-                </a-col>
-                <a-col>
+                </Col>
+                <Col>
                   <a-rate
                     class="ratings"
                     v-model:value="movie.rating.visual"
@@ -61,24 +61,24 @@
                     @change="handleRateChange"
                     :count="10"
                   />
-                </a-col>
-                <a-col :span="2">
+                </Col>
+                <Col :span="2">
                   <span v-if="movie.rating.visual !== 0" class="uglyMargin">
                     {{ movie.rating.visual }}/10
                   </span>
-                </a-col>
-                <a-col flex="auto">
+                </Col>
+                <Col flex="auto">
                   <n-divider></n-divider>
-                </a-col>
-              </a-row>
+                </Col>
+              </Row>
               <!--            演出/剪辑-->
-              <a-row class="ratingRow">
-                <a-col flex="auto">
+              <Row class="ratingRow">
+                <Col flex="auto">
                   <n-divider>
                     <span class="dividerCenter">演出/剪辑</span>
                   </n-divider>
-                </a-col>
-                <a-col>
+                </Col>
+                <Col>
                   <a-rate
                     class="ratings"
                     v-model:value="movie.rating.editing"
@@ -86,24 +86,24 @@
                     @change="handleRateChange"
                     :count="10"
                   />
-                </a-col>
-                <a-col :span="2">
+                </Col>
+                <Col :span="2">
                   <span v-if="movie.rating.editing !== 0" class="uglyMargin">
                     {{ movie.rating.editing }}/10
                   </span>
-                </a-col>
-                <a-col flex="auto">
+                </Col>
+                <Col flex="auto">
                   <n-divider></n-divider>
-                </a-col>
-              </a-row>
+                </Col>
+              </Row>
               <!--            音乐/音效-->
-              <a-row class="ratingRow">
-                <a-col flex="auto">
+              <Row class="ratingRow">
+                <Col flex="auto">
                   <n-divider>
                     <span class="dividerCenter">音乐/音效</span>
                   </n-divider>
-                </a-col>
-                <a-col>
+                </Col>
+                <Col>
                   <a-rate
                     class="ratings"
                     v-model:value="movie.rating.sound"
@@ -111,16 +111,16 @@
                     @change="handleRateChange"
                     :count="10"
                   />
-                </a-col>
-                <a-col :span="2">
+                </Col>
+                <Col :span="2">
                   <span v-if="movie.rating.sound !== 0" class="uglyMargin">
                     {{ movie.rating.sound }}/10
                   </span>
-                </a-col>
-                <a-col flex="auto">
+                </Col>
+                <Col flex="auto">
                   <n-divider></n-divider>
-                </a-col>
-              </a-row>
+                </Col>
+              </Row>
               <!--              统计-->
               <div class="dividerRow">
                 <n-divider>
@@ -130,17 +130,17 @@
                   </span>
                 </n-divider>
               </div>
-              <a-row class="avgRow" align="middle" justify="center">
-                <a-col flex="auto"></a-col>
-                <a-col>
+              <Row class="avgRow" align="middle" justify="center">
+                <Col flex="auto"></Col>
+                <Col>
                   <div
                     class="radarChart"
                     id="radarChart"
                     ref="radarChart"
                   ></div>
-                </a-col>
-                <a-col flex="auto"></a-col>
-              </a-row>
+                </Col>
+                <Col flex="auto"></Col>
+              </Row>
             </div>
           </a-card>
           <n-input
@@ -158,20 +158,21 @@
               {{ movie.comment }}
             </a-typography-paragraph>
           </a-card>
-          <a-row>
-            <a-col flex="auto"></a-col>
-            <a-col class="dateRow"> {{ movie.reviewDate }}</a-col>
-          </a-row>
+          <Row>
+            <Col flex="auto"></Col>
+            <Col class="dateRow"> {{ reviewDate }}</Col>
+          </Row>
         </a-card>
-      </a-col>
-      <a-col flex="auto"></a-col>
-    </a-row>
+      </Col>
+      <Col flex="auto"></Col>
+    </Row>
   </div>
 </template>
 
 <script>
 import Title from "@/components/Title";
 import { mapState, mapGetters } from "vuex";
+import { Row, Col } from "ant-design-vue";
 import { NInput } from "naive-ui/lib/input";
 import "naive-ui/lib/input/styles";
 import { NDivider } from "naive-ui/lib/divider";
@@ -185,6 +186,8 @@ export default {
     Title,
     NInput,
     NDivider,
+    Row,
+    Col,
   },
   data() {
     return {
@@ -221,6 +224,7 @@ export default {
     }),
     ...mapGetters({
       avgScore: "avgScore",
+      reviewDate: "reviewDate",
     }),
   },
 
@@ -229,42 +233,42 @@ export default {
       // this.$store.commit("setMovieRatingAvg");
       this.$store.commit("updateRadar");
     },
-    async scrollAndCapture() {
-      await this.toTop(window, () => this.capture());
-    },
-    toTop(element = window, callback) {
-      element.scrollTo({
-        top: 0,
-        left: 0,
-        behavior: "smooth",
-      });
-      if (!callback) return;
-      if (element === window ? element.scrollY === 0 : element.scrollTop === 0)
-        return callback();
-      let running = function () {
-        let top = this === window ? this.scrollY : this.scrollTop;
-        if (top === 0) {
-          this.removeEventListener("scroll", running);
-          return callback();
-        }
-      };
-      element.addEventListener("scroll", running, false);
-    },
-    async capture() {
-      await this.$store.commit("setCommentInput", false);
-      const targetDom = document.getElementById("toImage");
-      html2canvas(targetDom, {
-        width: targetDom.clientWidth,
-        height: targetDom.clientHeight,
-        scrollX: 0,
-        scrollY: 0,
-        allowTaint: true,
-        useCORS: true,
-      }).then(function (canvas) {
-        document.body.appendChild(canvas);
-      });
-      await this.$store.commit("setCommentInput", true);
-    },
+    // async scrollAndCapture() {
+    //   await this.toTop(window, () => this.capture());
+    // },
+    // toTop(element = window, callback) {
+    //   element.scrollTo({
+    //     top: 0,
+    //     left: 0,
+    //     behavior: "smooth",
+    //   });
+    //   if (!callback) return;
+    //   if (element === window ? element.scrollY === 0 : element.scrollTop === 0)
+    //     return callback();
+    //   let running = function () {
+    //     let top = this === window ? this.scrollY : this.scrollTop;
+    //     if (top === 0) {
+    //       this.removeEventListener("scroll", running);
+    //       return callback();
+    //     }
+    //   };
+    //   element.addEventListener("scroll", running, false);
+    // },
+    // async capture() {
+    //   await this.$store.commit("setCommentInput", false);
+    //   const targetDom = document.getElementById("toImage");
+    //   html2canvas(targetDom, {
+    //     width: targetDom.clientWidth,
+    //     height: targetDom.clientHeight,
+    //     scrollX: 0,
+    //     scrollY: 0,
+    //     allowTaint: true,
+    //     useCORS: true,
+    //   }).then(function (canvas) {
+    //     document.body.appendChild(canvas);
+    //   });
+    //   await this.$store.commit("setCommentInput", true);
+    // },
   },
   mounted() {
     if (this.$route.fullPath === "/") {

@@ -1,5 +1,5 @@
 const mongoose = require("mongoose");
-const movieSchema = require("./movie").MovieSchema;
+const movieSchema = require("./MovieModel").MovieSchema;
 
 // 定义Schema
 UserSchema = new mongoose.Schema({

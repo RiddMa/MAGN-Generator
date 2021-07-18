@@ -1,7 +1,9 @@
 const puppeteer = require("puppeteer");
 const path = require("path");
+const Token = require("../middlewares/token");
+const Store = require("../controllers/store");
 
-async function getScreenshot(url, filename, width = 1920, height = 1080) {
+async function getScreenshot(url, filename, width = 1449, height = 900) {
   const browser = await puppeteer.launch({
     defaultViewport: {
       width: width,
@@ -13,6 +15,7 @@ async function getScreenshot(url, filename, width = 1920, height = 1080) {
   // const browser = await puppeteer.launch();
   const page = await browser.newPage();
   await page.goto(url);
+  console.log("Going to " + url);
   let body = await page.$("#toImageCol");
 
   await body.screenshot({
@@ -28,32 +31,19 @@ async function getScreenshot(url, filename, width = 1920, height = 1080) {
 
 module.exports = {
   "POST /api/generatePoster": async (ctx, next) => {
-    const movie = ctx.request.body;
-    const url = "https://www.ridd.xyz";
-    const tid = "admin";
-    const width = 1920,
-      height = 1080;
-    const res = await getScreenshot(url, tid, width, height);
-    console.log(res, Date.now());
-    await ctx.rest(ctx, next, { filename: res });
-  },
-  /**
-   * body:{movie:movie}
-   * @param ctx
-   * @param next
-   * @returns {Promise<void>}
-   * @constructor
-   */
-  "POST /api/generatePoster/:tid": async (ctx, next) => {
-    const movie = ctx.request.body, //Get movie attrs from client
-      // url = "https://www.ridd.xyz/user/" + ctx.params.tid,
-      url = "http://localhost:8080/user/" + ctx.params.tid,
-      tid = ctx.params.tid,
-      width = 1440,
-      height = 900;
-    console.log("Going to " + url);
-    const res = await getScreenshot(url, tid, width, height);
-    console.log(res, Date.now());
+    const UUID = (await Token.getPayload(ctx)).username;
+    let movieAttr = ctx.request.body.movie;
+    movieAttr.UUID = UUID;
+    const url = "http://localhost:8080/user/" + UUID;
+    // url = "https://www.ridd.xyz/user/" + ctx.params.tid,
+
+    Store.saveMovie2Cache(movieAttr);
+    const res = await getScreenshot(url, UUID);
+    Store.removeMovieCache(UUID);
     await ctx.rest(ctx, next, 200, { filename: res });
+  },
+  "POST /api/internal/getMovieAttr/:UUID": async (ctx, next) => {
+    console.log("Puppeteer请求" + ctx.params.UUID);
+    await ctx.rest(ctx, next, 200, Store.getMovieByUser(ctx.params.UUID));
   },
 };

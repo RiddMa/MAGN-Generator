@@ -32,11 +32,5 @@ function prepareMovieAttr() {
 }
 
 module.exports = {
-  "POST /api/getMovieAttr": async (ctx, next) => {
-    await ctx.rest(ctx, next, prepareMovieAttr());
-  },
-  "POST /api/getMovieAttr/:tid": async (ctx, next) => {
-    console.log(ctx.params.tid);
-    await ctx.rest(ctx, next, prepareMovieAttr());
-  },
+
 };

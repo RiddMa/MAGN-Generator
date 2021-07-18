@@ -2,20 +2,22 @@
   <div id="nav">
     <!--    <a-back-top visibilityHeight="20" />-->
     <router-link to="/">Home</router-link>
-<!--    <n-divider class="navBarDivider" vertical />-->
     |
     <router-link to="/user">User</router-link>
     |
     <router-link to="/about">About</router-link>
   </div>
-  <router-view />
+  <router-view></router-view>
 </template>
 <script>
 import { NDivider } from "naive-ui/lib/divider";
 import "naive-ui/lib/divider/styles";
 export default {
-  components: {
-    NDivider,
+  components: {},
+  data() {
+    return {
+      transitionName: "",
+    };
   },
   mounted() {
     try {
@@ -30,6 +32,17 @@ export default {
     } catch (err) {
       console.log(err);
     }
+  },
+  watch: {
+    $route(to, from) {
+      console.log(to, from);
+      if (from.path === "/") {
+        this.transitionName = "slide-right";
+      }
+      if (to.path === "/about") {
+        this.transitionName = "slide-left";
+      }
+    },
   },
 };
 </script>

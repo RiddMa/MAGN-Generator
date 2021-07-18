@@ -1,9 +1,6 @@
-const Jwt = require("jsonwebtoken");
-const Config = require("../config");
 const Scrypt = require("scrypt-kdf");
-const StringRandom = require("string-random");
 const UserModel = require("../models/UserModel");
-const buffer = require("buffer");
+const Token = require("../middlewares/token");
 
 module.exports = {
   "POST /api/login": async (ctx, next) => {
@@ -14,12 +11,18 @@ module.exports = {
     const user = await UserModel.findOne({
       username: userInfo.username,
     });
+    if (user === null) {
+      return await ctx.rest(ctx, next, 403, ctx.APIError.User.noUser());
+    }
     const keyBuf = Buffer.from(user.key, "base64");
     const ok = await Scrypt.verify(keyBuf, userInfo.password);
     if (ok) {
-      await ctx.rest(ctx, next, 200, {});
+      const userToken = await Token.generateToken({
+        username: userInfo.username,
+      });
+      await ctx.rest(ctx, next, 200, { token: userToken });
     } else {
-      await ctx.rest(ctx, next, 403, ctx.APIError("Incorrect Password."));
+      await ctx.rest(ctx, next, 403, ctx.APIError.User.wrongPassword());
     }
   },
   "POST /api/register": async (ctx, next) => {
@@ -32,12 +35,7 @@ module.exports = {
         username: userInfo.username,
       })) !== null
     ) {
-      return await ctx.rest(
-        ctx,
-        next,
-        403,
-        ctx.APIError("Username already exists.")
-      );
+      return await ctx.rest(ctx, next, 403, ctx.APIError.User.userExist());
     }
     const keyBuf = await Scrypt.kdf(userInfo.password, { logN: 15 });
     const keyStr = keyBuf.toString("base64");
@@ -48,13 +46,12 @@ module.exports = {
         key: keyStr,
       });
       await newUser.save();
-      const userToken = Jwt.sign(
-        { name: userInfo.username },
-        Config.tokenSecret
-      );
+      const userToken = await Token.generateToken({
+        username: userInfo.username,
+      });
       await ctx.rest(ctx, next, 200, { token: userToken });
     } catch (e) {
-      await ctx.rest(ctx, next, 502, ctx.APIError("Database Error."));
+      await ctx.rest(ctx, next, 502, ctx.APIError.Database.general());
     }
   },
   "POST /api/logout": async (ctx, next) => {

@@ -11,8 +11,8 @@
                 class="inputField"
                 v-model:value="movie.title"
                 placeholder="输入电影名称…"
-                enter-button="确认"
                 size="large"
+                @pressEnter="onSearch"
                 allowClear
               >
                 <template #prefix>
@@ -35,7 +35,7 @@
                   v-model:value="movie.titleCN"
                   placeholder="输入电影中文名称…"
                   allowClear
-                  @pressEnter=""
+                  @pressEnter="enterBlur"
                 />
               </a-col>
               <a-col :span="1"></a-col>
@@ -46,6 +46,7 @@
                   placeholder="输入电影年份…"
                   :max="maxYear"
                   :min="1888"
+                  @pressEnter="enterBlur"
                 />
               </a-col>
             </a-row>
@@ -275,7 +276,7 @@ export default {
   },
   data() {
     return {
-      maxYear: parseInt(moment().year().toFixed()),
+      maxYear: parseInt(moment().year().toFixed()) + 1,
     };
   },
   setup() {
@@ -286,16 +287,23 @@ export default {
   },
   computed: {
     genreChecked: {
-      get: function () {
+      get() {
         return this.$store.getters.genreList;
       },
-      set: function (newGenre) {
+      set(newGenre) {
         this.$store.commit("setMovieGenre", newGenre);
+      },
+    },
+    movie: {
+      get() {
+        return this.$store.state.movie;
+      },
+      set(movieAttr) {
+        this.$store.commit("setMovie", movieAttr);
       },
     },
     ...mapState({
       fitPhone: (state) => state.fitPhone,
-      movie: (state) => state.movie,
     }),
     ...mapGetters({
       genreList: "genreList",
@@ -307,6 +315,9 @@ export default {
     onClearAllClicked() {
       this.$store.commit("clearMovie");
       this.$store.commit("updateRadar");
+    },
+    enterBlur(event) {
+      event.target.blur();
     },
   },
 };
