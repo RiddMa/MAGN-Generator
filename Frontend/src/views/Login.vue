@@ -208,12 +208,26 @@ export default {
     },
 
     async handleRegister(values) {
+      this.spinning = true;
       await this.$store.commit("setUsername", values.username);
       await this.$store.commit("setMD5Password", values.password);
-      await this.$store.dispatch("userRegister", {
+      let { status, data } = await this.$store.dispatch("userRegister", {
         username: this.$store.state.userStore.username,
         password: this.$store.state.userStore.password,
       });
+      if (status === 200) {
+        const preRoute = localStorage.getItem("preRoute");
+        if (preRoute === null) {
+          await this.$router.replace("/user");
+        } else {
+          await this.$router.replace(preRoute);
+        }
+      } else if (status === 403) {
+        if (data.message === "user-already-exist") {
+          message.error("用户名已占用");
+        }
+      }
+      this.spinning = false;
     },
   },
 };

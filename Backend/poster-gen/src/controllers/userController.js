@@ -20,6 +20,7 @@ module.exports = {
       const userToken = await Token.generateToken({
         username: userInfo.username,
       });
+      console.log("User Token: " + userToken);
       await ctx.rest(ctx, next, 200, { token: userToken });
     } else {
       await ctx.rest(ctx, next, 403, ctx.APIError.User.wrongPassword());
@@ -39,7 +40,6 @@ module.exports = {
     }
     const keyBuf = await Scrypt.kdf(userInfo.password, { logN: 15 });
     const keyStr = keyBuf.toString("base64");
-    console.log(keyStr);
     try {
       const newUser = new UserModel({
         username: userInfo.username,
@@ -49,6 +49,7 @@ module.exports = {
       const userToken = await Token.generateToken({
         username: userInfo.username,
       });
+      console.log("User Token: " + userToken);
       await ctx.rest(ctx, next, 200, { token: userToken });
     } catch (e) {
       await ctx.rest(ctx, next, 502, ctx.APIError.Database.general());
