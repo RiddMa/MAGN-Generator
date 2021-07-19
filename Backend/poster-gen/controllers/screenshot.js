@@ -1,7 +1,7 @@
 const puppeteer = require("puppeteer");
 const path = require("path");
-const Token = require("../middlewares/token");
-const Store = require("../controllers/store");
+const Token = require("../lib/token");
+const Store = require("../lib/store");
 
 async function getScreenshot(url, filename, width = 1449, height = 900) {
   const browser = await puppeteer.launch({

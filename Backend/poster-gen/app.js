@@ -5,8 +5,8 @@ const Logger = require("koa-logger");
 const Jwt = require("koa-jwt");
 const Controller = require("./controller");
 const Rest = require("./middlewares/rest");
-const APIError = require("./middlewares/error").APIError;
-const Db = require("./middlewares/db");
+const APIError = require("./lib/error").APIError;
+const Db = require("./lib/db");
 const Config = require("./config");
 const app = new Koa();
 

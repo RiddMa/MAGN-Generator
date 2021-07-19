@@ -1,4 +1,4 @@
-const Token = require("../middlewares/token");
+const Token = require("../lib/token");
 const fn_hello = async (ctx, next) => {
   const name = ctx.params.name;
   ctx.response.body = `<h1>Hello, ${name}!</h1>`;

@@ -1,7 +1,7 @@
 const Fs = require("fs");
-const { APIError } = require("../middlewares/error");
+const { APIError } = require("../lib/error");
 const mime = require("mime-types");
-const Token = require("../middlewares/token");
+const Token = require("../lib/token");
 
 module.exports = {
   "POST /api/getPoster": async (ctx, next) => {

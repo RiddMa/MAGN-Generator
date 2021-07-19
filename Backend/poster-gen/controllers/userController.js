@@ -1,6 +1,6 @@
 const Scrypt = require("scrypt-kdf");
 const UserModel = require("../models/UserModel");
-const Token = require("../middlewares/token");
+const Token = require("../lib/token");
 
 module.exports = {
   "POST /api/login": async (ctx, next) => {
