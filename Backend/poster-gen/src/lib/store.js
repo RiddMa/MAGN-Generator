@@ -1,20 +1,32 @@
-module.exports = {
-  movieCache: [],
+class Store {
+  constructor() {
+    this.movieCache = [];
+  }
+  static getInstance() {
+    if (!Store.instance) {
+      Store.instance = new Store();
+    }
+    return Store.instance;
+  }
   saveMovie2Cache(movieAttr) {
     this.movieCache.push(movieAttr);
-    console.log(movieAttr);
-  },
-  removeMovieCache(UUID) {
+  }
+  removeMovieCache(_id) {
     let index = this.movieCache.findIndex((item) => {
-      return item.UUID === UUID;
+      return item._id === _id;
     });
     if (index !== -1) {
       this.movieCache.splice(index, 1);
     }
-  },
-  getMovieByUser(UUID) {
-    return this.movieCache.find((item) => {
-      return item.UUID === UUID;
+  }
+
+  getMovieByUser(reviewId) {
+    return this.movieCache.find((o, i) => {
+      if (o.reviewId === reviewId) {
+        return true;
+      }
     });
-  },
-};
+  }
+}
+
+module.exports = Store.getInstance();

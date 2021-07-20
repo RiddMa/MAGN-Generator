@@ -3,6 +3,7 @@ require("moment/locale/zh-cn");
 
 const movieStore = {
   state: {
+    reviewId: "",
     timestamp: null,
     title: "The Shawshank Redemption",
     titleCN: "肖申克的救赎",

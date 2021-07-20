@@ -17,4 +17,10 @@ module.exports = {
       },
     },
   },
+  ErrHandler(e) {
+    console.log(e);
+  },
+  LogHandler(message) {
+    console.log(message);
+  },
 };

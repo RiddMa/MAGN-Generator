@@ -5,9 +5,9 @@ const Logger = require("koa-logger");
 const Jwt = require("koa-jwt");
 const Controller = require("./controller");
 const Rest = require("./middlewares/rest");
-const APIError = require("./lib/error").APIError;
 const Db = require("./lib/db");
 const Config = require("./config");
+const APIError = require("./lib/error").APIError;
 const app = new Koa();
 
 Db.connect2Db(Config.dbName);
@@ -21,7 +21,7 @@ app.use(Logger());
 app.use(Cors());
 app.use(BodyParser());
 app.use(
-  Jwt({ secret: Config.tokenSecret }).unless({
+  Jwt({ secret: Config.tokenSecret, key: "jwtData" }).unless({
     path: [/^\/api\/login/, /^\/api\/register/, /^\/api\/internal/],
   })
 );

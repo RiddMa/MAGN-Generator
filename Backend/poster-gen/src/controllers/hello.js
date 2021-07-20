@@ -8,5 +8,6 @@ module.exports = {
   "GET /hello/:name": fn_hello,
   "POST /api/token": async (ctx, next) => {
     console.log(await Token.getPayload(ctx));
+    console.log(ctx.state.jwt);
   },
 };

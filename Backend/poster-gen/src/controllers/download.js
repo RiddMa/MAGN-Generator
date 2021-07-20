@@ -4,9 +4,9 @@ const mime = require("mime-types");
 const Token = require("../lib/token");
 
 module.exports = {
-  "POST /api/getPoster": async (ctx, next) => {
-    const UUID = (await Token.getPayload(ctx)).username;
-    const filePath = `./resources/screenshot/${UUID}.png`;
+  "POST /api/downloadPoster": async (ctx, next) => {
+    const reviewId = ctx.request.body.reviewId;
+    const filePath = `./resources/screenshot/${reviewId}.png`;
     try {
       let file = Fs.readFileSync(filePath); //读取文件
       let mimeType = mime.lookup(filePath); //读取图片文件类型

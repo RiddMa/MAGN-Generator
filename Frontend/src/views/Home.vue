@@ -6,6 +6,7 @@
     <a-space>
       <!--      <a-button @click="scrollAndCapture">Draw Canvas</a-button>-->
       <a-button @click="getPosterFromServer">Server Side Render</a-button>
+      <a-button @click="sendMovieReview">Send Movie Review</a-button>
     </a-space>
 
     <div class="customFooter">Designed by Ridd.</div>
@@ -18,8 +19,6 @@ import Review from "@/components/Review";
 import Settings from "@/components/Settings";
 import { mapState } from "vuex";
 import ReviewPhone from "@/components/ReviewPhone";
-
-const html2canvas = require("html2canvas");
 
 export default {
   name: "Home",
@@ -77,12 +76,13 @@ export default {
     //   await this.$store.commit("setCommentInput", true);
     // },
     async getPosterFromServer() {
-      await this.$store.dispatch("sendMovieAttr");
-      await this.$store.dispatch("getPoster");
+      await this.$store.dispatch("saveUserReview");
+      await this.$store.dispatch("generatePoster");
+      await this.$store.dispatch("downloadPoster");
       document.querySelector("#poster").src = this.posterURL;
     },
-    async sendMovieDetail() {
-      await this.$store.dispatch("sendMovieAttr");
+    async sendMovieReview() {
+      await this.$store.dispatch("saveUserReview");
     },
     async getMovieAttr() {
       await this.$store.dispatch("getMovieAttr", "admin");

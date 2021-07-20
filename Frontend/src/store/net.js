@@ -1,5 +1,6 @@
 import axios from "axios";
 import QS from "qs";
+const { v1: UUIDv1 } = require("uuid");
 
 const netStore = {
   state: {
@@ -74,11 +75,37 @@ const netStore = {
         return { status: e.response.status, data: e.response.data };
       }
     },
-    async sendMovieAttr(context) {
+    async saveUserReview(context) {
+      context.rootState.movie.reviewId = UUIDv1().toString(); // generate new reviewId for this review
+      return new Promise((resolve, reject) => {
+        context.state.instance
+          .post("/saveUserReview", context.rootState.movie)
+          .then((response) => {
+            resolve(response);
+          })
+          .catch((e) => {
+            reject(e.response.data.errors);
+          });
+      });
+      // now movie review in vueX has signed reviewId
+    },
+    async updateMovieReview(context) {
+      return new Promise((resolve, reject) => {
+        context.state.instance
+          .post("/generatePoster", context.rootState.movie)
+          .then((response) => {
+            resolve(response);
+          })
+          .catch((e) => {
+            reject(e.response.data.errors);
+          });
+      });
+    },
+    async generatePoster(context) {
       return new Promise((resolve, reject) => {
         context.state.instance
           .post("/generatePoster", {
-            movie: context.rootState.movie,
+            reviewId: context.rootState.movie.reviewId,
           })
           .then((response) => {
             resolve(response);
@@ -88,12 +115,15 @@ const netStore = {
           });
       });
     },
-    async getPoster(context) {
+    async downloadPoster(context) {
       return new Promise((resolve, reject) => {
         context.state
           .instance({
-            url: "/getPoster",
+            url: "/downloadPoster",
             method: "post",
+            data: {
+              reviewId: context.rootState.movie.reviewId,
+            },
             responseType: "blob",
           })
           .then((response) => {
@@ -106,11 +136,12 @@ const netStore = {
           });
       });
     },
-    async getMovieAttrTid(context, UUID) {
+    async getMovieAttrTid(context, uuid) {
       return new Promise((resolve, reject) => {
         context.state.instance
-          .post("/internal/getMovieAttr/" + UUID)
+          .post("/internal/getMovieAttr/" + uuid)
           .then((response) => {
+            console.log(response.data);
             context.rootState.movie = response.data;
             context.commit("updateRadar");
             resolve(response);

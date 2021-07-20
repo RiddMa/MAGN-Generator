@@ -1,61 +1,52 @@
 const Scrypt = require("scrypt-kdf");
-const UserModel = require("../models/UserModel");
+const { v1: UUIDv1 } = require("uuid");
+const UserDAO = require("../models/UserModel");
 const Token = require("../lib/token");
+const { ErrHandler, LogHandler } = require("../lib/error");
 
 module.exports = {
   "POST /api/login": async (ctx, next) => {
-    let userInfo = {
+    let request = {
       username: ctx.request.body.username.normalize("NFKC"),
       password: ctx.request.body.password.normalize("NFKC"),
     };
-    const user = await UserModel.findOne({
-      username: userInfo.username,
-    });
-    if (user === null) {
+    const userInfo = await UserDAO.findUserByName(request.username);
+    if (userInfo === null) {
       return await ctx.rest(ctx, next, 403, ctx.APIError.User.noUser());
-    }
-    const keyBuf = Buffer.from(user.key, "base64");
-    const ok = await Scrypt.verify(keyBuf, userInfo.password);
-    if (ok) {
-      const userToken = await Token.generateToken({
-        username: userInfo.username,
-      });
-      console.log("User Token: " + userToken);
-      await ctx.rest(ctx, next, 200, { token: userToken });
     } else {
-      await ctx.rest(ctx, next, 403, ctx.APIError.User.wrongPassword());
+      const passphrase = Buffer.from(userInfo.key, "base64");
+      const ok = await Scrypt.verify(passphrase, request.password);
+      if (ok) {
+        const userToken = await Token.generateToken({ uuid: userInfo.uuid });
+        await ctx.rest(ctx, next, 200, { token: userToken });
+      } else {
+        await ctx.rest(ctx, next, 403, ctx.APIError.User.wrongPassword());
+      }
     }
   },
   "POST /api/register": async (ctx, next) => {
-    let userInfo = {
+    let request = {
       username: ctx.request.body.username.normalize("NFKC"),
       password: ctx.request.body.password.normalize("NFKC"),
     };
-    if (
-      (await UserModel.findOne({
-        username: userInfo.username,
-      })) !== null
-    ) {
+    // check if username exists
+    if ((await UserDAO.findUserByName(request.username)) !== null) {
       return await ctx.rest(ctx, next, 403, ctx.APIError.User.userExist());
+    } else {
+      let userInfo = {
+        username: request.username,
+        uuid: UUIDv1().toString(),
+        key: (await Scrypt.kdf(request.password, { logN: 15 })).toString(
+          "base64"
+        ),
+      };
+      try {
+        await UserDAO.saveUserInfo(userInfo);
+        const userToken = await Token.generateToken({ uuid: userInfo.uuid });
+        await ctx.rest(ctx, next, 200, { token: userToken });
+      } catch (e) {
+        await ctx.rest(ctx, next, 502, ctx.APIError.Database.general());
+      }
     }
-    const keyBuf = await Scrypt.kdf(userInfo.password, { logN: 15 });
-    const keyStr = keyBuf.toString("base64");
-    try {
-      const newUser = new UserModel({
-        username: userInfo.username,
-        key: keyStr,
-      });
-      await newUser.save();
-      const userToken = await Token.generateToken({
-        username: userInfo.username,
-      });
-      console.log("User Token: " + userToken);
-      await ctx.rest(ctx, next, 200, { token: userToken });
-    } catch (e) {
-      await ctx.rest(ctx, next, 502, ctx.APIError.Database.general());
-    }
-  },
-  "POST /api/logout": async (ctx, next) => {
-    await ctx.rest(ctx, next);
   },
 };
