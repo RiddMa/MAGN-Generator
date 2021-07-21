@@ -45,8 +45,87 @@
           v-model:visible="drawerVisible"
           @close="onDrawerClose"
         >
-          <div class="drawerTitle">123</div>
-          <Review></Review>
+          <a-row class="drawerTitle">
+            <a-col flex="auto"></a-col>
+            <a-col :xxl="14" :xl="16" :lg="18" :md="20" :sm="22" :xs="24">
+              <a-row v-if="!fitPhone" class="drawerTitleRow">
+                <a-col>
+                  <a-typography-title class="awesomeTitle" :level="4">
+                    影评编辑
+                  </a-typography-title>
+                </a-col>
+                <a-col flex="auto"></a-col>
+                <a-col style="text-align: end">
+                  <a-space>
+                    <a-popconfirm
+                      title="是否要删除此影评？"
+                      ok-text="是"
+                      cancel-text="否"
+                      @confirm="commitDelete(this.editingMovie.reviewId)"
+                    >
+                      <template #icon>
+                        <QuestionCircleOutlined style="color: #404040" />
+                      </template>
+                      <a-button danger>删除</a-button>
+                    </a-popconfirm>
+                    <a-popconfirm
+                      title="是否要取消？更改将不会被保存。"
+                      ok-text="是"
+                      cancel-text="否"
+                      @confirm="cancelUpdate"
+                    >
+                      <template #icon>
+                        <QuestionCircleOutlined style="color: #404040" />
+                      </template>
+                      <a-button>取消</a-button>
+                    </a-popconfirm>
+                    <a-button type="primary" @click="commitUpdate">
+                      完成
+                    </a-button>
+                  </a-space>
+                </a-col>
+              </a-row>
+              <a-row v-if="fitPhone" class="drawerTitleRowPhone">
+                <a-col>
+                  <a-popconfirm
+                    title="是否要删除此影评？"
+                    ok-text="是"
+                    cancel-text="否"
+                    @confirm="commitDelete"
+                  >
+                    <template #icon>
+                      <QuestionCircleOutlined style="color: #404040" />
+                    </template>
+                    <a-button danger>删除</a-button>
+                  </a-popconfirm>
+                </a-col>
+                <a-col flex="auto"></a-col>
+                <a-col>
+                  <a-popconfirm
+                    title="是否要取消？更改将不会被保存。"
+                    ok-text="是"
+                    cancel-text="否"
+                    @confirm="cancelUpdate"
+                  >
+                    <template #icon>
+                      <QuestionCircleOutlined style="color: #404040" />
+                    </template>
+                    <a-button>取消</a-button>
+                  </a-popconfirm>
+                </a-col>
+                <a-col flex="auto"></a-col>
+                <a-col style="text-align: end">
+                  <a-button type="primary" @click="commitUpdate">
+                    完成
+                  </a-button>
+                </a-col>
+              </a-row>
+            </a-col>
+            <a-col flex="auto"></a-col>
+          </a-row>
+          <div style="height: 30px"></div>
+          <Review v-if="!fitPhone"></Review>
+          <ReviewPhone v-if="fitPhone"></ReviewPhone>
         </a-drawer>
       </a-col>
       <a-col flex="auto"></a-col>
@@ -55,27 +134,34 @@
 </template>
 
 <script>
-import { List, message, Progress, Drawer } from "ant-design-vue";
+import { List, message, Progress, Drawer, Popconfirm } from "ant-design-vue";
+import { QuestionCircleOutlined } from "@ant-design/icons-vue";
 import { mapState } from "vuex";
 import Review from "@/components/Review";
+import ReviewPhone from "@/components/ReviewPhone";
 
 export default {
   name: "UserProfile",
   components: {
+    ReviewPhone,
     Review,
     "a-list": List,
     "a-progress": Progress,
     "a-drawer": Drawer,
+    "a-popconfirm": Popconfirm,
+    QuestionCircleOutlined,
   },
   data() {
     return {
       drawerVisible: false,
       drawerHeight: 256,
+      editingMovie: null,
     };
   },
   computed: {
     ...mapState({
       reviewList: (state) => state.userStore.reviewList,
+      fitPhone: (state) => state.fitPhone,
     }),
   },
   methods: {
@@ -83,13 +169,32 @@ export default {
       percent /= 10;
       return `${percent}/10`;
     },
-    toggleDrawer() {
+    toggleDrawer(reviewId) {
+      this.drawerHeight = window.innerHeight;
+      console.log(this.$store.state.userStore.reviewList);
+      this.editingMovie = this.$store.state.userStore.reviewList.find(
+        (item) => {
+          return item.reviewId === reviewId;
+        }
+      );
+      console.log(this.editingMovie);
       this.drawerVisible = true;
     },
-    onDrawerClose() {},
+    onDrawerClose() {
+      this.$store.dispatch("getAllUserReview");
+    },
+    async cancelUpdate(reviewId) {
+      this.drawerVisible = false;
+    },
+    async commitUpdate(reviewId) {
+      this.drawerVisible = false;
+    },
+    async commitDelete(reviewId) {
+      await this.$store.dispatch("deleteUserReview", reviewId);
+      this.drawerVisible = false;
+    },
   },
   async mounted() {
-    this.drawerHeight = document.body.clientHeight;
     if ((await this.$store.dispatch("isUserLoggedIn", this)) === true) {
       this.$store.dispatch("getAllUserReview");
     } else {
@@ -150,9 +255,16 @@ h1.ant-typography,
   top: 0;
   width: 100%;
   border-bottom: 1px solid #e9e9e9;
-  padding: 10px 16px;
+  padding: 0.75rem 0 0.25rem 0;
   background: rgba(255, 255, 255, 0.75);
   text-align: left;
   z-index: 1;
+}
+.drawerTitleRow {
+  margin: 0 4.75rem;
+}
+
+.drawerTitleRowPhone {
+  margin: 0 2.5rem;
 }
 </style>

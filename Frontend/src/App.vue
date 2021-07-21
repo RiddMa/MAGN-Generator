@@ -7,7 +7,13 @@
     |
     <router-link to="/about">About</router-link>
   </div>
-  <router-view></router-view>
+  <router-view v-slot="{ Component }">
+    <!-- 使用任何自定义过渡和回退到 `fade` -->
+    <transition>
+      <component :is="Component" />
+    </transition>
+  </router-view>
+  <!--  <router-view></router-view>-->
 </template>
 <script>
 import { NDivider } from "naive-ui/lib/divider";
@@ -82,5 +88,21 @@ body {
 }
 .navBarDivider {
   background-color: #404040;
+}
+.slide-left-enter {
+  opacity: 0;
+  -webkit-transform: translate(500px, 0);
+  transform: translate(500px, 0);
+}
+.slide-left-enter-active {
+  transition: all 0.5s ease;
+}
+.slide-left-leave-to {
+  opacity: 0;
+  -webkit-transform: translate(-500px, 0);
+  transform: translate(-500px, 0);
+}
+.slide-left-leave-active {
+  transition: all 0.5s ease;
 }
 </style>

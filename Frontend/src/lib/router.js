@@ -6,6 +6,7 @@ const routes = [
     path: "/",
     name: "Home",
     component: Home,
+    meta: { transition: "slide-left" },
     // children: [
     //   {
     //     path: "/desktop",
@@ -27,6 +28,7 @@ const routes = [
   {
     path: "/about",
     name: "About",
+    meta: { transition: "slide-right" },
     component: () => import("../views/About.vue"),
   },
   {

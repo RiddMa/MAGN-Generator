@@ -41,6 +41,6 @@ app.use(Form);
 app.use(store).use(router).mount("#app");
 message.config({
   top: `60px`,
-  duration: 3,
+  duration: 2,
   maxCount: 5,
 });

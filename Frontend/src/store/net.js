@@ -110,10 +110,12 @@ const netStore = {
           });
       });
     },
-    async deleteUserReview(context) {
+    async deleteUserReview(context, reviewId) {
       return new Promise((resolve, reject) => {
         context.state.instance
-          .post("/deleteUserReview")
+          .post("/deleteUserReview", {
+            reviewId: reviewId,
+          })
           .then((response) => {
             message.success("删除成功");
             resolve(response);

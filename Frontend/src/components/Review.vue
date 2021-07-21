@@ -288,12 +288,12 @@ export default {
 }
 
 .reviewCard {
-  margin: 2em 4vw;
+  margin: 2rem 2rem;
 }
 
 .reviewContentCard {
   text-align: start;
-  margin: 1em 0 2em 0;
+  margin: 1rem 0 2rem 0;
   padding: 0;
 }
 
@@ -303,7 +303,7 @@ export default {
 
 .reviewCommentCard {
   text-align: start;
-  margin: 2em 0 1em 0;
+  margin: 2rem 0 1rem 0;
   padding: 0;
 }
 
@@ -335,7 +335,7 @@ export default {
 }
 
 .radarChart {
-  margin-bottom: 1em;
+  margin-bottom: 1rem;
   /*display: flex;*/
   /*display: -webkit-flex; !* Safari *!*/
   align-items: center; /*指定垂直居中*/
@@ -358,6 +358,6 @@ export default {
 }
 
 .dateRow {
-  margin: 1em 0 0 0;
+  margin: 1rem 0 0 0;
 }
 </style>
