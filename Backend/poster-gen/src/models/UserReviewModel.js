@@ -55,11 +55,9 @@ module.exports = {
           reviews: [newReview],
         });
       } else {
-        console.log(query);
         let query1 = await UserReviewModel.findOne({
           reviews: { $elemMatch: { reviewId: newReview.reviewId } },
         });
-        console.log(query1);
         if (query1 === null) {
           await UserReviewModel.updateOne(
             { uuid: uuid },
@@ -80,7 +78,7 @@ module.exports = {
    * @param uuid
    * @returns {Promise<[MovieReviewSchema]>}
    */
-  async retrieveAllUserReview(uuid) {
+  async getAllUserReview(uuid) {
     try {
       LogHandler(`Retrieved reviews for ${uuid}`);
       return (await UserReviewModel.findOne({ uuid: uuid })).reviews;
@@ -94,7 +92,7 @@ module.exports = {
    * @param reviewId
    * @returns {Promise<[MovieReviewSchema]>}
    */
-  async retrieveUserReview(uuid, reviewId) {
+  async getUserReview(uuid, reviewId) {
     try {
       LogHandler(`Retrieved reviews ${reviewId} for ${uuid}`);
       return await UserReviewModel.findOne(

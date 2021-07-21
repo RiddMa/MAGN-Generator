@@ -18,6 +18,7 @@ import {
   Typography,
   BackTop,
   Form,
+  message,
 } from "ant-design-vue";
 
 const app = createApp(App);
@@ -38,3 +39,8 @@ app.use(Typography);
 app.use(BackTop);
 app.use(Form);
 app.use(store).use(router).mount("#app");
+message.config({
+  top: `60px`,
+  duration: 3,
+  maxCount: 5,
+});

@@ -2,6 +2,7 @@ import { createStore } from "vuex";
 import netStore from "@/store/net";
 import userStore from "@/store/user";
 import movieStore from "@/store/movie";
+import { message } from "ant-design-vue";
 
 const { Radar } = require("@antv/g2plot");
 
@@ -17,6 +18,7 @@ export default createStore({
     searchText: "The Shawshank Redemption",
     fitPhone: true,
     radarPlot: undefined,
+    pendingQueue: [],
   }),
   mutations: {
     setSearchText(state, searched) {
@@ -30,6 +32,16 @@ export default createStore({
     },
     setFitPhone(state, toBool) {
       state.fitPhone = toBool;
+    },
+    pushPendingQueue(state, message) {
+      state.pendingQueue.push(message);
+    },
+    popPendingQueue(state, message) {
+      state.pendingQueue.findIndex((msg, i) => {
+        if (msg === message) {
+          state.pendingQueue.splice(i, 1);
+        }
+      });
     },
     drawRadar(state, container) {
       const data = [
@@ -132,7 +144,16 @@ export default createStore({
         { name: "音乐\n/音效", rating: state.movie.rating.sound },
       ];
     },
-
   },
-  actions: {},
+  actions: {
+    async isUserLoggedIn(context, that) {
+      if (localStorage.getItem("token") === null) {
+        message.error("请先登录");
+        await that.$router.push("/login");
+        return false;
+      } else {
+        return true;
+      }
+    },
+  },
 });

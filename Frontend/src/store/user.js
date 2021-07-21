@@ -3,6 +3,7 @@ const userStore = {
   state: {
     username: "",
     password: "",
+    reviewList: [],
   },
   mutations: {
     setUsername(state, username) {
@@ -13,6 +14,9 @@ const userStore = {
     },
     setMD5Password(state, password) {
       state.password = md5(password);
+    },
+    setReviewList(state, reviewList) {
+      state.reviewList = reviewList;
     },
   },
   getters: {},

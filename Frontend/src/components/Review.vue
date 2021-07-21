@@ -230,7 +230,7 @@ export default {
 
   methods: {
     handleRateChange() {
-      // this.$store.commit("setMovieRatingAvg");
+      this.$store.commit("setMovieRatingAvg");
       this.$store.commit("updateRadar");
     },
     // async scrollAndCapture() {

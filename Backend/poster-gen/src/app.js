@@ -6,7 +6,7 @@ const Jwt = require("koa-jwt");
 const Controller = require("./controller");
 const Rest = require("./middlewares/rest");
 const Db = require("./lib/db");
-const Config = require("./config");
+const Config = require("../config");
 const APIError = require("./lib/error").APIError;
 const app = new Koa();
 

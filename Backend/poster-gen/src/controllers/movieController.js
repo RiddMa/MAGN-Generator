@@ -4,6 +4,7 @@ const path = require("path");
 const Token = require("../lib/token");
 const store = require("../lib/store");
 const UserReviewDAO = require("../models/UserReviewModel");
+const {rootDir} = require("../../config");
 
 const sleep = (delay) => new Promise((resolve) => setTimeout(resolve, delay));
 
@@ -26,7 +27,7 @@ async function getScreenshot(url, filename, width = 1449, height = 900) {
   let body = await page.$("#toImageCol");
 
   await body.screenshot({
-    path: path.resolve(`../resources/screenshot/${filename}.png`),
+    path: path.resolve(`${rootDir}/resources/screenshot/${filename}.png`),
     type: "png",
     fullPage: false,
   });
@@ -49,10 +50,11 @@ module.exports = {
   /*
   body: conditions
    */
-  "POST /api/getUserReview": async (ctx, next) => {
+  "POST /api/getAllUserReview": async (ctx, next) => {
     const conditions = ctx.request.body;
     const uuid = ctx.state.jwtData.uuid;
-    const reviewList = await UserReviewDAO.retrieveAllUserReview(uuid);
+    const reviewList = await UserReviewDAO.getAllUserReview(uuid);
+    console.log(reviewList);
     await ctx.rest(ctx, next, 200, reviewList);
   },
   /*
@@ -76,7 +78,7 @@ module.exports = {
   "POST /api/generatePoster": async (ctx, next) => {
     const uuid = ctx.state.jwtData.uuid;
     const reviewId = ctx.request.body.reviewId;
-    const movieReview = (await UserReviewDAO.retrieveUserReview(uuid, reviewId))
+    const movieReview = (await UserReviewDAO.getUserReview(uuid, reviewId))
       .reviews[0];
     const url = `http://localhost:8080/user/${reviewId}`;
     // url = "https://www.ridd.xyz/user/" + ctx.params.tid,

@@ -1,6 +1,7 @@
 import axios from "axios";
 import QS from "qs";
 const { v1: UUIDv1 } = require("uuid");
+import { message } from "ant-design-vue";
 
 const netStore = {
   state: {
@@ -36,17 +37,6 @@ const netStore = {
           return Promise.error(error);
         }
       );
-      // newInstance.interceptors.response.use(
-      //   function (response) {
-      //     // 对响应数据做点什么
-      //     return response;
-      //   },
-      //   function (error) {
-      //     // 对响应错误做点什么
-      //     console.log("response" + error);
-      //     return error;
-      //   }
-      // );
       context.state.instance = newInstance;
     },
     async userLogin(context, userInfo) {
@@ -81,22 +71,55 @@ const netStore = {
         context.state.instance
           .post("/saveUserReview", context.rootState.movie)
           .then((response) => {
+            message.success("保存成功");
             resolve(response);
           })
           .catch((e) => {
+            message.error("保存失败：" + e.response.data.errors);
             reject(e.response.data.errors);
           });
       });
       // now movie review in vueX has signed reviewId
     },
-    async updateMovieReview(context) {
+    async updateUserReview(context) {
       return new Promise((resolve, reject) => {
         context.state.instance
-          .post("/generatePoster", context.rootState.movie)
+          .post("/updateUserReview", context.rootState.movie)
           .then((response) => {
+            message.success("更新成功");
             resolve(response);
           })
           .catch((e) => {
+            message.error("更新失败：" + e.response.data.errors);
+            reject(e.response.data.errors);
+          });
+      });
+    },
+    async getAllUserReview(context) {
+      return new Promise((resolve, reject) => {
+        context.state.instance
+          .post("/getAllUserReview")
+          .then((response) => {
+            context.commit("setReviewList", response.data);
+            message.success("获取成功");
+            resolve(response);
+          })
+          .catch((e) => {
+            message.error("获取失败：" + e.response.data.errors);
+            reject(e.response.data.errors);
+          });
+      });
+    },
+    async deleteUserReview(context) {
+      return new Promise((resolve, reject) => {
+        context.state.instance
+          .post("/deleteUserReview")
+          .then((response) => {
+            message.success("删除成功");
+            resolve(response);
+          })
+          .catch((e) => {
+            message.error("删除失败：" + e.response.data.errors);
             reject(e.response.data.errors);
           });
       });

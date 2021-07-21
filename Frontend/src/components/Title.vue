@@ -7,20 +7,26 @@
           class="awesomeTitle"
           id="awesomeTitle"
           ref="awesomeTitle"
-          v-if="!showTitleInput"
-          @click="showSearchInput()"
           >{{ movie.title }}
         </a-typography-title>
-        <a-input-search
-          class="titleSearch"
-          v-if="searchText === '' || showTitleInput === true"
-          v-model:value="searchText"
-          placeholder="输入电影名称…"
-          enter-button="确认"
-          size="large"
-          allowclear
-          @search="handleSearch()"
-        />
+        <!--        <a-typography-title-->
+        <!--          class="awesomeTitle"-->
+        <!--          id="awesomeTitle"-->
+        <!--          ref="awesomeTitle"-->
+        <!--          v-if="!showTitleInput"-->
+        <!--          @click="showSearchInput()"-->
+        <!--          >{{ movie.title }}-->
+        <!--        </a-typography-title>-->
+        <!--        <a-input-search-->
+        <!--          class="titleSearch"-->
+        <!--          v-if="searchText === '' || showTitleInput === true"-->
+        <!--          v-model:value="searchText"-->
+        <!--          placeholder="输入电影名称…"-->
+        <!--          enter-button="确认"-->
+        <!--          size="large"-->
+        <!--          allowclear-->
+        <!--          @search="handleSearch()"-->
+        <!--        />-->
       </a-col>
     </a-row>
     <a-row>

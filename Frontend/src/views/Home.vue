@@ -1,12 +1,18 @@
 <template>
   <div class="home">
     <Settings></Settings>
+    <!--    <a-row>-->
+    <!--      <a-col flex="auto"></a-col>-->
+    <!--      <a-col>-->
+    <!--        -->
+    <!--      </a-col>-->
+    <!--      <a-col flex="auto"></a-col>-->
+    <!--    </a-row>-->
     <Review v-if="!fitPhone"></Review>
     <ReviewPhone v-if="fitPhone"></ReviewPhone>
     <a-space>
-      <!--      <a-button @click="scrollAndCapture">Draw Canvas</a-button>-->
-      <a-button @click="getPosterFromServer">Server Side Render</a-button>
-      <a-button @click="sendMovieReview">Send Movie Review</a-button>
+      <a-button @click="getPosterFromServer">生成分享截图</a-button>
+      <a-button @click="sendMovieReview">保存至云端</a-button>
     </a-space>
 
     <div class="customFooter">Designed by Ridd.</div>
@@ -82,7 +88,11 @@ export default {
       document.querySelector("#poster").src = this.posterURL;
     },
     async sendMovieReview() {
-      await this.$store.dispatch("saveUserReview");
+      if ((await this.$store.dispatch("isUserLoggedIn", this)) === true) {
+        await this.$store.dispatch("saveUserReview");
+      } else {
+        this.$store.commit("pushPendingQueue", "saveUserReview");
+      }
     },
     async getMovieAttr() {
       await this.$store.dispatch("getMovieAttr", "admin");

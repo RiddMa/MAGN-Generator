@@ -190,13 +190,16 @@ export default {
         username: this.$store.state.userStore.username,
         password: this.$store.state.userStore.password,
       });
+      this.spinning = false;
       if (status === 200) {
+        message.success("登陆成功");
         const preRoute = localStorage.getItem("preRoute");
         if (preRoute === null) {
           await this.$router.replace("/user");
         } else {
           await this.$router.replace(preRoute);
         }
+        await this.recoverStateHandler();
       } else if (status === 403) {
         if (data.message === "no-such-user") {
           message.error("用户不存在");
@@ -204,9 +207,7 @@ export default {
           message.error("密码不正确");
         }
       }
-      this.spinning = false;
     },
-
     async handleRegister(values) {
       this.spinning = true;
       await this.$store.commit("setUsername", values.username);
@@ -215,19 +216,36 @@ export default {
         username: this.$store.state.userStore.username,
         password: this.$store.state.userStore.password,
       });
+      this.spinning = false;
       if (status === 200) {
+        message.success("注册并登陆成功");
         const preRoute = localStorage.getItem("preRoute");
         if (preRoute === null) {
           await this.$router.replace("/user");
         } else {
           await this.$router.replace(preRoute);
         }
+        await this.recoverStateHandler();
       } else if (status === 403) {
         if (data.message === "user-already-exist") {
           message.error("用户名已占用");
         }
       }
-      this.spinning = false;
+    },
+    async recoverStateHandler() {
+      const msg = this.$store.state.pendingQueue[0];
+      switch (msg) {
+        case "saveUserReview": {
+          await this.$store.dispatch("saveUserReview");
+          this.$store.commit("popPendingQueue", "saveUserReview");
+          break;
+        }
+        case "getAllUserReview": {
+          await this.$store.dispatch("getAllUserReview");
+          this.$store.commit("popPendingQueue", "getAllUserReview");
+          break;
+        }
+      }
     },
   },
 };
