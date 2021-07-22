@@ -60,10 +60,17 @@ const movieStore = {
     setMovieComment(state, newComment) {
       state.comment = newComment;
     },
-    setMovie(state, newMovieAttr) {
-      state = newMovieAttr;
+    setMovie(state, newMovie) {
+      state.reviewId = newMovie.reviewId;
+      state.title = newMovie.title;
+      state.titleCN = newMovie.titleCN;
+      state.year = newMovie.year;
+      state.genre = newMovie.genre;
+      state.rating = newMovie.rating;
+      state.comment = newMovie.comment;
     },
     clearMovie(state) {
+      state.reviewId = "";
       state.title = "";
       state.titleCN = "";
       state.year = "";

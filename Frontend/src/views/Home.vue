@@ -82,14 +82,14 @@ export default {
     //   await this.$store.commit("setCommentInput", true);
     // },
     async getPosterFromServer() {
-      await this.$store.dispatch("saveUserReview");
+      await this.$store.dispatch("saveUserReview", this.$store.state.movie);
       await this.$store.dispatch("generatePoster");
       await this.$store.dispatch("downloadPoster");
       document.querySelector("#poster").src = this.posterURL;
     },
     async sendMovieReview() {
       if ((await this.$store.dispatch("isUserLoggedIn", this)) === true) {
-        await this.$store.dispatch("saveUserReview");
+        await this.$store.dispatch("saveUserReview", this.$store.state.movie);
       } else {
         this.$store.commit("pushPendingQueue", "saveUserReview");
       }

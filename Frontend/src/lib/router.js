@@ -7,23 +7,6 @@ const routes = [
     name: "Home",
     component: Home,
     meta: { transition: "slide-left" },
-    // children: [
-    //   {
-    //     path: "/desktop",
-    //     name: "MAGN-Generator",
-    //     component: () => import("../components/Review"),
-    //   },
-    //   {
-    //     path: "/mobile",
-    //     name: "MAGN-Generator",
-    //     component: () => import("../components/ReviewPhone"),
-    //   },
-    //   {
-    //     path: "/settings",
-    //     name: "MAGN-Generator",
-    //     component: () => import("../components/Settings"),
-    //   },
-    // ],
   },
   {
     path: "/about",
@@ -48,9 +31,14 @@ const routes = [
     component: () => import("../views/User"),
   },
   {
-    path: "/user/:id",
+    path: "/render/:id",
     name: "PosterSSR",
     component: () => import("../views/PosterSSR"),
+  },
+  {
+    path: "/test",
+    name: "test",
+    component: () => import("../views/test"),
   },
 ];
 

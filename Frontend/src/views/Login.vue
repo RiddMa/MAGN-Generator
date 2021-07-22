@@ -1,7 +1,7 @@
 <template>
   <div>
     <a-card class="loginCard">
-      <Spin :spinning="spinning" :delay="250">
+      <Spin :spinning="spinning">
         <Row class="loginRow">
           <Col flex="auto"></Col>
           <Col :span="24">
@@ -240,11 +240,11 @@ export default {
           this.$store.commit("popPendingQueue", "saveUserReview");
           break;
         }
-        case "getAllUserReview": {
-          await this.$store.dispatch("getAllUserReview");
-          this.$store.commit("popPendingQueue", "getAllUserReview");
-          break;
-        }
+        // case "getAllUserReview": {
+        //   await this.$store.dispatch("getAllUserReview");
+        //   this.$store.commit("popPendingQueue", "getAllUserReview");
+        //   break;
+        // }
       }
     },
   },

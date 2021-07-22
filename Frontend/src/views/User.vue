@@ -5,45 +5,52 @@
       <a-col :xxl="14" :xl="16" :lg="18" :md="20" :sm="22" :xs="24">
         <a-list item-layout="horizontal" :data-source="reviewList">
           <template #renderItem="{ item }">
-            <a-card class="reviewCard" hoverable v-on:click="toggleDrawer">
-              <a-row>
-                <a-col>
-                  <a-typography-title class="awesomeTitle" :level="2">
-                    {{ item.title }}
-                  </a-typography-title>
-                  <a-typography-title class="awesomeTitle" :level="4">
-                    {{ item.titleCN + "." + item.year }}
-                  </a-typography-title>
-                </a-col>
-                <a-col flex="auto"></a-col>
-                <a-col class="ratings">
-                  <span class="ratingText">{{ item.rating.avg }}/10</span>
-                </a-col>
-              </a-row>
+            <a-card
+              class="reviewCard"
+              hoverable
+              v-on:click="toggleDrawer(item.reviewId)"
+            >
+              <a-spin :spinning="listLoading">
+                <a-row>
+                  <a-col>
+                    <a-typography-title class="awesomeTitle" :level="2">
+                      {{ item.title }}
+                    </a-typography-title>
+                    <a-typography-title class="awesomeTitle" :level="4">
+                      {{ item.titleCN + "." + item.year }}
+                    </a-typography-title>
+                  </a-col>
+                  <a-col flex="auto"></a-col>
+                  <a-col class="ratings">
+                    <span class="ratingText">{{ item.rating.avg }}/10</span>
+                  </a-col>
+                </a-row>
 
-              <!--              <a-progress-->
-              <!--                type="dashboard"-->
-              <!--                :gapDegree="1"-->
-              <!--                :strokeColor="#F5DD3C"-->
-              <!--                :format="ratingCircleFormat"-->
-              <!--                :percent="item.rating.avg * 10"-->
-              <!--              />-->
-              <a-typography-paragraph>
-                <blockquote class="commentPreview">
-                  {{ item.comment }}
-                </blockquote>
-              </a-typography-paragraph>
+                <!--              <a-progress-->
+                <!--                type="dashboard"-->
+                <!--                :gapDegree="1"-->
+                <!--                :strokeColor="#F5DD3C"-->
+                <!--                :format="ratingCircleFormat"-->
+                <!--                :percent="item.rating.avg * 10"-->
+                <!--              />-->
+                <a-typography-paragraph>
+                  <blockquote class="commentPreview">
+                    {{ item.comment }}
+                  </blockquote>
+                </a-typography-paragraph>
+              </a-spin>
             </a-card>
           </template>
         </a-list>
         <a-drawer
+          class="drawer"
           placement="bottom"
           :height="drawerHeight"
-          :destroyOnClose="true"
+          :destroyOnClose="false"
           :closable="false"
           :keyboard="true"
           v-model:visible="drawerVisible"
-          @close="onDrawerClose"
+          :afterVisibleChange="onVisibleChange"
         >
           <a-row class="drawerTitle">
             <a-col flex="auto"></a-col>
@@ -61,17 +68,21 @@
                       title="是否要删除此影评？"
                       ok-text="是"
                       cancel-text="否"
+                      placement="bottom"
+                      arrowPointAtCenter
                       @confirm="commitDelete(this.editingMovie.reviewId)"
                     >
                       <template #icon>
                         <QuestionCircleOutlined style="color: #404040" />
                       </template>
-                      <a-button danger>删除</a-button>
+                      <a-button danger :loading="drawerLoading">删除</a-button>
                     </a-popconfirm>
                     <a-popconfirm
                       title="是否要取消？更改将不会被保存。"
                       ok-text="是"
                       cancel-text="否"
+                      placement="bottom"
+                      arrowPointAtCenter
                       @confirm="cancelUpdate"
                     >
                       <template #icon>
@@ -79,7 +90,11 @@
                       </template>
                       <a-button>取消</a-button>
                     </a-popconfirm>
-                    <a-button type="primary" @click="commitUpdate">
+                    <a-button
+                      type="primary"
+                      :loading="drawerLoading"
+                      @click="commitUpdate"
+                    >
                       完成
                     </a-button>
                   </a-space>
@@ -91,6 +106,8 @@
                     title="是否要删除此影评？"
                     ok-text="是"
                     cancel-text="否"
+                    placement="bottom"
+                    arrowPointAtCenter
                     @confirm="commitDelete"
                   >
                     <template #icon>
@@ -105,6 +122,8 @@
                     title="是否要取消？更改将不会被保存。"
                     ok-text="是"
                     cancel-text="否"
+                    placement="bottom"
+                    arrowPointAtCenter
                     @confirm="cancelUpdate"
                   >
                     <template #icon>
@@ -124,8 +143,12 @@
             <a-col flex="auto"></a-col>
           </a-row>
           <div style="height: 30px"></div>
-          <Review v-if="!fitPhone"></Review>
-          <ReviewPhone v-if="fitPhone"></ReviewPhone>
+          <!--          <Review v-if="!fitPhone"></Review>-->
+          <!--          <ReviewPhone v-if="fitPhone"></ReviewPhone>-->
+          <a-spin :spinning="drawerLoading">
+            <Settings></Settings>
+            <Edit :reviewItem="editingMovie"></Edit>
+          </a-spin>
         </a-drawer>
       </a-col>
       <a-col flex="auto"></a-col>
@@ -134,19 +157,18 @@
 </template>
 
 <script>
-import { List, message, Progress, Drawer, Popconfirm } from "ant-design-vue";
+import { List, Drawer, Popconfirm } from "ant-design-vue";
 import { QuestionCircleOutlined } from "@ant-design/icons-vue";
-import { mapState } from "vuex";
-import Review from "@/components/Review";
-import ReviewPhone from "@/components/ReviewPhone";
+import { mapGetters, mapState } from "vuex";
+import Edit from "@/views/Edit";
+import Settings from "@/components/Settings";
 
 export default {
   name: "UserProfile",
   components: {
-    ReviewPhone,
-    Review,
+    Settings,
+    Edit,
     "a-list": List,
-    "a-progress": Progress,
     "a-drawer": Drawer,
     "a-popconfirm": Popconfirm,
     QuestionCircleOutlined,
@@ -156,12 +178,18 @@ export default {
       drawerVisible: false,
       drawerHeight: 256,
       editingMovie: null,
+      scrollDistance: 0,
+      drawerLoading: false,
+      listLoading: false,
     };
   },
   computed: {
     ...mapState({
       reviewList: (state) => state.userStore.reviewList,
       fitPhone: (state) => state.fitPhone,
+    }),
+    ...mapGetters({
+      getReviewById: "getReviewById",
     }),
   },
   methods: {
@@ -170,27 +198,42 @@ export default {
       return `${percent}/10`;
     },
     toggleDrawer(reviewId) {
+      this.listLoading = true;
       this.drawerHeight = window.innerHeight;
-      console.log(this.$store.state.userStore.reviewList);
-      this.editingMovie = this.$store.state.userStore.reviewList.find(
-        (item) => {
-          return item.reviewId === reviewId;
-        }
-      );
-      console.log(this.editingMovie);
+      this.$store.commit("setMovie", this.getReviewById(reviewId));
       this.drawerVisible = true;
     },
-    onDrawerClose() {
-      this.$store.dispatch("getAllUserReview");
+    onVisibleChange() {
+      if (this.drawerVisible === true) {
+        this.listLoading = false;
+      }
     },
-    async cancelUpdate(reviewId) {
+    stopBodyScroll(isFixed) {
+      this.scrollDistance = window.scrollY;
+      if (isFixed) {
+        document.body.style.position = "fixed";
+        document.body.style.top = -this.scrollDistance + "px";
+      } else {
+        document.body.style.position = "";
+        document.body.style.top = "";
+        window.scrollTo(0, this.scrollDistance); // 回到原先的top
+      }
+    },
+    async cancelUpdate() {
       this.drawerVisible = false;
     },
-    async commitUpdate(reviewId) {
+    async commitUpdate() {
+      this.drawerLoading = true;
+      await this.$store.dispatch("updateUserReview", this.$store.state.movie);
+      await this.$store.dispatch("getAllUserReview");
+      this.drawerLoading = false;
       this.drawerVisible = false;
     },
     async commitDelete(reviewId) {
+      this.drawerLoading = true;
       await this.$store.dispatch("deleteUserReview", reviewId);
+      await this.$store.dispatch("getAllUserReview");
+      this.drawerLoading = false;
       this.drawerVisible = false;
     },
   },
@@ -248,6 +291,9 @@ h1.ant-typography,
 .ratings {
   display: flex;
   align-items: center;
+}
+.drawer {
+  overflow-y: auto;
 }
 .drawerTitle {
   position: absolute;

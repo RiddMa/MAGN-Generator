@@ -65,11 +65,11 @@ const netStore = {
         return { status: e.response.status, data: e.response.data };
       }
     },
-    async saveUserReview(context) {
+    async saveUserReview(context, reviewItem) {
       context.rootState.movie.reviewId = UUIDv1().toString(); // generate new reviewId for this review
       return new Promise((resolve, reject) => {
         context.state.instance
-          .post("/saveUserReview", context.rootState.movie)
+          .post("/saveUserReview", reviewItem)
           .then((response) => {
             message.success("保存成功");
             resolve(response);
@@ -81,10 +81,10 @@ const netStore = {
       });
       // now movie review in vueX has signed reviewId
     },
-    async updateUserReview(context) {
+    async updateUserReview(context, reviewItem) {
       return new Promise((resolve, reject) => {
         context.state.instance
-          .post("/updateUserReview", context.rootState.movie)
+          .post("/updateUserReview", reviewItem)
           .then((response) => {
             message.success("更新成功");
             resolve(response);

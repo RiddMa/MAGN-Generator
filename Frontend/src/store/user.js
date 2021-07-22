@@ -19,7 +19,13 @@ const userStore = {
       state.reviewList = reviewList;
     },
   },
-  getters: {},
+  getters: {
+    getReviewById: (state) => (reviewId) => {
+      return state.reviewList.find((item) => {
+        return item.reviewId === reviewId;
+      });
+    },
+  },
   actions: {},
 };
 export default userStore;

@@ -81,7 +81,9 @@ module.exports = {
   async getAllUserReview(uuid) {
     try {
       LogHandler(`Retrieved reviews for ${uuid}`);
-      return (await UserReviewModel.findOne({ uuid: uuid })).reviews;
+      return (
+        await UserReviewModel.findOne({ uuid: uuid }, null, { lean: true })
+      ).reviews;
     } catch (e) {
       ErrHandler(e);
     }
@@ -113,7 +115,9 @@ module.exports = {
         },
         { $set: { "reviews.$": newReview } }
       );
-      LogHandler(`Updated review ${newReview.reviewId} for ${uuid}`);
+      LogHandler(
+        `Updated review ${newReview.reviewId},${newReview.title} for ${uuid}`
+      );
       return (await UserReviewModel.findOne({ uuid: uuid })).reviews;
     } catch (e) {
       ErrHandler(e);

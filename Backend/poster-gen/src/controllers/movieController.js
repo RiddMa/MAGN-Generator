@@ -54,7 +54,6 @@ module.exports = {
     const conditions = ctx.request.body;
     const uuid = ctx.state.jwtData.uuid;
     const reviewList = await UserReviewDAO.getAllUserReview(uuid);
-    console.log(reviewList);
     await ctx.rest(ctx, next, 200, reviewList);
   },
   /*
@@ -80,8 +79,7 @@ module.exports = {
     const reviewId = ctx.request.body.reviewId;
     const movieReview = (await UserReviewDAO.getUserReview(uuid, reviewId))
       .reviews[0];
-    const url = `http://localhost:8080/user/${reviewId}`;
-    // url = "https://www.ridd.xyz/user/" + ctx.params.tid,
+    const url = `http://localhost:8080/render/${reviewId}`;
 
     store.saveMovie2Cache(movieReview);
     const res = await getScreenshot(url, reviewId);

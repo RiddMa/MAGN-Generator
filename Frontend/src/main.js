@@ -19,6 +19,7 @@ import {
   BackTop,
   Form,
   message,
+  Spin,
 } from "ant-design-vue";
 
 const app = createApp(App);
@@ -38,6 +39,7 @@ app.use(Collapse);
 app.use(Typography);
 app.use(BackTop);
 app.use(Form);
+app.use(Spin);
 app.use(store).use(router).mount("#app");
 message.config({
   top: `60px`,
