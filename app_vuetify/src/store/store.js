@@ -4,6 +4,7 @@ import netStore from "@/store/net";
 import userStore from "@/store/user";
 import movieStore from "@/store/movie";
 const { Radar } = require("@antv/g2plot");
+const { message } = require("ant-design-vue/es/message");
 
 Vue.use(Vuex);
 
@@ -44,86 +45,6 @@ export default new Vuex.Store({
         }
       });
     },
-    drawRadar(state, container) {
-      const data = [
-        { name: "剧情", rating: state.movie.rating.screenplay },
-        { name: "演出\n/剪辑", rating: state.movie.rating.editing },
-        { name: "视效/摄影", rating: state.movie.rating.visual },
-        { name: "音乐\n/音效", rating: state.movie.rating.sound },
-      ];
-      state.radarPlot = new Radar(container, {
-        data: data,
-        xField: "name",
-        yField: "rating",
-        padding: "auto",
-        meta: {
-          rating: {
-            alias: "评分",
-            min: 0,
-            max: 10,
-          },
-        },
-        autoFit: true,
-        tooltip: {
-          showCrosshairs: false,
-        },
-        color: "#42C090",
-        point: {
-          size: 2,
-        },
-        area: {
-          style: {
-            fill: "#61DDAA",
-          },
-        },
-      });
-      state.radarPlot.render();
-    },
-    drawRadarNoAnimation(state, container) {
-      const data = [
-        { name: "剧情", rating: state.movie.rating.screenplay },
-        { name: "演出\n/剪辑", rating: state.movie.rating.editing },
-        { name: "视效/摄影", rating: state.movie.rating.visual },
-        { name: "音乐\n/音效", rating: state.movie.rating.sound },
-      ];
-      state.radarPlot = new Radar(container, {
-        data: data,
-        xField: "name",
-        yField: "rating",
-        padding: "auto",
-        meta: {
-          rating: {
-            alias: "评分",
-            min: 0,
-            max: 10,
-          },
-        },
-        autoFit: true,
-        tooltip: {
-          showCrosshairs: false,
-        },
-        color: "#42C090",
-        point: {
-          size: 2,
-        },
-        area: {
-          style: {
-            fill: "#61DDAA",
-          },
-        },
-        animation: false,
-      });
-      state.radarPlot.render();
-    },
-    updateRadar(state) {
-      const data = [
-        { name: "剧情", rating: state.movie.rating.screenplay },
-        { name: "演出\n/剪辑", rating: state.movie.rating.editing },
-        { name: "视效/摄影", rating: state.movie.rating.visual },
-        { name: "音乐\n/音效", rating: state.movie.rating.sound },
-      ];
-      state.radarPlot.changeData(data);
-    },
   },
   getters: {
     titleWithYear: (state) => {
@@ -155,6 +76,71 @@ export default new Vuex.Store({
       } else {
         return true;
       }
+    },
+    drawRadar(context, container) {
+      const data = context.getters.radarData;
+      context.state.radarPlot = new Radar(container, {
+        data: data,
+        xField: "name",
+        yField: "rating",
+        padding: "auto",
+        meta: {
+          rating: {
+            alias: "评分",
+            min: 0,
+            max: 10,
+          },
+        },
+        autoFit: true,
+        tooltip: {
+          showCrosshairs: false,
+        },
+        color: "#42C090",
+        point: {
+          size: 2,
+        },
+        area: {
+          style: {
+            fill: "#61DDAA",
+          },
+        },
+      });
+      context.state.radarPlot.render();
+    },
+    drawRadarNoAnimation(context, container) {
+      const data = context.getters.radarData;
+      context.state.radarPlot = new Radar(container, {
+        data: data,
+        xField: "name",
+        yField: "rating",
+        padding: "auto",
+        meta: {
+          rating: {
+            alias: "评分",
+            min: 0,
+            max: 10,
+          },
+        },
+        autoFit: true,
+        tooltip: {
+          showCrosshairs: false,
+        },
+        color: "#42C090",
+        point: {
+          size: 2,
+        },
+        area: {
+          style: {
+            fill: "#61DDAA",
+          },
+        },
+        animation: false,
+      });
+      context.state.radarPlot.render();
+    },
+    updateRadar(context) {
+      const data = context.getters.radarData;
+      context.state.radarPlot.changeData(data);
     },
   },
 });
