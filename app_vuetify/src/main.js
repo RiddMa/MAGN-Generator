@@ -7,7 +7,12 @@ import vuetify from "./plugins/vuetify";
 
 Vue.config.productionTip = false;
 
-
+// Register a global custom directive called `v-blur` that prevents focus
+Vue.directive("blur", {
+  inserted: function (el) {
+    el.onfocus = (ev) => ev.target.blur();
+  },
+});
 
 new Vue({
   router,

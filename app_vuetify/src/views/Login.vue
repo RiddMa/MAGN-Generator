@@ -32,9 +32,12 @@
                       placeholder="请输入用户名……"
                       :color="'#40ba83'"
                       counter
+                      autofocus
                       clearable
+                      validate-on-blur
                       :loading="loading"
                       :disabled="loading"
+                      @keydown.enter="enterHandler"
                     ></v-text-field>
                     <v-text-field
                       class="text-body-2 text--primary"
@@ -47,9 +50,11 @@
                       hint="密码至少为8位"
                       :color="'#40ba83'"
                       counter
-                      @click:append="showPassword = !showPassword"
+                      validate-on-blur
                       :loading="loading"
                       :disabled="loading"
+                      @click:append="showPassword = !showPassword"
+                      @keydown.enter="enterHandler"
                     ></v-text-field>
                   </div>
 
@@ -68,6 +73,7 @@
                                 :elevation="hover ? 6 : 2"
                                 @click="handleLogin"
                                 :loading="loading"
+                                :disabled="isDisabled"
                               >
                                 登录
                               </v-btn>
@@ -90,9 +96,11 @@
                           placeholder="请再次输入密码……"
                           :color="'#40ba83'"
                           counter
-                          @click:append="showPassword = !showPassword"
+                          validate-on-blur
                           :loading="loading"
                           :disabled="loading"
+                          @click:append="showPassword = !showPassword"
+                          @keydown.enter="enterHandler"
                         ></v-text-field>
                         <v-row class="mx-auto">
                           <v-hover>
@@ -106,6 +114,7 @@
                                 :elevation="hover ? 6 : 2"
                                 @click="handleRegister"
                                 :loading="loading"
+                                :disabled="isDisabled"
                               >
                                 注册
                               </v-btn>
@@ -147,7 +156,33 @@ export default {
       },
     };
   },
+  computed: {
+    isDisabled: {
+      get() {
+        let basic =
+          this.rules.userRequired(this.username) !== true ||
+          this.rules.userMax64(this.username) !== true ||
+          this.rules.pwRequired(this.password) !== true ||
+          this.rules.pwMin8(this.password) !== true ||
+          this.rules.pwMax128(this.password) !== true;
+        if (this.tab === "tab-0") {
+          return basic;
+        } else {
+          return basic || this.rules.pwCheck(this.passwordCheck) !== true;
+        }
+      },
+    },
+  },
   methods: {
+    enterHandler() {
+      if (!this.isDisabled) {
+        if (this.tab === "tab-0") {
+          this.handleLogin();
+        } else {
+          this.handleRegister();
+        }
+      }
+    },
     async handleLogin() {
       this.loading = true;
       this.$store.commit("setUsername", this.username);

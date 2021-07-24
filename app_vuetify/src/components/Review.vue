@@ -124,10 +124,8 @@ export default {
 };
 </script>
 
+<style src="../styles/reviewCard.css" scoped></style>
 <style scoped>
-.reviewCard {
-  border-color: #40ba83;
-}
 .ratingRow {
   margin: 0 0 1rem 0;
   justify-self: center;

@@ -34,7 +34,7 @@ const movieStore = {
     setReviewDate(state, date = null) {
       if (date === null) {
         moment.locale("zh-cn");
-        state.timestamp = moment().format();
+        state.timestamp = moment();
       } else {
         date.locale("zh-cn");
         state.timestamp = date;
