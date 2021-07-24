@@ -1,187 +1,167 @@
 <template>
   <div>
-    <v-card class="loginCard">
-      <Spin :spinning="spinning">
-        <Row class="loginRow">
-          <Col flex="auto"></Col>
-          <Col :span="24">
-            <Space>
-              登录
-              <Switch v-model:checked="register"></Switch>
-              注册
-            </Space>
-          </Col>
-          <Col flex="auto"></Col>
-        </Row>
-        <Row class="loginRow">
-          <Col flex="auto"></Col>
-          <Col>
-            <Form
-              class="loginForm"
-              v-if="!register"
-              layout="inline"
-              ref="formRef"
-              :model="formState"
-              v-bind="layout"
-              @finish="handleLogin"
-            >
-              <v-form-item has-feedback name="username">
-                <v-input
-                  v-model:value="formState.username"
-                  placeholder="请输入用户名……"
-                >
-                  <template #prefix><UserOutlined /></template>
-                </v-input>
-              </v-form-item>
-              <v-form-item has-feedback name="password">
-                <v-input
-                  v-model:value="formState.password"
-                  type="password"
-                  placeholder="请输入密码……"
-                  autocomplete="off"
-                >
-                  <template #prefix><LockOutlined /></template>
-                </v-input>
-              </v-form-item>
-              <v-form-item>
-                <v-button
-                  type="primary"
-                  html-type="submit"
-                  :disabled="
-                    formState.username === '' || formState.password === ''
-                  "
-                >
-                  登录
-                </v-button>
-              </v-form-item>
-            </Form>
-            <Form
-              class="loginForm"
-              v-if="register"
-              layout="inline"
-              ref="formRef"
-              :model="formState"
-              :rules="rules"
-              v-bind="layout"
-              @finish="handleRegister"
-            >
-              <v-form-item has-feedback name="username">
-                <v-input
-                  v-model:value="formState.username"
-                  placeholder="请输入用户名……"
-                >
-                  <template #prefix><UserOutlined /></template>
-                </v-input>
-              </v-form-item>
-              <v-form-item has-feedback name="password">
-                <v-input
-                  v-model:value="formState.password"
-                  type="password"
-                  placeholder="请输入密码……"
-                  autocomplete="off"
-                >
-                  <template #prefix><LockOutlined /></template>
-                </v-input>
-              </v-form-item>
-              <v-form-item>
-                <v-button
-                  type="primary"
-                  html-type="submit"
-                  :disabled="
-                    formState.username === '' || formState.password === ''
-                  "
-                >
-                  注册
-                </v-button>
-              </v-form-item>
-            </Form>
-          </Col>
-          <Col flex="auto"></Col>
-        </Row>
-      </Spin>
-    </v-card>
+    <v-container>
+      <v-row>
+        <v-col class="loginBase ma-auto">
+          <v-hover>
+            <template v-slot:default="{ hover }">
+              <v-card
+                class="loginCard ma-4 pa-0 transition-swing"
+                outlined
+                :elevation="hover ? 12 : 6"
+                :loading="loading"
+              >
+                <v-card-title>
+                  <v-tabs v-model="tab" centered light>
+                    <v-tab href="#tab-0" class="text-h6 text--primary">
+                      登录
+                    </v-tab>
+                    <v-tab href="#tab-1" class="text-h6 text--primary">
+                      注册
+                    </v-tab>
+                  </v-tabs>
+                </v-card-title>
+                <v-card-text>
+                  <div class="mt-2 mx-4">
+                    <v-text-field
+                      class="text-body-2 text--primary"
+                      v-model="username"
+                      :rules="[rules.userRequired, rules.userMax64]"
+                      type="text"
+                      label="用户名"
+                      placeholder="请输入用户名……"
+                      :color="'#40ba83'"
+                      counter
+                      clearable
+                      :loading="loading"
+                      :disabled="loading"
+                    ></v-text-field>
+                    <v-text-field
+                      class="text-body-2 text--primary"
+                      v-model="password"
+                      :append-icon="showPassword ? 'mdi-eye' : 'mdi-eye-off'"
+                      :rules="[rules.pwRequired, rules.pwMin8, rules.pwMax128]"
+                      :type="showPassword ? 'text' : 'password'"
+                      label="密码"
+                      placeholder="请输入密码……"
+                      hint="密码至少为8位"
+                      :color="'#40ba83'"
+                      counter
+                      @click:append="showPassword = !showPassword"
+                      :loading="loading"
+                      :disabled="loading"
+                    ></v-text-field>
+                  </div>
+
+                  <v-tabs-items class="ma-0 pa-0" v-model="tab">
+                    <v-tab-item :value="'tab-0'" :key="0">
+                      <div class="mx-4 mb-4 mt-2">
+                        <v-row class="ma-auto">
+                          <v-hover>
+                            <template v-slot:default="{ hover }">
+                              <v-btn
+                                class="text-body-1 mx-auto mt-4 mb-8"
+                                block
+                                light
+                                large
+                                color="primary"
+                                :elevation="hover ? 6 : 2"
+                                @click="handleLogin"
+                                :loading="loading"
+                              >
+                                登录
+                              </v-btn>
+                            </template>
+                          </v-hover>
+                        </v-row>
+                      </div>
+                    </v-tab-item>
+                    <v-tab-item :value="'tab-1'" :key="1">
+                      <div class="mx-4 mb-4 mt-2">
+                        <v-text-field
+                          class="text-body-2 text--primary mb-4"
+                          v-model="passwordCheck"
+                          :append-icon="
+                            showPassword ? 'mdi-eye' : 'mdi-eye-off'
+                          "
+                          :rules="[rules.pwRequired, rules.pwCheck]"
+                          :type="showPassword ? 'text' : 'password'"
+                          label="确认密码"
+                          placeholder="请再次输入密码……"
+                          :color="'#40ba83'"
+                          counter
+                          @click:append="showPassword = !showPassword"
+                          :loading="loading"
+                          :disabled="loading"
+                        ></v-text-field>
+                        <v-row class="mx-auto">
+                          <v-hover>
+                            <template v-slot:default="{ hover }">
+                              <v-btn
+                                class="text-body-1 mx-auto mt-4 mb-8"
+                                block
+                                light
+                                large
+                                color="primary"
+                                :elevation="hover ? 6 : 2"
+                                @click="handleRegister"
+                                :loading="loading"
+                              >
+                                注册
+                              </v-btn>
+                            </template>
+                          </v-hover>
+                        </v-row>
+                      </div>
+                    </v-tab-item>
+                  </v-tabs-items>
+                </v-card-text>
+              </v-card>
+            </template>
+          </v-hover>
+        </v-col>
+      </v-row>
+    </v-container>
   </div>
 </template>
 
 <script>
-
 export default {
   name: "Login",
-  components: {
-  },
-  setup() {
-    const spinning = ref(false);
-    const formRef = ref();
-    const formState = reactive({
+  components: {},
+  data() {
+    return {
+      tab: 0,
       username: "",
       password: "",
-    });
-    const register = ref(false);
-
-    let validatePassword = async (rule, value) => {
-      if (value.length < 6) {
-        return Promise.reject("密码至少为6位");
-      } else {
-        return Promise.resolve();
-      }
-    };
-
-    let validateUsername = async (rule, value) => {
-      if (value === "") {
-        return Promise.reject("用户名不能为空");
-      } else if (value.length > 20) {
-        return Promise.reject("用户名至多为20字符");
-      } else {
-        return Promise.resolve();
-      }
-    };
-
-    const rules = {
-      username: [
-        {
-          required: true,
-          validator: validateUsername,
-          trigger: "blur",
-        },
-      ],
-      password: [
-        {
-          required: true,
-          validator: validatePassword,
-          trigger: "blur",
-        },
-      ],
-    };
-    const layout = {
-      // labelCol: {
-      //   span: 4,
-      // },
-      // wrapperCol: {
-      //   span: 14,
-      // },
-    };
-
-    return {
-      spinning,
-      register,
-      formState,
-      formRef,
-      rules,
-      layout,
+      passwordCheck: "",
+      showPassword: false,
+      loading: false,
+      rules: {
+        userRequired: (v) => !!v || "用户名不能为空.",
+        userMax64: (v) => v.length <= 64 || "用户名至多为64字符.",
+        pwRequired: (v) => !!v || "密码不能为空.",
+        pwCheck: (v) => v === this.password || "两次输入的密码应相同.",
+        pwMin8: (v) => v.length >= 8 || "密码至少为8位.",
+        pwMax128: (v) => v.length <= 128 || "密码至多为128位.",
+      },
     };
   },
   methods: {
-    async handleLogin(values) {
-      this.spinning = true;
-      this.$store.commit("setUsername", values.username);
-      this.$store.commit("setMD5Password", values.password);
+    async handleLogin() {
+      this.loading = true;
+      this.$store.commit("setUsername", this.username);
+      this.$store.commit("setMD5Password", this.password);
       let { status, data } = await this.$store.dispatch("userLogin", {
         username: this.$store.state.userStore.username,
         password: this.$store.state.userStore.password,
       });
-      this.spinning = false;
+      this.loading = false;
       if (status === 200) {
-        message.success("登陆成功");
+        this.$store.commit("showToast", {
+          type: "success",
+          message: "登陆成功.",
+        });
         const preRoute = localStorage.getItem("preRoute");
         if (preRoute === null) {
           await this.$router.replace("/user");
@@ -191,23 +171,32 @@ export default {
         await this.recoverStateHandler();
       } else if (status === 403) {
         if (data.message === "no-such-user") {
-          message.error("用户不存在");
+          this.$store.commit("showToast", {
+            type: "error",
+            message: "用户不存在.",
+          });
         } else if (data.message === "wrong-password") {
-          message.error("密码不正确");
+          this.$store.commit("showToast", {
+            type: "error",
+            message: "密码错误.",
+          });
         }
       }
     },
-    async handleRegister(values) {
-      this.spinning = true;
-      await this.$store.commit("setUsername", values.username);
-      await this.$store.commit("setMD5Password", values.password);
+    async handleRegister() {
+      this.loading = true;
+      this.$store.commit("setUsername", this.username);
+      this.$store.commit("setMD5Password", this.password);
       let { status, data } = await this.$store.dispatch("userRegister", {
         username: this.$store.state.userStore.username,
         password: this.$store.state.userStore.password,
       });
-      this.spinning = false;
+      this.loading = false;
       if (status === 200) {
-        message.success("注册并登陆成功");
+        this.$store.commit("showToast", {
+          type: "success",
+          message: "注册并登陆成功.",
+        });
         const preRoute = localStorage.getItem("preRoute");
         if (preRoute === null) {
           await this.$router.replace("/user");
@@ -217,7 +206,10 @@ export default {
         await this.recoverStateHandler();
       } else if (status === 403) {
         if (data.message === "user-already-exist") {
-          message.error("用户名已占用");
+          this.$store.commit("showToast", {
+            type: "error",
+            message: "用户名已占用.",
+          });
         }
       }
     },
@@ -241,21 +233,13 @@ export default {
 </script>
 
 <style scoped>
+.loginBase {
+  max-width: 1024px;
+}
 .loginCard {
-  border-color: rgba(66, 185, 131, 0.5);
-  margin: 1rem 4vw;
+  border-color: #40ba83;
 }
-.loginRow {
-  margin: 1rem 2vw;
-  display: flex;
-  display: -webkit-flex; /* Safari */
-  align-items: center; /*指定垂直居中*/
-  alignment: center;
-  align-content: center;
-  align-self: center;
-}
-.loginForm {
-  width: 100%;
-  text-align: center;
+.activeTab {
+  /*background-color: rgba(207, 255, 233, 0.2);*/
 }
 </style>

@@ -71,11 +71,11 @@ const netStore = {
         context.state.instance
           .post("/saveUserReview", reviewItem)
           .then((response) => {
-            message.success("保存成功");
+            // message.success("保存成功");
             resolve(response);
           })
           .catch((e) => {
-            message.error("保存失败：" + e.response.data.errors);
+            // message.error("保存失败：" + e.response.data.errors);
             reject(e.response.data.errors);
           });
       });
@@ -86,11 +86,11 @@ const netStore = {
         context.state.instance
           .post("/updateUserReview", reviewItem)
           .then((response) => {
-            message.success("更新成功");
+            // message.success("更新成功");
             resolve(response);
           })
           .catch((e) => {
-            message.error("更新失败：" + e.response.data.errors);
+            // message.error("更新失败：" + e.response.data.errors);
             reject(e.response.data.errors);
           });
       });
@@ -101,11 +101,11 @@ const netStore = {
           .post("/getAllUserReview")
           .then((response) => {
             context.commit("setReviewList", response.data);
-            message.success("获取成功");
+            // message.success("获取成功");
             resolve(response);
           })
           .catch((e) => {
-            message.error("获取失败：" + e.response.data.errors);
+            // message.error("获取失败：" + e.response.data.errors);
             reject(e.response.data.errors);
           });
       });
@@ -117,11 +117,11 @@ const netStore = {
             reviewId: reviewId,
           })
           .then((response) => {
-            message.success("删除成功");
+            // message.success("删除成功");
             resolve(response);
           })
           .catch((e) => {
-            message.error("删除失败：" + e.response.data.errors);
+            // message.error("删除失败：" + e.response.data.errors);
             reject(e.response.data.errors);
           });
       });
@@ -166,7 +166,6 @@ const netStore = {
         context.state.instance
           .post("/internal/getMovieAttr/" + uuid)
           .then((response) => {
-            console.log(response.data);
             context.rootState.movie = response.data;
             context.commit("updateRadar");
             resolve(response);

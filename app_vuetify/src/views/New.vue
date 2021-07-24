@@ -1,11 +1,9 @@
 <template>
   <v-container>
     <v-row>
-      <!--      <v-spacer></v-spacer>-->
-      <v-col class="reviewBase mx-auto">
+      <v-col class="reviewBase ma-auto">
         <Review></Review>
       </v-col>
-      <!--      <v-spacer></v-spacer>-->
     </v-row>
   </v-container>
 </template>

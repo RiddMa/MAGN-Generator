@@ -4,7 +4,6 @@ import netStore from "@/store/net";
 import userStore from "@/store/user";
 import movieStore from "@/store/movie";
 const { Radar } = require("@antv/g2plot");
-const { message } = require("ant-design-vue/es/message");
 
 Vue.use(Vuex);
 
@@ -15,6 +14,13 @@ export default new Vuex.Store({
     movie: movieStore,
   },
   state: () => ({
+    toast: {
+      show: false,
+      message: "",
+      color: "",
+      timer: 1500,
+      icon: "",
+    },
     showTitleInput: false,
     showCommentInput: true,
     searchText: "The Shawshank Redemption",
@@ -45,6 +51,36 @@ export default new Vuex.Store({
         }
       });
     },
+    showToast(
+      state,
+      data = {
+        type: "info",
+        message: "Null",
+        timer: 1500,
+        icon: "",
+      }
+    ) {
+      state.toast.message = data.message;
+      state.toast.timer = data.timer;
+      switch (data.type) {
+        case "success": {
+          state.toast.color = "green";
+          state.toast.icon = "mdi-check-circle-outline";
+          break;
+        }
+        case "info": {
+          state.toast.color = "blue";
+          state.toast.icon = "mdi-information-outline";
+          break;
+        }
+        case "error": {
+          state.toast.color = "red";
+          state.toast.icon = "mdi-alert-outline";
+          break;
+        }
+      }
+      state.toast.show = true;
+    },
   },
   getters: {
     titleWithYear: (state) => {
@@ -70,7 +106,11 @@ export default new Vuex.Store({
   actions: {
     async isUserLoggedIn(context, that) {
       if (localStorage.getItem("token") === null) {
-        message.error("请先登录");
+        context.commit("showToast", {
+          message: "请先登录",
+          type: "info",
+          timer: 1500,
+        });
         await that.$router.push("/login");
         return false;
       } else {

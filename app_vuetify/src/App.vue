@@ -1,5 +1,6 @@
 <template>
   <v-app>
+    <v-toast></v-toast>
     <v-app-bar
       class="appBar"
       app
@@ -8,24 +9,26 @@
       dense
       elevation="0"
     >
-      <v-tabs centered>
+      <v-tabs centered :optional="true">
         <v-tab to="/" :ripple="false">新建</v-tab>
         <v-tab to="/user" :ripple="false">用户</v-tab>
         <v-tab to="/about" :ripple="false">关于</v-tab>
       </v-tabs>
     </v-app-bar>
-    <canvas style="position: fixed; width: 120%; height: 48px"></canvas>
     <v-main>
-      <router-view />
+      <v-container fluid>
+        <router-view />
+        <div style="height: 500px"></div>
+      </v-container>
     </v-main>
-    <div style="height: 1000px"></div>
   </v-app>
 </template>
 
 <script>
+import VToast from "@/components/vToast";
 export default {
   name: "App",
-
+  components: { VToast },
   data: () => ({
     blurTab: true,
   }),
