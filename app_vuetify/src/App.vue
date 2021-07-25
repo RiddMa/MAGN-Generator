@@ -44,6 +44,7 @@ export default {
     } catch (err) {
       console.log(err);
     }
+    this.$store.commit("setUsername", localStorage.getItem("username"));
   },
 };
 </script>
@@ -53,11 +54,15 @@ body {
   font-family: "Helvetica Neue", Helvetica, Arial, "PingFang SC",
     "Hiragino Sans GB", "Heiti SC", "Microsoft YaHei UI", "WenQuanYi Micro Hei",
     sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
 }
 #app {
   font-family: "Helvetica Neue", Helvetica, Arial, "PingFang SC",
     "Hiragino Sans GB", "Heiti SC", "Microsoft YaHei UI", "WenQuanYi Micro Hei",
     sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
 }
 .appBar {
   -webkit-backdrop-filter: blur(5px);

@@ -34,6 +34,16 @@ const routes = [
     component: () => import("../views/User"),
   },
   {
+    path: "/user/:id/view",
+    name: "View",
+    component: () => import("../views/User"),
+  },
+  {
+    path: "/user/:id/edit",
+    name: "Edit",
+    component: () => import("../views/Edit"),
+  },
+  {
     path: "/render/:id",
     name: "PosterSSR",
     component: () => import("../views/PosterSSR"),

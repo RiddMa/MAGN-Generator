@@ -3,7 +3,7 @@
     <v-hover>
       <template v-slot:default="{ hover }">
         <v-card
-          id="reviewCard"
+          :id="`RC${movie.reviewId}`"
           class="reviewCard ma-4 px-4 py-2 transition-swing"
           outlined
           v-blur
@@ -11,7 +11,7 @@
           :min-height="height"
           :loading="loading"
           :elevation="hover ? 12 : 6"
-          @click="toggleDrawer(movie.reviewId)"
+          @click="reveal = !reveal"
         >
           <v-row>
             <v-col cols="9">
@@ -36,19 +36,11 @@
               class="
                 align-end align-content-center align-self-center
                 ml-2
-                mr-n2
+                mr-n6
               "
             >
-              <v-btn
-                text
-                depressed
-                right
-                height="100"
-                width="15"
-                min-width="0"
-                @click="reveal = !reveal"
-              >
-                <v-icon dense>mdi-dots-vertical</v-icon>
+              <v-btn text depressed right height="100" width="15" min-width="0">
+                <v-icon> mdi-dots-vertical </v-icon>
               </v-btn>
             </v-col>
           </v-row>
@@ -58,7 +50,8 @@
               v-if="reveal"
               class="transition-fast-in-fast-out v-card--reveal"
             >
-              <v-container class="mb-2">
+              <v-divider></v-divider>
+              <v-container class="my-2">
                 <v-row>
                   <v-col cols="3">
                     <v-hover>
@@ -69,6 +62,7 @@
                           block
                           :elevation="hover ? 6 : 2"
                           color="red"
+                          @click.stop="onDeleteClicked"
                         >
                           删除
                         </v-btn>
@@ -85,6 +79,7 @@
                           block
                           :elevation="hover ? 6 : 2"
                           color="blue lighten-1"
+                          @click.stop="onEditClicked"
                         >
                           编辑
                         </v-btn>
@@ -101,7 +96,7 @@
                           block
                           :elevation="hover ? 6 : 2"
                           color="green lighten-1"
-                          @click="toggleFullScreen"
+                          @click.stop="onViewClicked"
                         >
                           查看
                         </v-btn>
@@ -115,18 +110,6 @@
         </v-card>
       </template>
     </v-hover>
-    <v-dialog
-      v-model="dialog"
-      fullscreen
-      hide-overlay
-      transition="dialog-bottom-transition"
-    >
-      <template v-slot:activator="{ on, attrs }">
-        <v-btn color="primary" dark v-bind="attrs" v-on="on">
-          Open Dialog
-        </v-btn>
-      </template>
-    </v-dialog>
   </div>
 </template>
 
@@ -166,10 +149,19 @@ export default {
     },
   },
   methods: {
-    // toggleFullScreen() {
-    //   this.width = window.innerWidth;
-    //   this.height = window.innerHeight;
-    // },
+    toggleFullScreen() {
+      // document.getElementById(`RC${this.movie.reviewId}`).style.height =
+      //   "500px";
+    },
+    async onViewClicked() {
+      await this.$router.push(`/user/${this.movie.reviewId}/edit`);
+    },
+    async onEditClicked() {
+      await this.$router.push(`/user/${this.movie.reviewId}/edit`);
+    },
+    async onDeleteClicked() {
+      await this.$store.dispatch("deleteUserReview", this.movie.reviewId);
+    },
   },
   mounted() {
     // let elem = document.getElementById("reviewCard");
@@ -183,8 +175,8 @@ export default {
 <style scoped>
 .reviewCard {
 }
+
 .ratingRow {
-  /*padding-top: 0.1rem;*/
   justify-self: end;
   justify-items: end;
   justify-content: end;

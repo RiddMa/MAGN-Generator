@@ -1,5 +1,26 @@
 .reviewCard {
-    border-color: #40ba83;
-    border-width: 2px;
-    /*border-left-width: 10px;*/
+  border-color: #40ba83;
+  border-width: 2px;
+  /*border-left-width: 10px;*/
+}
+
+.v-card__text,
+.v-card__title,
+.v-card__subtitle {
+  word-break: normal; /* maybe !important  */
+  -webkit-hyphens: auto;
+  -moz-hyphens: auto;
+  -ms-hyphens: auto;
+  hyphens: auto;
+}
+.reviewTitle {
+  color: #40ba83;
+}
+.reviewSubTitle {
+  color: #40ba83;
+  word-break: normal;
+  -webkit-hyphens: auto;
+  -moz-hyphens: auto;
+  -ms-hyphens: auto;
+  hyphens: auto;
 }

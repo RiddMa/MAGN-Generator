@@ -203,6 +203,7 @@ export default {
         } else {
           await this.$router.replace(preRoute);
         }
+        localStorage.setItem("username", this.username);
         await this.recoverStateHandler();
       } else if (status === 403) {
         if (data.message === "no-such-user") {
@@ -238,6 +239,7 @@ export default {
         } else {
           await this.$router.replace(preRoute);
         }
+        localStorage.setItem("username", this.username);
         await this.recoverStateHandler();
       } else if (status === 403) {
         if (data.message === "user-already-exist") {

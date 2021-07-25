@@ -6,15 +6,36 @@
         outlined
         :elevation="hover ? 12 : 6"
       >
-        <v-card-title class="text-h3">{{ movie.title }}</v-card-title>
-        <v-card-subtitle class="text-h4">
-          {{ movie.titleCN }}.{{ movie.year }}
+        <v-card-title class="text-h3 pa-auto mx-2 mb-auto mt-2">
+          <div class="reviewTitle">
+            {{ movie.title }}
+          </div>
+        </v-card-title>
+        <v-card-subtitle class="text-h4 pa-auto mx-2 my-auto">
+          <span class="reviewSubTitle">
+            {{ movie.titleCN }}.{{ movie.year }}
+          </span>
+          <v-container fluid class="px-0">
+            <v-chip
+              v-for="genre in genreListCN"
+              :key="genre"
+              class="mr-2 ml-0 pa-auto"
+              :ripple="false"
+              color="#40ba83"
+              text-color="secondary"
+              outlined
+              light
+              label
+            >
+              {{ genre }}
+            </v-chip>
+          </v-container>
         </v-card-subtitle>
         <v-card-text>
           <v-hover>
             <template v-slot:default="{ hover }">
               <v-card
-                class="reviewCard mt-2 mb-8 mx-2 pa-4 transition-swing"
+                class="reviewCard mt-2 mb-8 mx-2 px-4 pt-4 transition-swing"
                 outlined
                 :elevation="hover ? 6 : 0"
               >
@@ -71,6 +92,13 @@
               </v-card>
             </template>
           </v-hover>
+          <v-container fluid class="mx-auto my-auto px-0">
+            <v-row class="mx-2 px-0">
+              <span class="text-left">{{ username }}</span>
+              <v-spacer></v-spacer>
+              <span class="text-right">{{ reviewDate }}</span>
+            </v-row>
+          </v-container>
         </v-card-text>
       </v-card>
     </template>
@@ -84,6 +112,11 @@ import RatingRow from "@/components/RatingRow";
 export default {
   name: "Review",
   components: { RatingRow },
+  data() {
+    return {
+      username: this.$store.state.userStore.username,
+    };
+  },
   computed: {
     comment: {
       get: function () {
@@ -109,6 +142,8 @@ export default {
     ...mapGetters({
       avgScore: "avgScore",
       reviewDate: "reviewDate",
+      genreList: "genreList",
+      genreListCN: "genreListCN",
     }),
   },
   methods: {},

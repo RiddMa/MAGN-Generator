@@ -71,6 +71,7 @@ const netStore = {
         context.state.instance
           .post("/saveUserReview", reviewItem)
           .then((response) => {
+            context.commit("setReviewList", response.data);
             // message.success("保存成功");
             resolve(response);
           })
@@ -86,6 +87,7 @@ const netStore = {
         context.state.instance
           .post("/updateUserReview", reviewItem)
           .then((response) => {
+            context.commit("setReviewList", response.data);
             // message.success("更新成功");
             resolve(response);
           })
@@ -117,11 +119,18 @@ const netStore = {
             reviewId: reviewId,
           })
           .then((response) => {
-            // message.success("删除成功");
+            context.commit("showToast", {
+              type: "success",
+              message: "删除成功.",
+            });
+            context.commit("setReviewList", response.data);
             resolve(response);
           })
           .catch((e) => {
-            // message.error("删除失败：" + e.response.data.errors);
+            context.commit("showToast", {
+              type: "error",
+              message: `删除失败:${e.response.data.errors}`,
+            });
             reject(e.response.data.errors);
           });
       });
