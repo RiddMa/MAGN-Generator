@@ -81,9 +81,8 @@ module.exports = {
   async getAllUserReview(uuid) {
     try {
       LogHandler(`Retrieved reviews for ${uuid}`);
-      return (
-        await UserReviewModel.findOne({ uuid: uuid }, null, { lean: true })
-      ).reviews;
+      return (await UserReviewModel.findOne({ uuid: uuid }, {}, { lean: true }))
+        .reviews;
     } catch (e) {
       ErrHandler(e);
     }
@@ -97,28 +96,32 @@ module.exports = {
   async getUserReview(uuid, reviewId) {
     try {
       LogHandler(`Retrieved reviews ${reviewId} for ${uuid}`);
-      return await UserReviewModel.findOne(
-        { uuid: uuid },
-        { reviews: { $elemMatch: { reviewId: reviewId } } },
-        { lean: true }
-      );
+      return (
+        await UserReviewModel.findOne(
+          { uuid: uuid, reviews: { $elemMatch: { reviewId: reviewId } } },
+          {},
+          { lean: true }
+        )
+      ).reviews;
     } catch (e) {
       ErrHandler(e);
     }
   },
   async updateUserReview(uuid, newReview) {
     try {
-      await UserReviewModel.updateOne(
-        {
-          uuid: uuid,
-          reviews: { $elemMatch: { reviewId: newReview.reviewId } },
-        },
-        { $set: { "reviews.$": newReview } }
-      );
       LogHandler(
         `Updated review ${newReview.reviewId},${newReview.title} for ${uuid}`
       );
-      return (await UserReviewModel.findOne({ uuid: uuid })).reviews;
+      return (
+        await UserReviewModel.updateOne(
+          {
+            uuid: uuid,
+            reviews: { $elemMatch: { reviewId: newReview.reviewId } },
+          },
+          { $set: { "reviews.$": newReview } },
+          { new: true }
+        )
+      ).reviews;
     } catch (e) {
       ErrHandler(e);
     }
@@ -131,11 +134,19 @@ module.exports = {
    */
   async deleteUserReview(uuid, reviewId) {
     try {
-      let userReview = await UserReviewModel.findOne({ uuid: uuid });
-      await userReview.reviews.pull(reviewId);
-      await userReview.save();
+      LogHandler(
+        await UserReviewModel.updateOne(
+          {
+            uuid: uuid,
+            reviews: { $elemMatch: { reviewId: reviewId } },
+          },
+          {
+            $pull: { reviews: { reviewId: reviewId } },
+          },
+          { new: true }
+        )
+      );
       LogHandler(`Deleted review ${reviewId} for ${uuid}`);
-      return (await UserReviewModel.findOne({ uuid: uuid })).reviews;
     } catch (e) {
       ErrHandler(e);
     }

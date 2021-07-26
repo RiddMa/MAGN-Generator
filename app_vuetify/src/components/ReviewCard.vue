@@ -154,7 +154,7 @@ export default {
       //   "500px";
     },
     async onViewClicked() {
-      await this.$router.push(`/user/${this.movie.reviewId}/edit`);
+      await this.$router.push(`/user/${this.movie.reviewId}/view`);
     },
     async onEditClicked() {
       await this.$router.push(`/user/${this.movie.reviewId}/edit`);

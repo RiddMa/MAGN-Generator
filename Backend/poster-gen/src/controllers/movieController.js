@@ -4,7 +4,7 @@ const path = require("path");
 const Token = require("../lib/token");
 const store = require("../lib/store");
 const UserReviewDAO = require("../models/UserReviewModel");
-const {rootDir} = require("../../config");
+const { rootDir } = require("../../config");
 
 const sleep = (delay) => new Promise((resolve) => setTimeout(resolve, delay));
 
@@ -62,7 +62,8 @@ module.exports = {
   "POST /api/deleteUserReview": async (ctx, next) => {
     const reviewId = ctx.request.body.reviewId;
     const uuid = ctx.state.jwtData.uuid;
-    const reviewList = await UserReviewDAO.deleteUserReview(uuid, reviewId);
+    await UserReviewDAO.deleteUserReview(uuid, reviewId);
+    const reviewList = await UserReviewDAO.getAllUserReview(uuid);
     await ctx.rest(ctx, next, 200, reviewList);
   },
   /*
