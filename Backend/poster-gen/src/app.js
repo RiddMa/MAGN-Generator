@@ -2,7 +2,7 @@ const Koa = require("koa");
 const Cors = require("koa2-cors");
 const BodyParser = require("koa-bodyparser");
 const Logger = require("koa-logger");
-const Jwt = require("koa-jwt");
+const jwt = require("koa-jwt");
 const Controller = require("./controller");
 const Rest = require("./middlewares/rest");
 const Db = require("./lib/db");
@@ -21,7 +21,7 @@ app.use(Logger());
 app.use(Cors());
 app.use(BodyParser());
 app.use(
-  Jwt({ secret: Config.tokenSecret, key: "jwtData" }).unless({
+  jwt({ secret: Config.tokenSecret, key: "jwtData" }).unless({
     path: [/^\/api\/login/, /^\/api\/register/, /^\/api\/internal/],
   })
 );

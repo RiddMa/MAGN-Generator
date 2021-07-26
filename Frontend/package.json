@@ -20,7 +20,6 @@
     "moment": "^2.29.1",
     "moment-timezone": "^0.5.33",
     "naive-ui": "^2.15.2",
-    "puppeteer": "^10.1.0",
     "qs": "^6.5.2",
     "vue": "^3.0.0",
     "vue-axios": "^3.2.4",

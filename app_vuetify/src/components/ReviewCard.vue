@@ -15,21 +15,25 @@
         >
           <v-row>
             <v-col cols="9">
-              <v-card-title class="mb-2 text-h3">{{
+              <v-card-title class="reviewTitle mb-2 text-h4">{{
                 movie.title
               }}</v-card-title>
-              <v-card-subtitle class="text-h4">
+              <v-card-subtitle class="reviewSubTitle text-h5">
                 {{ movie.titleCN }}.{{ movie.year }}
               </v-card-subtitle>
             </v-col>
             <v-spacer></v-spacer>
             <v-col class="align-end align-content-center align-self-center">
               <v-row class="ratingRow justify-end">
-                <span class="text-right text-h4">{{ movie.rating.avg }}</span>
-                <span class="text-right text-body-2">/10</span>
+                <span class="text-right text-h5 yellow--text text--darken-3">
+                  {{ movie.rating.avg }}
+                </span>
+                <span class="text-right text-body-2 yellow--text text--darken-3"
+                  >/10</span
+                >
               </v-row>
               <v-row class="ratingRow justify-end">
-                <span class="text-right">{{ reviewDate }}</span>
+                <span class="text-right text--secondary">{{ reviewDate }}</span>
               </v-row>
             </v-col>
             <v-col
@@ -193,5 +197,11 @@ export default {
 }
 .editButton {
   border-width: 1.5px;
+}
+.reviewTitle {
+  color: #36b079;
+}
+.reviewSubTitle {
+  color: rgba(54, 176, 121, 0.9);
 }
 </style>
