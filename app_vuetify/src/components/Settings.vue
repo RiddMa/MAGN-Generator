@@ -1,6 +1,6 @@
 <template>
   <v-container class="px-0">
-    <v-expansion-panels class="settings" focusable popout>
+    <v-expansion-panels class="settings" hover popout v-model="showSettings">
       <v-expansion-panel class="settings">
         <v-expansion-panel-header class="pb-4 pt-auto px-auto">
           信息
@@ -37,21 +37,178 @@
                 :disabled="loading"
                 @keydown.enter="titleCNHandler"
               ></v-text-field>
+              <v-spacer></v-spacer>
+              <v-checkbox
+                :input-value="showYear"
+                hide-details
+                class="shrink ml-auto mr-2 my-auto align-center"
+                @change="toggleShowYear"
+              ></v-checkbox>
               <v-text-field
-                class="text-body-1 text--primary"
-                v-model="movie.year"
+                class="no-counter text-body-1 text--primary"
+                v-model.number="year"
                 type="number"
                 label="上映年份"
                 placeholder="请输入电影上映年份……"
+                prepend-inner-icon="mdi-minus"
+                @click:prepend-inner="year -= 1"
+                append-icon="mdi-plus"
+                @click:append="year += 1"
                 :color="'#40ba83'"
-                clearable
-                validate-on-blur
                 :loading="loading"
-                :disabled="loading"
-                @change="validateYear"
-                @input="validateYear"
+                :disabled="loading || !showYear"
                 @keydown.enter="enterBlur"
+                style="max-width: 175px"
               ></v-text-field>
+            </v-row>
+            <v-row>
+              <v-chip-group class="mb-4" v-model="genreChecked" column multiple>
+                <v-chip
+                  value="action"
+                  :ripple="false"
+                  label
+                  filter
+                  outlined
+                  v-blur
+                >
+                  动作
+                </v-chip>
+                <v-chip
+                  value="sci_fi"
+                  :ripple="false"
+                  label
+                  filter
+                  outlined
+                  v-blur
+                >
+                  科幻
+                </v-chip>
+                <v-chip
+                  value="adventure"
+                  :ripple="false"
+                  label
+                  filter
+                  outlined
+                  v-blur
+                >
+                  冒险
+                </v-chip>
+                <v-chip
+                  value="drama"
+                  :ripple="false"
+                  label
+                  filter
+                  outlined
+                  v-blur
+                >
+                  剧情
+                </v-chip>
+                <v-chip
+                  value="animation"
+                  :ripple="false"
+                  label
+                  filter
+                  outlined
+                  v-blur
+                >
+                  动漫/动画
+                </v-chip>
+                <v-chip
+                  value="fantasy"
+                  :ripple="false"
+                  label
+                  filter
+                  outlined
+                  v-blur
+                >
+                  奇幻/幻想
+                </v-chip>
+                <v-chip
+                  value="thriller"
+                  :ripple="false"
+                  label
+                  filter
+                  outlined
+                  v-blur
+                >
+                  悬疑/惊险
+                </v-chip>
+                <v-chip
+                  value="historical"
+                  :ripple="false"
+                  label
+                  filter
+                  outlined
+                  v-blur
+                >
+                  历史/记录
+                </v-chip>
+                <v-chip
+                  value="comedy"
+                  :ripple="false"
+                  label
+                  filter
+                  outlined
+                  v-blur
+                >
+                  喜剧
+                </v-chip>
+                <v-chip
+                  value="horror"
+                  :ripple="false"
+                  label
+                  filter
+                  outlined
+                  v-blur
+                >
+                  恐怖
+                </v-chip>
+              </v-chip-group>
+            </v-row>
+            <v-row>
+              <v-scale-transition
+                origin="left center 0"
+                leave-absolute
+                mode="out-in"
+              >
+                <v-btn
+                  v-if="!showClearCheck"
+                  outlined
+                  color="red"
+                  @click.stop="showClearCheck = true"
+                >
+                  清空全部
+                </v-btn>
+              </v-scale-transition>
+              <v-scale-transition
+                origin="left center 0"
+                leave-absolute
+                mode="out-in"
+              >
+                <v-btn
+                  id="clearCheckAgain"
+                  v-if="showClearCheck"
+                  outlined
+                  color="red"
+                  @click.stop="onClearAllChecked"
+                  v-click-outside="onClearAllClickOutside"
+                >
+                  再次点击以清空全部!
+                </v-btn>
+              </v-scale-transition>
+              <v-spacer></v-spacer>
+              <v-hover>
+                <template v-slot:default="{ hover }">
+                  <v-btn
+                    outlined
+                    color="primary"
+                    :elevation="hover ? 4 : 0"
+                    @click="showSettings = undefined"
+                  >
+                    保存至云端
+                  </v-btn>
+                </template>
+              </v-hover>
             </v-row>
           </div>
         </v-expansion-panel-content>
@@ -62,14 +219,16 @@
 
 <script>
 import { mapState, mapGetters } from "vuex";
-const moment = require("moment");
 
 export default {
   name: "Settings",
   data() {
     return {
       loading: false,
-      maxYear: parseInt(moment().year().toFixed()) + 1,
+      showSettings: 0,
+      showYear: true,
+      showClearCheck: false,
+      tmpYear: 0,
     };
   },
   computed: {
@@ -77,8 +236,8 @@ export default {
       get() {
         return this.$store.getters.genreList;
       },
-      set(newGenre) {
-        this.$store.commit("setMovieGenre", newGenre);
+      set(newGenreList) {
+        this.$store.commit("setMovieGenre", newGenreList);
       },
     },
     movie: {
@@ -87,6 +246,14 @@ export default {
       },
       set(movieAttr) {
         this.$store.commit("setMovie", movieAttr);
+      },
+    },
+    year: {
+      get() {
+        return this.$store.state.movie.year;
+      },
+      set(newYear) {
+        this.$store.commit("setMovieYear", newYear);
       },
     },
     ...mapState({
@@ -99,18 +266,28 @@ export default {
   mounted() {},
   methods: {
     onSearch() {},
-    onClearAllClicked() {
+    onClearAllClickOutside() {
+      if (this.showClearCheck) {
+        document.getElementById("clearCheckAgain").style.position = "absolute";
+        this.showClearCheck = false;
+      }
+    },
+    onClearAllChecked() {
+      document.getElementById("clearCheckAgain").style.position = "absolute";
       this.$store.commit("clearMovie");
-      this.$store.commit("updateRadar");
+      this.$store.dispatch("updateRadar");
+      this.showClearCheck = false;
     },
     enterBlur(event) {
       event.target.blur();
     },
-    validateYear() {
-      if (this.movie.year >= this.maxYear) {
-        this.movie.year = this.maxYear;
-      } else if (this.movie.year <= 1888) {
-        this.movie.year = 1888;
+    toggleShowYear() {
+      this.showYear = !this.showYear;
+      if (this.showYear) {
+        this.$store.commit("setMovieYear", this.tmpYear);
+      } else {
+        this.tmpYear = this.year;
+        this.$store.commit("setMovieYear", 0);
       }
     },
   },
@@ -147,15 +324,12 @@ export default {
   align-items: center;
   padding-bottom: 5px;
 }
-/* Chrome, Safari, Edge, Opera */
-input::-webkit-outer-spin-button,
-input::-webkit-inner-spin-button {
+::v-deep .no-counter input[type="number"] {
+  -moz-appearance: textfield;
+}
+::v-deep .no-counter input::-webkit-outer-spin-button,
+::v-deep .no-counter input::-webkit-inner-spin-button {
   -webkit-appearance: none;
   margin: 0;
-}
-
-/* Firefox */
-input[type="number"] {
-  -moz-appearance: textfield;
 }
 </style>

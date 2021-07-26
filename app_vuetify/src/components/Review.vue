@@ -12,8 +12,11 @@
           </div>
         </v-card-title>
         <v-card-subtitle class="text-h4 pa-auto mx-2 my-auto">
-          <span class="reviewSubTitle">
+          <span v-if="movie.year !== 0" class="reviewSubTitle">
             {{ movie.titleCN }}.{{ movie.year }}
+          </span>
+          <span v-else class="reviewSubTitle">
+            {{ movie.titleCN }}
           </span>
           <v-container fluid class="px-0">
             <v-chip

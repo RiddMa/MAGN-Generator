@@ -40,9 +40,6 @@ const movieStore = {
         state.timestamp = date;
       }
     },
-    setMovieRating(state, rating) {
-      state.rating = rating;
-    },
     setMovieRatingAvg(state) {
       let tmpRating = 0;
       const ratingTypeCount = Object.keys(state.rating).length - 1;
@@ -51,11 +48,26 @@ const movieStore = {
       }
       state.rating.avg = tmpRating / ratingTypeCount;
     },
-    setMovieGenre(state, newGenre) {
+    setMovieGenre(state, newGenreList) {
       for (let i = 0; i < Object.keys(state.genre).length; i++) {
         Object.keys(state.genre).filter((genre) => {
-          state.genre[genre] = newGenre.includes(genre);
+          state.genre[genre] = newGenreList.includes(genre);
         });
+      }
+    },
+    setMovieYear(state, year) {
+      const max = parseInt(moment().year().toFixed()) + 1;
+      const min = 1888;
+      if (year > max) {
+        state.year = max;
+      } else if (year < min) {
+        if (year === 0) {
+          state.year = year;
+        } else {
+          state.year = min;
+        }
+      } else {
+        state.year = year;
       }
     },
     setMovieComment(state, newComment) {
