@@ -1,271 +1,63 @@
 <template>
-  <v-container fluid>
-    <v-spacer></v-spacer>
-
-    <v-spacer></v-spacer>
+  <v-container class="px-0">
+    <v-expansion-panels class="settings" focusable popout>
+      <v-expansion-panel class="settings">
+        <v-expansion-panel-header class="pb-4 pt-auto px-auto">
+          信息
+        </v-expansion-panel-header>
+        <v-expansion-panel-content>
+          <div class="my-6 mx-3 px-auto">
+            <v-row>
+              <v-text-field
+                class="text-body-1 text--primary"
+                v-model="movie.title"
+                type="text"
+                label="标题"
+                placeholder="请输入电影英文标题……"
+                :color="'#40ba83'"
+                autofocus
+                clearable
+                validate-on-blur
+                :loading="loading"
+                :disabled="loading"
+                @keydown.enter="titleHandler"
+              ></v-text-field>
+            </v-row>
+            <v-row>
+              <v-text-field
+                class="text-body-1 text--primary"
+                v-model="movie.titleCN"
+                type="text"
+                label="中文标题"
+                placeholder="请输入电影中文标题……"
+                :color="'#40ba83'"
+                clearable
+                validate-on-blur
+                :loading="loading"
+                :disabled="loading"
+                @keydown.enter="titleCNHandler"
+              ></v-text-field>
+              <v-text-field
+                class="text-body-1 text--primary"
+                v-model="movie.year"
+                type="number"
+                label="上映年份"
+                placeholder="请输入电影上映年份……"
+                :color="'#40ba83'"
+                clearable
+                validate-on-blur
+                :loading="loading"
+                :disabled="loading"
+                @change="validateYear"
+                @input="validateYear"
+                @keydown.enter="enterBlur"
+              ></v-text-field>
+            </v-row>
+          </div>
+        </v-expansion-panel-content>
+      </v-expansion-panel>
+    </v-expansion-panels>
   </v-container>
-  <!--  <div>-->
-  <!--    <a-collapse v-model:activeKey="activeKey" :bordered="false">-->
-  <!--      <a-collapse-panel key="1" header="选项&nbsp&nbsp&nbsp&nbsp">-->
-  <!--        <a-row>-->
-  <!--          <a-col flex="auto"></a-col>-->
-  <!--          <a-col :xxl="11" :xl="15" :lg="17" :md="19" :sm="22" :xs="24">-->
-  <!--            <a-space direction="vertical" style="width: 100%"> </a-space>-->
-  <!--            <a-row class="searchRow">-->
-  <!--              <a-input-->
-  <!--                class="inputField"-->
-  <!--                v-model:value="movie.title"-->
-  <!--                placeholder="输入电影名称…"-->
-  <!--                size="large"-->
-  <!--                @pressEnter="onSearch"-->
-  <!--                allowClear-->
-  <!--              >-->
-  <!--                <template #prefix>-->
-  <!--                  <SearchOutlined />-->
-  <!--                </template>-->
-  <!--                <template #suffix>-->
-  <!--                  <a-button-->
-  <!--                    class="searchButton"-->
-  <!--                    type="primary"-->
-  <!--                    @click="onSearch"-->
-  <!--                    >确认</a-button-->
-  <!--                  >-->
-  <!--                </template>-->
-  <!--              </a-input>-->
-  <!--            </a-row>-->
-  <!--            <a-row class="searchRow">-->
-  <!--              <a-col :span="18">-->
-  <!--                <a-input-->
-  <!--                  class="inputField"-->
-  <!--                  v-model:value="movie.titleCN"-->
-  <!--                  placeholder="输入电影中文名称…"-->
-  <!--                  allowClear-->
-  <!--                  @pressEnter="enterBlur"-->
-  <!--                />-->
-  <!--              </a-col>-->
-  <!--              <a-col :span="1"></a-col>-->
-  <!--              <a-col :span="5">-->
-  <!--                <a-input-number-->
-  <!--                  class="inputField"-->
-  <!--                  v-model:value="movie.year"-->
-  <!--                  placeholder="输入电影年份…"-->
-  <!--                  :max="maxYear"-->
-  <!--                  :min="1888"-->
-  <!--                  @pressEnter="enterBlur"-->
-  <!--                />-->
-  <!--              </a-col>-->
-  <!--            </a-row>-->
-  <!--            <a-row class="searchRow">-->
-  <!--              <a-checkbox-group v-model:value="genreChecked">-->
-  <!--                <div v-if="!fitPhone">-->
-  <!--                  <a-row style="margin-bottom: 1vh">-->
-  <!--                    <a-col flex="auto"></a-col>-->
-  <!--                    <a-col class="checkboxCol">-->
-  <!--                      <a-space>-->
-  <!--                        <a-checkbox-->
-  <!--                          class="genreCheckbox"-->
-  <!--                          value="action"-->
-  <!--                          name="type"-->
-  <!--                        >-->
-  <!--                          动作-->
-  <!--                        </a-checkbox>-->
-  <!--                        <a-checkbox-->
-  <!--                          class="genreCheckbox"-->
-  <!--                          value="sci_fi"-->
-  <!--                          name="type"-->
-  <!--                        >-->
-  <!--                          科幻-->
-  <!--                        </a-checkbox>-->
-  <!--                        <a-checkbox-->
-  <!--                          class="genreCheckbox"-->
-  <!--                          value="adventure"-->
-  <!--                          name="type"-->
-  <!--                        >-->
-  <!--                          冒险-->
-  <!--                        </a-checkbox>-->
-  <!--                        <a-checkbox-->
-  <!--                          class="genreCheckbox"-->
-  <!--                          value="drama"-->
-  <!--                          name="type"-->
-  <!--                        >-->
-  <!--                          剧情-->
-  <!--                        </a-checkbox>-->
-  <!--                        <a-checkbox-->
-  <!--                          class="genreCheckbox"-->
-  <!--                          value="animation"-->
-  <!--                          name="type"-->
-  <!--                        >-->
-  <!--                          动漫/动画-->
-  <!--                        </a-checkbox>-->
-  <!--                      </a-space>-->
-  <!--                    </a-col>-->
-  <!--                    <a-col flex="auto"></a-col>-->
-  <!--                  </a-row>-->
-  <!--                  <a-row>-->
-  <!--                    <a-col flex="auto"></a-col>-->
-  <!--                    <a-col class="checkboxCol">-->
-  <!--                      <a-space>-->
-  <!--                        <a-checkbox-->
-  <!--                          class="genreCheckbox"-->
-  <!--                          value="fantasy"-->
-  <!--                          name="type"-->
-  <!--                        >-->
-  <!--                          奇幻/幻想-->
-  <!--                        </a-checkbox>-->
-  <!--                        <a-checkbox-->
-  <!--                          class="genreCheckbox"-->
-  <!--                          value="thriller"-->
-  <!--                          name="type"-->
-  <!--                        >-->
-  <!--                          悬疑/惊险-->
-  <!--                        </a-checkbox>-->
-  <!--                        <a-checkbox-->
-  <!--                          class="genreCheckbox"-->
-  <!--                          value="historical"-->
-  <!--                          name="type"-->
-  <!--                        >-->
-  <!--                          历史/记录-->
-  <!--                        </a-checkbox>-->
-  <!--                        <a-checkbox-->
-  <!--                          class="genreCheckbox"-->
-  <!--                          value="comedy"-->
-  <!--                          name="type"-->
-  <!--                        >-->
-  <!--                          喜剧-->
-  <!--                        </a-checkbox>-->
-  <!--                        <a-checkbox-->
-  <!--                          class="genreCheckbox"-->
-  <!--                          value="horror"-->
-  <!--                          name="type"-->
-  <!--                        >-->
-  <!--                          恐怖-->
-  <!--                        </a-checkbox>-->
-  <!--                      </a-space>-->
-  <!--                    </a-col>-->
-  <!--                    <a-col flex="auto"></a-col>-->
-  <!--                  </a-row>-->
-  <!--                </div>-->
-  <!--                <div v-if="fitPhone">-->
-  <!--                  <a-row class="checkboxRow">-->
-  <!--                    <a-col flex="auto"></a-col>-->
-  <!--                    <a-col class="checkboxCol">-->
-  <!--                      <a-space>-->
-  <!--                        <a-checkbox-->
-  <!--                          class="genreCheckbox"-->
-  <!--                          value="action"-->
-  <!--                          name="type"-->
-  <!--                        >-->
-  <!--                          动作-->
-  <!--                        </a-checkbox>-->
-  <!--                        <a-checkbox-->
-  <!--                          class="genreCheckbox"-->
-  <!--                          value="sci_fi"-->
-  <!--                          name="type"-->
-  <!--                        >-->
-  <!--                          科幻-->
-  <!--                        </a-checkbox>-->
-  <!--                        <a-checkbox-->
-  <!--                          class="genreCheckbox"-->
-  <!--                          value="adventure"-->
-  <!--                          name="type"-->
-  <!--                        >-->
-  <!--                          冒险-->
-  <!--                        </a-checkbox>-->
-  <!--                      </a-space>-->
-  <!--                    </a-col>-->
-  <!--                    <a-col flex="auto"></a-col>-->
-  <!--                  </a-row>-->
-  <!--                  <a-row class="checkboxRow">-->
-  <!--                    <a-col flex="auto"></a-col>-->
-  <!--                    <a-col class="checkboxCol">-->
-  <!--                      <a-space>-->
-  <!--                        <a-checkbox-->
-  <!--                          class="genreCheckbox"-->
-  <!--                          value="drama"-->
-  <!--                          name="type"-->
-  <!--                        >-->
-  <!--                          剧情-->
-  <!--                        </a-checkbox>-->
-  <!--                        <a-checkbox-->
-  <!--                          class="genreCheckbox"-->
-  <!--                          value="animation"-->
-  <!--                          name="type"-->
-  <!--                        >-->
-  <!--                          动漫/动画-->
-  <!--                        </a-checkbox>-->
-  <!--                        <a-checkbox-->
-  <!--                          class="genreCheckbox"-->
-  <!--                          value="fantasy"-->
-  <!--                          name="type"-->
-  <!--                        >-->
-  <!--                          奇幻/幻想-->
-  <!--                        </a-checkbox>-->
-  <!--                      </a-space>-->
-  <!--                    </a-col>-->
-  <!--                    <a-col flex="auto"></a-col>-->
-  <!--                  </a-row>-->
-  <!--                  <a-row class="checkboxRow">-->
-  <!--                    <a-col flex="auto"></a-col>-->
-  <!--                    <a-col class="checkboxCol">-->
-  <!--                      <a-space>-->
-  <!--                        <a-checkbox-->
-  <!--                          class="genreCheckbox"-->
-  <!--                          value="thriller"-->
-  <!--                          name="type"-->
-  <!--                        >-->
-  <!--                          悬疑/惊险-->
-  <!--                        </a-checkbox>-->
-  <!--                        <a-checkbox-->
-  <!--                          class="genreCheckbox"-->
-  <!--                          value="historical"-->
-  <!--                          name="type"-->
-  <!--                        >-->
-  <!--                          历史/记录-->
-  <!--                        </a-checkbox>-->
-  <!--                        <a-checkbox-->
-  <!--                          class="genreCheckbox"-->
-  <!--                          value="comedy"-->
-  <!--                          name="type"-->
-  <!--                        >-->
-  <!--                          喜剧-->
-  <!--                        </a-checkbox>-->
-  <!--                      </a-space>-->
-  <!--                    </a-col>-->
-  <!--                    <a-col flex="auto"></a-col>-->
-  <!--                  </a-row>-->
-  <!--                  <a-row class="checkboxRow">-->
-  <!--                    <a-col flex="auto"></a-col>-->
-  <!--                    <a-col class="checkboxCol">-->
-  <!--                      <a-space>-->
-  <!--                        <a-checkbox-->
-  <!--                          class="genreCheckbox"-->
-  <!--                          value="horror"-->
-  <!--                          name="type"-->
-  <!--                        >-->
-  <!--                          恐怖-->
-  <!--                        </a-checkbox>-->
-  <!--                      </a-space>-->
-  <!--                    </a-col>-->
-  <!--                    <a-col flex="auto"></a-col>-->
-  <!--                  </a-row>-->
-  <!--                </div>-->
-  <!--              </a-checkbox-group>-->
-  <!--            </a-row>-->
-  <!--            <a-row>-->
-  <!--              <a-col flex="auto"></a-col>-->
-  <!--              <a-col>-->
-  <!--                <a-button type="primary" @click="onClearAllClicked"-->
-  <!--                  >清空全部</a-button-->
-  <!--                >-->
-  <!--              </a-col>-->
-  <!--              <a-col flex="auto"></a-col>-->
-  <!--            </a-row>-->
-  <!--          </a-col>-->
-  <!--          <a-col flex="auto"></a-col>-->
-  <!--        </a-row>-->
-  <!--      </a-collapse-panel>-->
-  <!--    </a-collapse>-->
-  <!--  </div>-->
 </template>
 
 <script>
@@ -274,16 +66,10 @@ const moment = require("moment");
 
 export default {
   name: "Settings",
-
   data() {
     return {
+      loading: false,
       maxYear: parseInt(moment().year().toFixed()) + 1,
-    };
-  },
-  setup() {
-    const activeKey = ref([1]);
-    return {
-      activeKey,
     };
   },
   computed: {
@@ -320,11 +106,22 @@ export default {
     enterBlur(event) {
       event.target.blur();
     },
+    validateYear() {
+      if (this.movie.year >= this.maxYear) {
+        this.movie.year = this.maxYear;
+      } else if (this.movie.year <= 1888) {
+        this.movie.year = 1888;
+      }
+    },
   },
 };
 </script>
 
 <style scoped>
+.settings {
+  border-width: 2px;
+  border-color: #36b079;
+}
 .searchRow {
   margin: 0 0 2vh 0;
 }
@@ -349,5 +146,16 @@ export default {
   justify-content: center;
   align-items: center;
   padding-bottom: 5px;
+}
+/* Chrome, Safari, Edge, Opera */
+input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+/* Firefox */
+input[type="number"] {
+  -moz-appearance: textfield;
 }
 </style>

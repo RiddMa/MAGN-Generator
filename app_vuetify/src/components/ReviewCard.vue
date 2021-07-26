@@ -15,25 +15,31 @@
         >
           <v-row>
             <v-col cols="9">
-              <v-card-title class="reviewTitle mb-2 text-h4">{{
-                movie.title
-              }}</v-card-title>
+              <v-card-title class="reviewTitle mb-2 text-h4">
+                {{ movie.title }}
+              </v-card-title>
               <v-card-subtitle class="reviewSubTitle text-h5">
                 {{ movie.titleCN }}.{{ movie.year }}
               </v-card-subtitle>
             </v-col>
             <v-spacer></v-spacer>
-            <v-col class="align-end align-content-center align-self-center">
-              <v-row class="ratingRow justify-end">
+            <v-col
+              class="align-content-center align-self-center align-baseline"
+            >
+              <v-row class="ratingRow justify-end mt-2">
                 <span class="text-right text-h5 yellow--text text--darken-3">
                   {{ movie.rating.avg }}
                 </span>
-                <span class="text-right text-body-2 yellow--text text--darken-3"
-                  >/10</span
+                <span
+                  class="text-right text-body-2 yellow--text text--darken-3"
                 >
+                  /10
+                </span>
               </v-row>
               <v-row class="ratingRow justify-end">
-                <span class="text-right text--secondary">{{ reviewDate }}</span>
+                <span class="text-right text--secondary mt-4">
+                  {{ reviewDate }}
+                </span>
               </v-row>
             </v-col>
             <v-col
@@ -48,14 +54,19 @@
               </v-btn>
             </v-col>
           </v-row>
+          <v-row>
+            <span class="reviewQuote mx-7 mb-8 pl-2 pr-0 py-0 text--secondary">
+              {{ movie.comment }}
+            </span>
+          </v-row>
 
           <v-expand-transition>
             <div
               v-if="reveal"
               class="transition-fast-in-fast-out v-card--reveal"
             >
-              <v-divider></v-divider>
-              <v-container class="my-2">
+              <!--              <v-divider class="mx-3"></v-divider>-->
+              <v-container class="mt-0 mb-2">
                 <v-row>
                   <v-col cols="3">
                     <v-hover>
@@ -203,5 +214,21 @@ export default {
 }
 .reviewSubTitle {
   color: rgba(54, 176, 121, 0.9);
+}
+.reviewQuote {
+  border: 0 solid lightgrey;
+  border-radius: 0;
+  border-left-width: 2px;
+  word-break: normal; /* maybe !important  */
+  -webkit-hyphens: auto;
+  -moz-hyphens: auto;
+  -ms-hyphens: auto;
+  hyphens: auto;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  display: -webkit-box;
+  -webkit-line-clamp: 3; /* number of lines to show */
+  max-lines: 3;
+  -webkit-box-orient: vertical;
 }
 </style>

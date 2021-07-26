@@ -21,6 +21,11 @@
         <div style="height: 500px"></div>
       </v-container>
     </v-main>
+    <v-footer padless>
+      <v-col class="text-center">
+        {{ new Date().getFullYear() }} — <strong>Ridd</strong>
+      </v-col>
+    </v-footer>
   </v-app>
 </template>
 

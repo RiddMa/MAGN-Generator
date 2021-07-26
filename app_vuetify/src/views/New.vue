@@ -2,6 +2,7 @@
   <v-container>
     <v-row>
       <v-col class="reviewBase ma-auto">
+        <Settings></Settings>
         <Review></Review>
       </v-col>
     </v-row>
@@ -10,9 +11,10 @@
 
 <script>
 import Review from "@/components/Review";
+import Settings from "@/components/Settings";
 export default {
   name: "New",
-  components: { Review },
+  components: { Settings, Review },
 };
 </script>
 

@@ -80,6 +80,63 @@
                             </template>
                           </v-hover>
                         </v-row>
+                        <v-row class="ma-auto justify-end">
+                          <v-dialog max-width="540">
+                            <template v-slot:activator="{ on, attrs }">
+                              <v-btn
+                                outlined
+                                right
+                                ripple
+                                color="primary"
+                                v-bind="attrs"
+                                v-on="on"
+                                >忘记密码?</v-btn
+                              >
+                            </template>
+                            <template v-slot:default="dialog">
+                              <v-card class="forgetPassDialog" elevation="24">
+                                <v-card-title
+                                  class="
+                                    dialogTitle
+                                    text-h5
+                                    white--text
+                                    my-auto
+                                    pb-4
+                                  "
+                                >
+                                  忘记密码?
+                                </v-card-title>
+                                <v-card-text
+                                  class="text-body-1 text--primary pb-0"
+                                >
+                                  <div class="pt-6 pb-0">
+                                    <p class="text-left">
+                                      请放松，并尝试回忆起密码。
+                                    </p>
+                                    <p class="text-right">祝你好运！</p>
+                                  </div>
+                                </v-card-text>
+                                <v-card-actions class="justify-center mt-0">
+                                  <v-btn
+                                    class="
+                                      mx-auto
+                                      mb-4
+                                      mt-0
+                                      py-auto
+                                      px-6
+                                      align-center
+                                    "
+                                    color="primary"
+                                    style="color: #36b079"
+                                    outlined
+                                    @click="dialog.value = false"
+                                    >谢谢!</v-btn
+                                  >
+                                </v-card-actions>
+                              </v-card>
+                            </template>
+                          </v-dialog>
+                        </v-row>
                       </div>
                     </v-tab-item>
                     <v-tab-item :value="'tab-1'" :key="1">
@@ -278,5 +335,12 @@ export default {
 }
 .activeTab {
   /*background-color: rgba(207, 255, 233, 0.2);*/
+}
+.forgetPassDialog {
+  border-color: #40ba83;
+  border-width: 2px;
+}
+.dialogTitle {
+  background-color: #40ba83;
 }
 </style>
