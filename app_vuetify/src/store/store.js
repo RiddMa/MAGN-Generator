@@ -115,7 +115,7 @@ export default new Vuex.Store({
     async isUserLoggedIn(context, that) {
       if (localStorage.getItem("token") === null) {
         context.commit("showToast", {
-          message: "请先登录",
+          message: "请先登录。您的更改已缓存。",
           type: "info",
           timer: 1500,
         });

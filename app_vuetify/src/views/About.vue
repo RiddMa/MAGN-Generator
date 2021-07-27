@@ -73,10 +73,10 @@ export default {
     },
   },
   mounted() {
-    aboutIn();
+    // aboutIn();
   },
   beforeDestroy() {
-    aboutOut();
+    // aboutOut();
   },
 };
 </script>

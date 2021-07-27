@@ -1,5 +1,5 @@
 <template>
-  <v-container>
+  <v-container fluid id="userBase">
     <v-row>
       <v-col class="reviewBase ma-auto">
         <template v-if="reviewList.length === 0">

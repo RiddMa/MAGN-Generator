@@ -100,53 +100,63 @@ body {
 
 .fold-left-enter-active {
   animation-name: fold-left-in;
-  animation-duration: 0.3s;
+  animation-duration: 0.8s;
+  animation-timing-function: cubic-bezier(0.4, 1.1, 0, 1);
 }
 .fold-left-leave-active {
+  position: absolute;
   animation-name: fold-left-out;
-  animation-duration: 0.3s;
+  animation-duration: 0.8s;
+  animation-timing-function: cubic-bezier(0.4, 1.1, 0, 1);
 }
 @keyframes fold-left-in {
   0% {
     -webkit-transform: translate3d(100%, 0, 0);
     transform: translate3d(100%, 0, 0);
-    /* visibility: visible; */
+    opacity: 0%;
   }
   100% {
     -webkit-transform: translate3d(0, 0, 0);
     transform: translate3d(0, 0, 0);
+    opacity: 100%;
   }
 }
 @keyframes fold-left-out {
   0% {
     -webkit-transform: translate3d(0, 0, 0);
     transform: translate3d(0, 0, 0);
+    opacity: 100%;
   }
   100% {
     -webkit-transform: translate3d(-100%, 0, 0);
     transform: translate3d(-100%, 0, 0);
-    /* visibility: hidden; */
+    opacity: 0%;
   }
 }
 .fold-right-enter-active {
   animation-name: fold-right-in;
-  animation-duration: 0.3s;
+  animation-duration: 0.8s;
+  animation-timing-function: cubic-bezier(0.4, 1.1, 0, 1);
 }
 .fold-right-leave-active {
+  position: absolute;
   animation-name: fold-right-out;
-  animation-duration: 0.3s;
+  animation-duration: 0.8s;
+  animation-timing-function: cubic-bezier(0.4, 1.1, 0, 1);
 }
+
 @keyframes fold-right-in {
   0% {
     width: 100%;
     -webkit-transform: translate3d(-100%, 0, 0);
     transform: translate3d(-100%, 0, 0);
-    /* visibility: visible; */
+    opacity: 0%;
   }
   100% {
     width: 100%;
     -webkit-transform: translate3d(0, 0, 0);
     transform: translate3d(0, 0, 0);
+    opacity: 100%;
   }
 }
 @keyframes fold-right-out {
@@ -154,15 +164,13 @@ body {
     width: 100%;
     -webkit-transform: translate3d(0, 0, 0);
     transform: translate3d(0, 0, 0);
+    opacity: 100%;
   }
-  /*50% {
-    transform: translate3d(-50%, 0 , 0);
-  }*/
   100% {
     width: 100%;
     -webkit-transform: translate3d(100%, 0, 0);
     transform: translate3d(100%, 0, 0);
-    /* visibility: hidden; */
+    opacity: 0%;
   }
 }
 </style>

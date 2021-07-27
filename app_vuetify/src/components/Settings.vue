@@ -1,5 +1,5 @@
 <template>
-  <v-container class="px-0">
+  <v-container fluid class="px-0">
     <v-expansion-panels class="settings" hover popout v-model="showSettings">
       <v-expansion-panel class="settings">
         <v-expansion-panel-header class="pb-4 pt-auto px-auto">
