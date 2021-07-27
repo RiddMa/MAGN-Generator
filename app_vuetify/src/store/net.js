@@ -120,7 +120,7 @@ const netStore = {
           .then((response) => {
             context.commit("showToast", {
               type: "success",
-              message: "删除成功.",
+              message: "删除成功",
             });
             context.commit("setReviewList", response.data);
             resolve(response);

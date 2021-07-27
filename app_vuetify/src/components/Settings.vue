@@ -40,7 +40,7 @@
               <v-checkbox
                 :input-value="showYear"
                 hide-details
-                class="shrink ml-auto mr-2 my-auto align-center"
+                class="shrink ml-auto mr-2 mb-6 align-baseline"
                 @change="toggleShowYear"
               ></v-checkbox>
               <v-text-field
@@ -78,25 +78,53 @@
               </v-chip-group>
             </v-row>
             <v-row>
-              <v-hover :value="showClearCheck">
-                <template v-slot:default="{ hover }">
-                  <v-scale-transition
-                    origin="left center 0"
-                    leave-absolute
-                    mode="out-in"
-                  >
+              <RatingInput
+                desc="剧情"
+                :rating.sync="movie.rating.screenplay"
+                :loading="loading"
+              ></RatingInput>
+              <v-spacer></v-spacer>
+              <RatingInput
+                desc="视效/摄影"
+                :rating.sync="movie.rating.visual"
+                :loading="loading"
+              ></RatingInput>
+              <v-spacer></v-spacer>
+              <RatingInput
+                desc="演出/剪辑"
+                :rating.sync="movie.rating.editing"
+                :loading="loading"
+              ></RatingInput>
+              <v-spacer></v-spacer>
+              <RatingInput
+                desc="音乐/音效"
+                :rating.sync="movie.rating.sound"
+                :loading="loading"
+              ></RatingInput>
+              <v-spacer></v-spacer>
+            </v-row>
+            <v-row>
+              <v-scale-transition
+                origin="left center 0"
+                leave-absolute
+                mode="out-in"
+              >
+                <v-hover :value="showClearCheck">
+                  <template v-slot:default="{ hover }">
                     <v-btn
                       v-if="!showClearCheck"
+                      class="mr-2"
                       outlined
                       color="red"
                       @click.stop="showClearCheck = true"
                       :elevation="hover ? 4 : 0"
+                      :disabled="loading"
                     >
                       清空全部
                     </v-btn>
-                  </v-scale-transition>
-                </template>
-              </v-hover>
+                  </template>
+                </v-hover>
+              </v-scale-transition>
               <v-scale-transition
                 origin="left center 0"
                 leave-absolute
@@ -109,8 +137,10 @@
                   color="red"
                   @click.stop="onClearAllChecked"
                   v-click-outside="onClearAllClickOutside"
+                  :disabled="loading"
                 >
-                  再次点击以清空全部!
+                  <v-icon dense class="mr-1">mdi-alert</v-icon>
+                  确认? 点此清空全部
                 </v-btn>
               </v-scale-transition>
               <v-spacer></v-spacer>
@@ -120,7 +150,8 @@
                     outlined
                     color="primary"
                     :elevation="hover ? 4 : 0"
-                    @click="showSettings = undefined"
+                    @click="sendReview"
+                    :loading="loading"
                   >
                     保存至云端
                   </v-btn>
@@ -136,9 +167,11 @@
 
 <script>
 import { mapState, mapGetters } from "vuex";
+import RatingInput from "@/components/RatingInput";
 
 export default {
   name: "Settings",
+  components: { RatingInput },
   data() {
     return {
       loading: false,
@@ -146,6 +179,12 @@ export default {
       showYear: true,
       showClearCheck: false,
       tmpYear: 0,
+      awesome: {
+        screenplay: false,
+        visual: false,
+        editing: false,
+        sound: false,
+      },
     };
   },
   computed: {
@@ -207,6 +246,17 @@ export default {
         this.tmpYear = this.year;
         this.$store.commit("setMovieYear", 0);
       }
+    },
+    async sendReview() {
+      this.loading = true;
+      if ((await this.$store.dispatch("isUserLoggedIn", this)) === true) {
+        await this.$store.dispatch("saveUserReview", this.$store.state.movie);
+      } else {
+        this.$store.commit("pushPendingQueue", "saveUserReview");
+      }
+      this.loading = false;
+      this.showSettings = undefined;
+      this.$store.commit("showToast", { type: "success", message: "保存成功" });
     },
   },
 };

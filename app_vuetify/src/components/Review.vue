@@ -150,7 +150,6 @@ export default {
   },
   methods: {},
   async mounted() {
-    this.genreChecked = await this.$store.dispatch("getCheckedGenre");
     this.$store.commit("setReviewDate");
     this.$store.commit("setMovieRatingAvg");
     if (this.$route.fullPath === "/") {

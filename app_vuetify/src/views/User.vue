@@ -16,14 +16,12 @@
 
 <script>
 import { mapGetters, mapState } from "vuex";
-import Settings from "@/components/Settings";
 import ReviewCard from "@/components/ReviewCard";
 
 export default {
   name: "UserProfile",
   components: {
     ReviewCard,
-    Settings,
   },
   data() {
     return {

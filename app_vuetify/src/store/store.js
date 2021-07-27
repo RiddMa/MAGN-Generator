@@ -61,7 +61,15 @@ export default new Vuex.Store({
       }
     ) {
       state.toast.message = data.message;
-      state.toast.timer = data.timer;
+      if (data.timer !== undefined) {
+        state.toast.timer = data.timer;
+      } else {
+        state.toast.timer = 1500;
+      }
+      if (data.icon === undefined && data.type === undefined) {
+        state.toast.icon = "mdi-information-outline";
+      }
+
       switch (data.type) {
         case "success": {
           state.toast.color = "green";

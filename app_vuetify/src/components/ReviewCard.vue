@@ -4,16 +4,16 @@
       <template v-slot:default="{ hover }">
         <v-card
           :id="`RC${movie.reviewId}`"
-          class="reviewCard ma-4 px-4 py-2 transition-swing"
+          class="reviewCard ma-4 px-4 pt-0 pb-4 transition-swing"
           outlined
           v-blur
           :min-width="width"
           :min-height="height"
           :loading="loading"
           :elevation="hover ? 12 : 6"
-          @click="reveal = !reveal"
+          @click="onCardClicked"
         >
-          <v-row>
+          <v-row class="mt-1">
             <v-col cols="9">
               <v-card-title class="reviewTitle mb-2 text-h4">
                 {{ movie.title }}
@@ -77,8 +77,10 @@
                           block
                           :elevation="hover ? 6 : 2"
                           color="red"
+                          :disabled="loading"
                           @click.stop="onDeleteClicked"
                         >
+                          <v-icon dense>mdi-delete-outline</v-icon>
                           删除
                         </v-btn>
                       </template>
@@ -94,8 +96,10 @@
                           block
                           :elevation="hover ? 6 : 2"
                           color="blue lighten-1"
+                          :disabled="loading"
                           @click.stop="onEditClicked"
                         >
+                          <v-icon dense>mdi-pencil-outline</v-icon>
                           编辑
                         </v-btn>
                       </template>
@@ -111,8 +115,10 @@
                           block
                           :elevation="hover ? 6 : 2"
                           color="green lighten-1"
+                          :disabled="loading"
                           @click.stop="onViewClicked"
                         >
+                          <v-icon dense>mdi-file-find</v-icon>
                           查看
                         </v-btn>
                       </template>
@@ -149,6 +155,7 @@ export default {
       height: 0,
       width: 0,
       dialog: false,
+      showDeleteCheck: false,
     };
   },
   computed: {
@@ -168,6 +175,13 @@ export default {
       // document.getElementById(`RC${this.movie.reviewId}`).style.height =
       //   "500px";
     },
+    onCardClicked() {
+      if (this.showDeleteCheck) {
+        this.showDeleteCheck = false;
+      } else {
+        this.reveal = !this.reveal;
+      }
+    },
     async onViewClicked() {
       await this.$router.push(`/user/${this.movie.reviewId}/view`);
     },
@@ -175,7 +189,11 @@ export default {
       await this.$router.push(`/user/${this.movie.reviewId}/edit`);
     },
     async onDeleteClicked() {
+      //show modal
+      this.loading = true;
       await this.$store.dispatch("deleteUserReview", this.movie.reviewId);
+      this.showDeleteCheck = false;
+      this.loading = false;
     },
   },
   mounted() {
