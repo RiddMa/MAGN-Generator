@@ -6,7 +6,7 @@
           信息
         </v-expansion-panel-header>
         <v-expansion-panel-content>
-          <div class="my-6 mx-3 px-auto">
+          <div class="my-6 mx-2 px-auto">
             <v-row>
               <v-text-field
                 class="text-body-1 text--primary"
@@ -15,7 +15,6 @@
                 label="标题"
                 placeholder="请输入电影英文标题……"
                 :color="'#40ba83'"
-                autofocus
                 clearable
                 validate-on-blur
                 :loading="loading"
@@ -63,123 +62,41 @@
             </v-row>
             <v-row>
               <v-chip-group class="mb-4" v-model="genreChecked" column multiple>
-                <v-chip
-                  value="action"
-                  :ripple="false"
-                  label
-                  filter
-                  outlined
-                  v-blur
-                >
-                  动作
-                </v-chip>
-                <v-chip
-                  value="sci_fi"
-                  :ripple="false"
-                  label
-                  filter
-                  outlined
-                  v-blur
-                >
-                  科幻
-                </v-chip>
-                <v-chip
-                  value="adventure"
-                  :ripple="false"
-                  label
-                  filter
-                  outlined
-                  v-blur
-                >
-                  冒险
-                </v-chip>
-                <v-chip
-                  value="drama"
-                  :ripple="false"
-                  label
-                  filter
-                  outlined
-                  v-blur
-                >
-                  剧情
-                </v-chip>
-                <v-chip
-                  value="animation"
-                  :ripple="false"
-                  label
-                  filter
-                  outlined
-                  v-blur
-                >
-                  动漫/动画
-                </v-chip>
-                <v-chip
-                  value="fantasy"
-                  :ripple="false"
-                  label
-                  filter
-                  outlined
-                  v-blur
-                >
-                  奇幻/幻想
-                </v-chip>
-                <v-chip
-                  value="thriller"
-                  :ripple="false"
-                  label
-                  filter
-                  outlined
-                  v-blur
-                >
-                  悬疑/惊险
-                </v-chip>
-                <v-chip
-                  value="historical"
-                  :ripple="false"
-                  label
-                  filter
-                  outlined
-                  v-blur
-                >
-                  历史/记录
-                </v-chip>
-                <v-chip
-                  value="comedy"
-                  :ripple="false"
-                  label
-                  filter
-                  outlined
-                  v-blur
-                >
-                  喜剧
-                </v-chip>
-                <v-chip
-                  value="horror"
-                  :ripple="false"
-                  label
-                  filter
-                  outlined
-                  v-blur
-                >
-                  恐怖
-                </v-chip>
+                <template v-for="item in genreTags">
+                  <v-chip
+                    :key="item.genre"
+                    :value="item.genre"
+                    :ripple="false"
+                    label
+                    filter
+                    outlined
+                    v-blur
+                  >
+                    {{ item.genreCN }}
+                  </v-chip>
+                </template>
               </v-chip-group>
             </v-row>
             <v-row>
-              <v-scale-transition
-                origin="left center 0"
-                leave-absolute
-                mode="out-in"
-              >
-                <v-btn
-                  v-if="!showClearCheck"
-                  outlined
-                  color="red"
-                  @click.stop="showClearCheck = true"
-                >
-                  清空全部
-                </v-btn>
-              </v-scale-transition>
+              <v-hover :value="showClearCheck">
+                <template v-slot:default="{ hover }">
+                  <v-scale-transition
+                    origin="left center 0"
+                    leave-absolute
+                    mode="out-in"
+                  >
+                    <v-btn
+                      v-if="!showClearCheck"
+                      outlined
+                      color="red"
+                      @click.stop="showClearCheck = true"
+                      :elevation="hover ? 4 : 0"
+                    >
+                      清空全部
+                    </v-btn>
+                  </v-scale-transition>
+                </template>
+              </v-hover>
               <v-scale-transition
                 origin="left center 0"
                 leave-absolute
@@ -261,6 +178,7 @@ export default {
     }),
     ...mapGetters({
       genreList: "genreList",
+      genreTags: "genreTags",
     }),
   },
   mounted() {},

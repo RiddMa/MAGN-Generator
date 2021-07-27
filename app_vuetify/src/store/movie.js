@@ -123,48 +123,41 @@ const movieStore = {
       });
       return genreList;
     },
-    genreListCN: (state) => {
-      let genreListCN = [];
-      const values = Object.values(state.genre);
-      Object.keys(state.genre).filter((genre, index) => {
-        if (values[index]) {
-          let genreCN = "";
-          switch (genre) {
-            case "action":
-              genreCN = "动作";
-              break;
-            case "adventure":
-              genreCN = "冒险";
-              break;
-            case "animation":
-              genreCN = "动漫/动画";
-              break;
-            case "comedy":
-              genreCN = "喜剧";
-              break;
-            case "drama":
-              genreCN = "剧情";
-              break;
-            case "fantasy":
-              genreCN = "奇幻/幻想";
-              break;
-            case "historical":
-              genreCN = "历史/记录";
-              break;
-            case "horror":
-              genreCN = "恐怖";
-              break;
-            case "sci_fi":
-              genreCN = "科幻";
-              break;
-            case "thriller":
-              genreCN = "悬疑/惊险";
-              break;
-          }
-          genreListCN.push(genreCN);
+    genreTags() {
+      return [
+        { genre: "action", genreCN: "动作" },
+        { genre: "sci_fi", genreCN: "科幻" },
+        { genre: "adventure", genreCN: "冒险" },
+        { genre: "drama", genreCN: "剧情" },
+        { genre: "animation", genreCN: "动漫/动画" },
+        { genre: "fantasy", genreCN: "奇幻/幻想" },
+        { genre: "thriller", genreCN: "悬疑/惊险" },
+        { genre: "historical", genreCN: "历史/记录" },
+        { genre: "comedy", genreCN: "喜剧" },
+        { genre: "horror", genreCN: "恐怖" },
+      ];
+    },
+    checkedGenreCN(state) {
+      let checked = [];
+      // fxxking ugly but works
+      let genreCN = [
+        { genre: "action", genreCN: "动作" },
+        { genre: "sci_fi", genreCN: "科幻" },
+        { genre: "adventure", genreCN: "冒险" },
+        { genre: "drama", genreCN: "剧情" },
+        { genre: "animation", genreCN: "动漫/动画" },
+        { genre: "fantasy", genreCN: "奇幻/幻想" },
+        { genre: "thriller", genreCN: "悬疑/惊险" },
+        { genre: "historical", genreCN: "历史/记录" },
+        { genre: "comedy", genreCN: "喜剧" },
+        { genre: "horror", genreCN: "恐怖" },
+      ];
+      genreCN.forEach((item) => {
+        if (state.genre[item.genre]) {
+          checked.push(item.genreCN);
         }
       });
-      return genreListCN;
+      return checked;
     },
   },
   actions: {},

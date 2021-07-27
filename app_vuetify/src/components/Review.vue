@@ -20,7 +20,7 @@
           </span>
           <v-container fluid class="px-0">
             <v-chip
-              v-for="genre in genreListCN"
+              v-for="genre in genreCheckedCN"
               :key="genre"
               class="mr-2 ml-0 pa-auto"
               :ripple="false"
@@ -117,7 +117,7 @@ export default {
   components: { RatingRow },
   data() {
     return {
-      username: this.$store.state.userStore.username,
+      username: this.$store.state.username,
     };
   },
   computed: {
@@ -145,18 +145,18 @@ export default {
     ...mapGetters({
       avgScore: "avgScore",
       reviewDate: "reviewDate",
-      genreList: "genreList",
-      genreListCN: "genreListCN",
+      genreCheckedCN: "checkedGenreCN",
     }),
   },
   methods: {},
-  mounted() {
+  async mounted() {
+    this.genreChecked = await this.$store.dispatch("getCheckedGenre");
     this.$store.commit("setReviewDate");
     this.$store.commit("setMovieRatingAvg");
     if (this.$route.fullPath === "/") {
-      this.$store.dispatch("drawRadar", "radarChart");
+      await this.$store.dispatch("drawRadar", "radarChart");
     } else {
-      this.$store.dispatch("drawRadarNoAnimation", "radarChart");
+      await this.$store.dispatch("drawRadarNoAnimation", "radarChart");
     }
   },
 };

@@ -1,7 +1,6 @@
 import axios from "axios";
 import QS from "qs";
 const { v1: UUIDv1 } = require("uuid");
-// import { message } from "ant-design-vue";
 
 const netStore = {
   state: {

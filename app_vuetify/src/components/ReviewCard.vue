@@ -26,8 +26,8 @@
             <v-col
               class="align-content-center align-self-center align-baseline"
             >
-              <v-row class="ratingRow justify-end mt-2">
-                <span class="text-right text-h5 yellow--text text--darken-3">
+              <v-row class="ratingRow justify-end">
+                <span class="text-right text-h4 yellow--text text--darken-3">
                   {{ movie.rating.avg }}
                 </span>
                 <span
@@ -37,7 +37,7 @@
                 </span>
               </v-row>
               <v-row class="ratingRow justify-end">
-                <span class="text-right text--secondary mt-4">
+                <span class="text-right text--secondary mt-3">
                   {{ reviewDate }}
                 </span>
               </v-row>
