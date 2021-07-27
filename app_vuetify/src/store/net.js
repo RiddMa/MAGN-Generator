@@ -183,6 +183,15 @@ const netStore = {
           });
       });
     },
+    async heartbeat(context) {
+      try {
+        let response = await context.state.instance.post("/heartbeat", {});
+        return { status: response.status, data: response.data };
+      } catch (e) {
+        console.log(e);
+        return { status: e.response.status, data: e.response.data };
+      }
+    },
   },
   getters: {},
 };

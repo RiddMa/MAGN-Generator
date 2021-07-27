@@ -22,7 +22,12 @@ app.use(Cors());
 app.use(BodyParser());
 app.use(
   jwt({ secret: Config.tokenSecret, key: "jwtData" }).unless({
-    path: [/^\/api\/login/, /^\/api\/register/, /^\/api\/internal/],
+    path: [
+      /^\/api\/login/,
+      /^\/api\/register/,
+      /^\/api\/internal/,
+      /^\/api\/heartbeat/,
+    ],
   })
 );
 app.use(Controller()); //scan router

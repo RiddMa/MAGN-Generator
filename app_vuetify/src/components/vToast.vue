@@ -1,10 +1,12 @@
 <template>
   <v-snackbar
+    id="snackbar"
+    class="mt-4"
+    content-class="toast"
     :app="true"
     :color="toast.color"
     :timeout="toast.timer"
     v-model="toast.show"
-    content-class="toast"
     light
     elevation="12"
     outlined
@@ -13,7 +15,7 @@
   >
     <v-row class="align-center">
       <v-spacer></v-spacer>
-      <v-icon light left>{{ toast.icon }}</v-icon>
+      <v-icon light left :color="toast.color">{{ toast.icon }}</v-icon>
       <span class="text--primary text-body">{{ toast.message }}</span>
       <v-spacer></v-spacer>
     </v-row>
@@ -50,9 +52,10 @@ export default {
 };
 </script>
 
-<style scoped>
-.toast {
-  -webkit-backdrop-filter: blur(5px);
-  backdrop-filter: blur(5px);
+<style>
+#snackbar .v-snack__wrapper {
+  background-color: rgba(255, 255, 255, 0.5) !important;
+  backdrop-filter: blur(5px) !important;
+  -webkit-backdrop-filter: blur(5px) !important;
 }
 </style>

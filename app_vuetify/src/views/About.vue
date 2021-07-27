@@ -1,5 +1,5 @@
 <template>
-  <v-container fluid>
+  <v-container id="aboutBase" fluid>
     <v-row>
       <v-col class="aboutBase ma-auto">
         <v-hover>
@@ -10,12 +10,14 @@
               outlined
             >
               <v-card-title
+                id="aboutTitle"
                 class="awesomeTitle text-h3 ma-auto pa-auto align-baseline"
               >
                 MAG(N) 影评
                 <v-spacer></v-spacer>
                 <span class="text-body-1 text--primary">当前版本：v1.0.1</span>
               </v-card-title>
+              <v-btn @click="moveTitle">123</v-btn>
               <v-card-text class="aboutText ma-auto pa-auto text--primary">
                 <p class="text-h6 mx-0 mt-3 mb-1 pa-0">目前实现的功能</p>
                 用户系统：注册/登录，同一浏览器自动记住登录，使用MD5+https+Scrypt-KDF+JsonWebToken实现。<br />
@@ -57,7 +59,27 @@
     </v-row>
   </v-container>
 </template>
-<script></script>
+<script>
+import { aboutIn, aboutOut } from "@/utils/animate";
+
+export default {
+  name: "About",
+  data() {
+    return {};
+  },
+  methods: {
+    moveTitle() {
+      aboutOut();
+    },
+  },
+  mounted() {
+    aboutIn();
+  },
+  beforeDestroy() {
+    aboutOut();
+  },
+};
+</script>
 <style scoped>
 .aboutBase {
   max-width: 1024px;

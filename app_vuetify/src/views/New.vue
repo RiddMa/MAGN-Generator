@@ -1,5 +1,5 @@
 <template>
-  <v-container>
+  <v-container fluid id="newBase">
     <v-row>
       <v-col class="reviewBase ma-auto">
         <Settings></Settings>
@@ -12,9 +12,16 @@
 <script>
 import Review from "@/components/Review";
 import Settings from "@/components/Settings";
+import { newIn, newOut } from "@/utils/animate";
 export default {
   name: "New",
   components: { Settings, Review },
+  mounted() {
+    newIn("left");
+  },
+  beforeDestroy() {
+    newOut("left");
+  },
 };
 </script>
 

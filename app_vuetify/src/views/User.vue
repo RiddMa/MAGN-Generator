@@ -2,6 +2,19 @@
   <v-container>
     <v-row>
       <v-col class="reviewBase ma-auto">
+        <template v-if="reviewList.length === 0">
+          <v-row class="justify-center mt-4">
+            <v-icon x-large>{{ svgPath }}</v-icon>
+          </v-row>
+          <v-row class="justify-center mt-4">
+            <span class="text-h6 text--secondary">暂无影评</span>
+          </v-row>
+          <v-row class="justify-center mt-4">
+            <span class="text-body-1 text--secondary mt-4">
+              从顶部导航栏点击“新建”以创建新的影评。或点击“关于”查看使用帮助。
+            </span>
+          </v-row>
+        </template>
         <template v-for="movie in reviewList">
           <ReviewCard
             class="mb-8"
@@ -17,6 +30,7 @@
 <script>
 import { mapGetters, mapState } from "vuex";
 import ReviewCard from "@/components/ReviewCard";
+import { mdiFileHidden } from "@mdi/js";
 
 export default {
   name: "UserProfile",
@@ -31,6 +45,7 @@ export default {
       scrollDistance: 0,
       drawerLoading: false,
       listLoading: false,
+      svgPath: mdiFileHidden,
     };
   },
   computed: {

@@ -1,7 +1,7 @@
 import Vue from "vue";
 import VueRouter from "vue-router";
 import Home from "../views/Home.vue";
-
+import store from "@/store/store";
 Vue.use(VueRouter);
 
 const routes = [
@@ -55,5 +55,14 @@ const router = new VueRouter({
   base: process.env.BASE_URL,
   routes,
 });
-
+// router.afterEach(async () => {
+//   let { status, data } = await store.dispatch("heartbeat");
+//   if (status !== 200 || data.status !== "OK") {
+//     store.commit("showToast", {
+//       type: "error",
+//       message: "无法连接至服务器",
+//       timer: -1,
+//     });
+//   }
+// });
 export default router;
