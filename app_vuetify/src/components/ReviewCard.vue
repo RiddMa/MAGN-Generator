@@ -183,10 +183,14 @@ export default {
       }
     },
     async onViewClicked() {
-      await this.$router.push(`/user/${this.movie.reviewId}/view`);
+      await this.$router.push(this.$store.state.viewURL);
     },
     async onEditClicked() {
-      await this.$router.push(`/user/${this.movie.reviewId}/edit`);
+      await this.$store.dispatch("backupMovie");
+      this.$store.commit("setEditURL", this.movie.reviewId);
+      this.$store.commit("setMovie", this.movie);
+      this.$store.commit("setIsEditing", true);
+      await this.$router.push(this.$store.state.editURL);
     },
     async onDeleteClicked() {
       //show modal

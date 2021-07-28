@@ -71,7 +71,7 @@
                     :rating.sync="movie.rating.avg"
                   />
                   <v-row class="ratingRow">
-                    <div id="radarChart" />
+                    <div :id="chartId" />
                   </v-row>
                 </v-card-text>
               </v-card>
@@ -115,6 +115,15 @@ import RatingRow from "@/components/RatingRow";
 export default {
   name: "Review",
   components: { RatingRow },
+  props: {
+    chartId: {
+      required: true,
+      type: String,
+      default() {
+        return "radarChart";
+      },
+    },
+  },
   data() {
     return {
       username: this.$store.state.username,
@@ -150,12 +159,18 @@ export default {
   },
   methods: {},
   async mounted() {
+    this.$store.dispatch("heartbeat");
     this.$store.commit("setReviewDate");
     this.$store.commit("setMovieRatingAvg");
-    if (this.$route.fullPath === "/") {
-      await this.$store.dispatch("drawRadar", "radarChart");
+    if (!this.$route.fullPath.startsWith("/render")) {
+      if (this.$store.state.radarPlot !== undefined) {
+        this.$store.state.radarPlot.destroy();
+        console.log("destroy");
+        this.$store.state.radarPlot = undefined;
+      }
+      await this.$store.dispatch("drawRadar", this.chartId);
     } else {
-      await this.$store.dispatch("drawRadarNoAnimation", "radarChart");
+      await this.$store.dispatch("drawRadarNoAnimation", this.chartId);
     }
   },
 };

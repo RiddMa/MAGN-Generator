@@ -19,13 +19,10 @@ async function getScreenshot(url, filename, width = 1449, height = 900) {
     args: ["--disable-web-security"],
   });
   const page = await browser.newPage();
-
-  // await sleep(10000);
-
   await page.goto(url);
   console.log("Going to " + url);
-  let body = await page.$("#toImageCol");
 
+  let body = await page.$("#toImageCol");
   await body.screenshot({
     path: path.resolve(`${rootDir}/resources/screenshot/${filename}.png`),
     type: "png",

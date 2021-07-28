@@ -10,9 +10,10 @@
       elevation="0"
     >
       <v-tabs centered :optional="true">
-        <v-tab to="/" :ripple="false">新建</v-tab>
-        <v-tab to="/user" :ripple="false">用户</v-tab>
-        <v-tab to="/about" :ripple="false">关于</v-tab>
+        <v-tab to="/">新建</v-tab>
+        <v-tab to="/user">用户</v-tab>
+        <v-tab v-if="editURL !== '/'" :to="editURL">编辑</v-tab>
+        <v-tab to="/about">关于</v-tab>
       </v-tabs>
     </v-app-bar>
     <v-main>
@@ -32,6 +33,7 @@
 
 <script>
 import VToast from "@/components/vToast";
+import { mapState } from "vuex";
 export default {
   name: "App",
   components: { VToast },
@@ -39,6 +41,12 @@ export default {
     blurTab: true,
     transitionName: "fold-left",
   }),
+  computed: {
+    ...mapState({
+      editURL: (state) => state.editURL,
+      viewURL: (state) => state.viewURL,
+    }),
+  },
   methods: {},
   async mounted() {
     try {
@@ -65,13 +73,22 @@ export default {
   watch: {
     // watch $route 决定使用哪种过渡
     $route(to, from) {
-      console.log(from); // '/'
-      console.log(to); // '/next1'
       //to、from是最基本的路由对象，分别表示从(from)某个页面跳转到(to)另一个页面,to.path（表示要跳转到的路由地址），from.path同理。
-      const routerPosition = ["/", "/user", "/about"];
+      const routerPosition = ["/", "/user", "/user/?", "/about"];
       //找到to.path和from.path在routerDeep数组中的下标
-      const toPos = routerPosition.indexOf(to.path);
-      const fromPos = routerPosition.indexOf(from.path);
+      let toPos;
+      if (to.path.startsWith("/user/edit")) {
+        toPos = 2;
+      } else {
+        toPos = routerPosition.indexOf(to.path);
+      }
+      let fromPos;
+      if (from.path.startsWith("/user/edit")) {
+        fromPos = 2;
+      } else {
+        fromPos = routerPosition.indexOf(from.path);
+      }
+      console.log(fromPos, toPos);
       this.transitionName = toPos > fromPos ? "fold-left" : "fold-right";
     },
   },

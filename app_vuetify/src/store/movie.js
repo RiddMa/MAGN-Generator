@@ -59,15 +59,15 @@ const movieStore = {
       const max = parseInt(moment().year().toFixed()) + 1;
       const min = 1888;
       if (year > max) {
-        state.year = max;
+        state.year = max; //set to the next year from now
       } else if (year < min) {
-        if (year === 0) {
-          state.year = year;
+        if (year !== 0) {
+          state.year = min; //set to 1888 when filming is invented
         } else {
-          state.year = min;
+          state.year = year; // set to 0 for not showing
         }
       } else {
-        state.year = year;
+        state.year = year; //set to legal years
       }
     },
     setMovieComment(state, newComment) {
@@ -112,6 +112,14 @@ const movieStore = {
   getters: {
     reviewDate: (state) => {
       return moment(state.timestamp).format("L");
+    },
+    avgScore: (state) => {
+      let tmpRating = 0;
+      const ratingTypeCount = Object.keys(state.rating).length - 1;
+      for (let i = 0; i < ratingTypeCount; i++) {
+        tmpRating += Object.values(state.rating)[i];
+      }
+      return tmpRating / ratingTypeCount;
     },
     genreList: (state) => {
       let genreList = [];

@@ -17,7 +17,7 @@
                 <v-spacer></v-spacer>
                 <span class="text-body-1 text--primary">当前版本：v1.0.1</span>
               </v-card-title>
-              <v-btn @click="moveTitle">123</v-btn>
+              <!--              <v-btn @click="moveTitle">123</v-btn>-->
               <v-card-text class="aboutText ma-auto pa-auto text--primary">
                 <p class="text-h6 mx-0 mt-3 mb-1 pa-0">目前实现的功能</p>
                 用户系统：注册/登录，同一浏览器自动记住登录，使用MD5+https+Scrypt-KDF+JsonWebToken实现。<br />

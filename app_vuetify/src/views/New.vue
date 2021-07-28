@@ -3,7 +3,7 @@
     <v-row>
       <v-col class="reviewBase ma-auto">
         <Settings></Settings>
-        <Review></Review>
+        <Review chart-id="newRadar"></Review>
       </v-col>
     </v-row>
   </v-container>

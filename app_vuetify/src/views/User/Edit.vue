@@ -2,7 +2,8 @@
   <v-container>
     <v-row>
       <v-col class="reviewBase ma-auto">
-        <Review></Review>
+        <Settings></Settings>
+        <Review chart-id="editRadar"></Review>
       </v-col>
     </v-row>
   </v-container>
@@ -10,9 +11,10 @@
 
 <script>
 import Review from "@/components/Review";
+import Settings from "@/components/Settings";
 export default {
   name: "Edit",
-  components: { Review },
+  components: { Settings, Review },
 };
 </script>
 

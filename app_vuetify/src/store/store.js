@@ -27,8 +27,21 @@ export default new Vuex.Store({
     fitPhone: true,
     radarPlot: undefined,
     pendingQueue: [],
+    editURL: "/",
+    viewURL: "/",
+    isEditing: false,
+    movieBak: undefined,
   }),
   mutations: {
+    setIsEditing(state, toBool) {
+      state.isEditing = toBool;
+    },
+    setEditURL(state, reviewId) {
+      state.editURL = `/user/edit/${reviewId}`;
+    },
+    setViewURL(state, reviewId) {
+      state.editURL = `/user/view/${reviewId}`;
+    },
     setSearchText(state, searched) {
       state.searchText = searched;
     },
@@ -51,15 +64,7 @@ export default new Vuex.Store({
         }
       });
     },
-    showToast(
-      state,
-      data = {
-        type: "info",
-        message: "Null",
-        timer: 1500,
-        icon: "",
-      }
-    ) {
+    showToast(state, data) {
       state.toast.message = data.message;
       if (data.timer !== undefined) {
         state.toast.timer = data.timer;
@@ -91,17 +96,6 @@ export default new Vuex.Store({
     },
   },
   getters: {
-    titleWithYear: (state) => {
-      return state.movie.title + "-" + state.movie.year.toString();
-    },
-    avgScore: (state) => {
-      let tmpRating = 0;
-      const ratingTypeCount = Object.keys(state.movie.rating).length - 1;
-      for (let i = 0; i < ratingTypeCount; i++) {
-        tmpRating += Object.values(state.movie.rating)[i];
-      }
-      return tmpRating / ratingTypeCount;
-    },
     radarData: (state) => {
       return [
         { name: "剧情", rating: state.movie.rating.screenplay },
@@ -124,6 +118,18 @@ export default new Vuex.Store({
       } else {
         return true;
       }
+    },
+    backupMovie(context) {
+      const _ = require("lodash");
+      context.state.movieBak = _.cloneDeep(context.state.movie);
+      context.commit("clearMovie");
+      // if (context.state.radarPlot !== undefined) {
+      //   context.state.radarPlot.destroy();
+      //   context.state.radarPlot = undefined;
+      // }
+    },
+    restoreMovie(context) {
+      context.commit("setMovie", context.state.movieBak);
     },
     drawRadar(context, container) {
       const data = context.getters.radarData;

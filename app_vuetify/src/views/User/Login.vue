@@ -323,6 +323,9 @@ export default {
       }
     },
   },
+  mounted() {
+    this.$store.dispatch("heartbeat");
+  },
 };
 </script>
 

@@ -58,17 +58,6 @@ export default {
     }),
   },
   methods: {
-    showSnackbar() {
-      this.$store.commit("showToast", {
-        type: "success",
-        message: "123",
-        timer: -1,
-      });
-    },
-    ratingCircleFormat(percent) {
-      percent /= 10;
-      return `${percent}/10`;
-    },
     toggleDrawer(reviewId) {
       this.listLoading = true;
       this.drawerHeight = window.innerHeight;
@@ -80,37 +69,10 @@ export default {
         this.listLoading = false;
       }
     },
-    stopBodyScroll(isFixed) {
-      this.scrollDistance = window.scrollY;
-      if (isFixed) {
-        document.body.style.position = "fixed";
-        document.body.style.top = -this.scrollDistance + "px";
-      } else {
-        document.body.style.position = "";
-        document.body.style.top = "";
-        window.scrollTo(0, this.scrollDistance); // 回到原先的top
-      }
-    },
-    async cancelUpdate() {
-      this.drawerVisible = false;
-    },
-    async commitUpdate() {
-      this.drawerLoading = true;
-      await this.$store.dispatch("updateUserReview", this.$store.state.movie);
-      await this.$store.dispatch("getAllUserReview");
-      this.drawerLoading = false;
-      this.drawerVisible = false;
-    },
-    async commitDelete(reviewId) {
-      this.drawerLoading = true;
-      await this.$store.dispatch("deleteUserReview", reviewId);
-      await this.$store.dispatch("getAllUserReview");
-      this.drawerLoading = false;
-      this.drawerVisible = false;
-    },
   },
   async mounted() {
-    if ((await this.$store.dispatch("isUserLoggedIn", this)) === true) {
+    this.$store.dispatch("heartbeat");
+    if (await this.$store.dispatch("isUserLoggedIn", this)) {
       this.$store.dispatch("getAllUserReview");
     } else {
       this.$store.commit("pushPendingQueue", "getAllUserReview");

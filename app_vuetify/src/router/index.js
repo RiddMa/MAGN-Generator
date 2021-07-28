@@ -9,6 +9,18 @@ const routes = [
     path: "/",
     name: "Home",
     component: Home,
+    beforeEnter(to, from, next) {
+      if (store.state.isEditing) {
+        store.commit("showToast", {
+          type: "info",
+          message: "当前正在编辑中，暂不支持新建影评",
+          timer: 3000,
+        });
+        next(false);
+      } else {
+        next();
+      }
+    },
   },
   {
     path: "/about",
@@ -22,7 +34,7 @@ const routes = [
   {
     path: "/login",
     name: "Login",
-    component: () => import("../views/Login"),
+    component: () => import("../views/User/Login"),
     beforeEnter(to, from, next) {
       localStorage.setItem("preRoute", from.path);
       next();
@@ -31,17 +43,17 @@ const routes = [
   {
     path: "/user",
     name: "User",
-    component: () => import("../views/User"),
+    component: () => import("../views/User/User"),
   },
   {
-    path: "/user/:id/view",
+    path: "/user/view/:id",
     name: "View",
-    component: () => import("../views/User"),
+    component: () => import("../views/User/View"),
   },
   {
-    path: "/user/:id/edit",
+    path: "/user/edit/:id",
     name: "Edit",
-    component: () => import("../views/Edit"),
+    component: () => import("../views/User/Edit"),
   },
   {
     path: "/render/:id",
