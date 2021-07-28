@@ -13,7 +13,21 @@ const app = new Koa();
 Db.connect2Db();
 
 app.use(Logger());
-app.use(Cors());
+app.use(
+  Cors({
+    origin: "*",
+    exposeHeaders: ["WWW-Authenticate", "Server-Authorization"],
+    maxAge: 5,
+    credentials: true,
+    allowMethods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"],
+    allowHeaders: [
+      "Content-Type",
+      "Authorization",
+      "Accept",
+      "X-Requested-With",
+    ],
+  })
+);
 app.use(BodyParser());
 app.use(
   jwt({ secret: Config.tokenSecret, key: "jwtData" }).unless({

@@ -1,6 +1,7 @@
 import axios from "axios";
 import QS from "qs";
 const { v1: UUIDv1 } = require("uuid");
+const { baseURL } = require("./config");
 
 const netStore = {
   state: {
@@ -11,10 +12,11 @@ const netStore = {
   actions: {
     initStore(context) {
       let newInstance = axios.create({
-        baseURL: "/api",
+        baseURL: "https://www.ridd.xyz/api/",
         method: "post",
         timeout: 10000,
         headers: {
+
           "Content-Type": "application/json",
           Accept: "application/json",
         },
