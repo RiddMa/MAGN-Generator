@@ -12,11 +12,10 @@ const netStore = {
   actions: {
     initStore(context) {
       let newInstance = axios.create({
-        baseURL: "https://www.ridd.xyz/api/",
+        baseURL: "http://101.32.75.165:8090/api/",
         method: "post",
         timeout: 10000,
         headers: {
-
           "Content-Type": "application/json",
           Accept: "application/json",
         },
