@@ -9,12 +9,11 @@ const {
 
 module.exports = {
   connect2Db() {
+    let uri = `mongodb://${dbUser}:${dbPassword}@${dbDomain}:${dbPort}/${dbName}`;
+    console.log(uri);
     mongoose.connect(
-      `mongodb://${dbDomain}:${dbPort}/${dbName}`,
+      uri,
       {
-        authSource: "admin",
-        user: dbUser,
-        pass: dbPassword,
         useUnifiedTopology: true,
         useNewUrlParser: true,
       },
