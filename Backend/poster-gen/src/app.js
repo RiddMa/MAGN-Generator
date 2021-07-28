@@ -10,14 +10,9 @@ const Config = require("../config");
 const APIError = require("./lib/error").APIError;
 const app = new Koa();
 
-Db.connect2Db(Config.dbName);
+Db.connect2Db();
 
-//logger
 app.use(Logger());
-// app.use(async (ctx, next) => {
-//   console.log(`Processing ${ctx.request.method} ${ctx.request.url}`);
-//   await next();
-// });
 app.use(Cors());
 app.use(BodyParser());
 app.use(

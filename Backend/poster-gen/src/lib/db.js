@@ -1,18 +1,16 @@
 const mongoose = require("mongoose");
-
-// export function connect2Db(dbName) {
-//   mongoose.connect(
-//     `mongodb://localhost:27017/${dbName}`,
-//     { useUnifiedTopology: true, useNewUrlParser: true },
-//     () => console.log(`Successfully connected to ${dbName}`)
-//   );
-//   mongoose.connection.on("error", console.error);
-// }
+const {
+  dbUser,
+  dbPassword,
+  dbDomain,
+  dbPort,
+  dbName,
+} = require("../../config");
 
 module.exports = {
-  connect2Db(dbName) {
+  connect2Db() {
     mongoose.connect(
-      `mongodb://localhost:27017/${dbName}`,
+      `mongodb://${dbUser}:${dbPassword}@${dbDomain}:${dbPort}/${dbName}`,
       { useUnifiedTopology: true, useNewUrlParser: true },
       () => console.log(`Successfully connected to ${dbName}`)
     );
