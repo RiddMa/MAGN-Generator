@@ -1,5 +1,5 @@
 module.exports = {
-  port: 8081,
+  port: 6666,
   dbName: "magn",
   tokenSecret: "RiddMa",
   rootDir: __dirname,

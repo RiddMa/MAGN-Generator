@@ -97,6 +97,7 @@ export default {
 </script>
 
 <style scoped>
+@import url("styles/navigation.css");
 body {
   font-family: "Helvetica Neue", Helvetica, Arial, "PingFang SC",
     "Hiragino Sans GB", "Heiti SC", "Microsoft YaHei UI", "WenQuanYi Micro Hei",
@@ -114,81 +115,5 @@ body {
 .appBar {
   -webkit-backdrop-filter: blur(5px);
   backdrop-filter: blur(5px);
-}
-
-.fold-left-enter-active {
-  animation-name: fold-left-in;
-  animation-duration: 0.8s;
-  animation-timing-function: cubic-bezier(0.4, 1.1, 0, 1);
-}
-.fold-left-leave-active {
-  position: absolute;
-  animation-name: fold-left-out;
-  animation-duration: 0.8s;
-  animation-timing-function: cubic-bezier(0.4, 1.1, 0, 1);
-}
-@keyframes fold-left-in {
-  0% {
-    -webkit-transform: translate3d(100%, 0, 0);
-    transform: translate3d(100%, 0, 0);
-    opacity: 0%;
-  }
-  100% {
-    -webkit-transform: translate3d(0, 0, 0);
-    transform: translate3d(0, 0, 0);
-    opacity: 100%;
-  }
-}
-@keyframes fold-left-out {
-  0% {
-    -webkit-transform: translate3d(0, 0, 0);
-    transform: translate3d(0, 0, 0);
-    opacity: 100%;
-  }
-  100% {
-    -webkit-transform: translate3d(-100%, 0, 0);
-    transform: translate3d(-100%, 0, 0);
-    opacity: 0%;
-  }
-}
-.fold-right-enter-active {
-  animation-name: fold-right-in;
-  animation-duration: 0.8s;
-  animation-timing-function: cubic-bezier(0.4, 1.1, 0, 1);
-}
-.fold-right-leave-active {
-  position: absolute;
-  animation-name: fold-right-out;
-  animation-duration: 0.8s;
-  animation-timing-function: cubic-bezier(0.4, 1.1, 0, 1);
-}
-
-@keyframes fold-right-in {
-  0% {
-    width: 100%;
-    -webkit-transform: translate3d(-100%, 0, 0);
-    transform: translate3d(-100%, 0, 0);
-    opacity: 0%;
-  }
-  100% {
-    width: 100%;
-    -webkit-transform: translate3d(0, 0, 0);
-    transform: translate3d(0, 0, 0);
-    opacity: 100%;
-  }
-}
-@keyframes fold-right-out {
-  0% {
-    width: 100%;
-    -webkit-transform: translate3d(0, 0, 0);
-    transform: translate3d(0, 0, 0);
-    opacity: 100%;
-  }
-  100% {
-    width: 100%;
-    -webkit-transform: translate3d(100%, 0, 0);
-    transform: translate3d(100%, 0, 0);
-    opacity: 0%;
-  }
 }
 </style>
