@@ -10,8 +10,14 @@ const {
 module.exports = {
   connect2Db() {
     mongoose.connect(
-      `mongodb://${dbUser}:${dbPassword}@${dbDomain}:${dbPort}/${dbName}`,
-      { useUnifiedTopology: true, useNewUrlParser: true },
+      `mongodb://${dbDomain}:${dbPort}/${dbName}`,
+      {
+        authSource: "admin",
+        user: dbUser,
+        pass: dbPassword,
+        useUnifiedTopology: true,
+        useNewUrlParser: true,
+      },
       () => console.log(`Successfully connected to ${dbName}`)
     );
     mongoose.connection.on("error", console.error);
