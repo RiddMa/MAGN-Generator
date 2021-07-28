@@ -1,9 +1,9 @@
 module.exports = {
   port: 6666,
-  dbUser: "RiddMa",
+  dbUser: "magn",
   dbPassword: "Ridd*!!811",
   // dbDomain: "localhost",
-  dbDomain: "127.0.0.1",
+  dbDomain: "101.32.75.165",
   dbPort: "27018",
   dbName: "magn",
   tokenSecret: "RiddMa",
