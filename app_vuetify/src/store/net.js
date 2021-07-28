@@ -71,7 +71,10 @@ const netStore = {
           .post("/saveUserReview", reviewItem)
           .then((response) => {
             context.commit("setReviewList", response.data);
-            // message.success("保存成功");
+            context.commit("showToast", {
+              type: "success",
+              message: "保存成功",
+            });
             resolve(response);
           })
           .catch((e) => {
@@ -87,7 +90,10 @@ const netStore = {
           .post("/updateUserReview", reviewItem)
           .then((response) => {
             context.commit("setReviewList", response.data);
-            // message.success("更新成功");
+            context.commit("showToast", {
+              type: "success",
+              message: "更新成功",
+            });
             resolve(response);
           })
           .catch((e) => {
@@ -102,7 +108,10 @@ const netStore = {
           .post("/getAllUserReview")
           .then((response) => {
             context.commit("setReviewList", response.data);
-            // message.success("获取成功");
+            context.commit("showToast", {
+              type: "success",
+              message: "获取成功",
+            });
             resolve(response);
           })
           .catch((e) => {

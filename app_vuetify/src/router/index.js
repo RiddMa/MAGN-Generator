@@ -46,12 +46,12 @@ const routes = [
     component: () => import("../views/User/User"),
   },
   {
-    path: "/user/view/:id",
+    path: "/view/:id",
     name: "View",
     component: () => import("../views/User/View"),
   },
   {
-    path: "/user/edit/:id",
+    path: "/edit/:id",
     name: "Edit",
     component: () => import("../views/User/Edit"),
   },

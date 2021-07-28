@@ -12,7 +12,7 @@
       <v-tabs centered :optional="true">
         <v-tab to="/">新建</v-tab>
         <v-tab to="/user">用户</v-tab>
-        <v-tab v-if="editURL !== '/'" :to="editURL">编辑</v-tab>
+        <v-tab v-if="isEditing" :to="editURL">编辑</v-tab>
         <v-tab to="/about">关于</v-tab>
       </v-tabs>
     </v-app-bar>
@@ -45,6 +45,7 @@ export default {
     ...mapState({
       editURL: (state) => state.editURL,
       viewURL: (state) => state.viewURL,
+      isEditing: (state) => state.isEditing,
     }),
   },
   methods: {},
@@ -74,16 +75,16 @@ export default {
     // watch $route 决定使用哪种过渡
     $route(to, from) {
       //to、from是最基本的路由对象，分别表示从(from)某个页面跳转到(to)另一个页面,to.path（表示要跳转到的路由地址），from.path同理。
-      const routerPosition = ["/", "/user", "/user/?", "/about"];
+      const routerPosition = ["/", "/user", "/?", "/about"];
       //找到to.path和from.path在routerDeep数组中的下标
       let toPos;
-      if (to.path.startsWith("/user/edit")) {
+      if (to.path.startsWith("/edit")) {
         toPos = 2;
       } else {
         toPos = routerPosition.indexOf(to.path);
       }
       let fromPos;
-      if (from.path.startsWith("/user/edit")) {
+      if (from.path.startsWith("/edit")) {
         fromPos = 2;
       } else {
         fromPos = routerPosition.indexOf(from.path);

@@ -1,7 +1,7 @@
 <template>
   <v-snackbar
     id="snackbar"
-    class="mt-4"
+    class="mt-8"
     content-class="toast"
     :app="true"
     :color="toast.color"

@@ -2,8 +2,8 @@
   <v-container id="newBase" fluid>
     <v-row>
       <v-col class="reviewBase ma-auto">
-        <Settings></Settings>
-        <Review chart-id="newRadar"></Review>
+        <Settings mode="new"></Settings>
+        <Review mode="new"></Review>
       </v-col>
     </v-row>
   </v-container>

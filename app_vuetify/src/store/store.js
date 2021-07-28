@@ -3,6 +3,7 @@ import Vuex from "vuex";
 import netStore from "@/store/net";
 import userStore from "@/store/user";
 import movieStore from "@/store/movie";
+import _ from "lodash";
 const { Radar } = require("@antv/g2plot");
 
 Vue.use(Vuex);
@@ -37,10 +38,10 @@ export default new Vuex.Store({
       state.isEditing = toBool;
     },
     setEditURL(state, reviewId) {
-      state.editURL = `/user/edit/${reviewId}`;
+      state.editURL = `/edit/${reviewId}`;
     },
     setViewURL(state, reviewId) {
-      state.editURL = `/user/view/${reviewId}`;
+      state.editURL = `/view/${reviewId}`;
     },
     setSearchText(state, searched) {
       state.searchText = searched;
@@ -129,7 +130,9 @@ export default new Vuex.Store({
       // }
     },
     restoreMovie(context) {
-      context.commit("setMovie", context.state.movieBak);
+      const _ = require("lodash");
+      context.state.movie = _.cloneDeep(context.state.movieBak);
+      context.state.movieBak = undefined;
     },
     drawRadar(context, container) {
       const data = context.getters.radarData;

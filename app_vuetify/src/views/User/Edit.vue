@@ -2,8 +2,8 @@
   <v-container>
     <v-row>
       <v-col class="reviewBase ma-auto">
-        <Settings></Settings>
-        <Review chart-id="editRadar"></Review>
+        <Settings mode="edit"></Settings>
+        <Review mode="edit"></Review>
       </v-col>
     </v-row>
   </v-container>

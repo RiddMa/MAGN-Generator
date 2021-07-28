@@ -40,6 +40,7 @@
               <v-checkbox
                 :input-value="showYear"
                 hide-details
+                :disabled="loading"
                 class="shrink ml-auto mr-2 mb-6 align-baseline"
                 @change="toggleShowYear"
               ></v-checkbox>
@@ -103,7 +104,7 @@
               ></RatingInput>
               <v-spacer></v-spacer>
             </v-row>
-            <v-row>
+            <v-row v-if="mode === 'new'">
               <v-scale-transition
                 origin="left center 0"
                 leave-absolute
@@ -118,6 +119,7 @@
                       color="red"
                       @click.stop="showClearCheck = true"
                       :elevation="hover ? 4 : 0"
+                      :loading="loading"
                       :disabled="loading"
                     >
                       清空全部
@@ -137,6 +139,7 @@
                   color="red"
                   @click.stop="onClearAllChecked"
                   v-click-outside="onClearAllClickOutside"
+                  :loading="loading"
                   :disabled="loading"
                 >
                   <v-icon dense class="mr-1">mdi-alert</v-icon>
@@ -158,6 +161,72 @@
                 </template>
               </v-hover>
             </v-row>
+            <v-row v-if="mode === 'edit'">
+              <v-scale-transition
+                origin="left center 0"
+                leave-absolute
+                mode="out-in"
+              >
+                <v-hover :value="showDeleteCheck">
+                  <template v-slot:default="{ hover }">
+                    <v-btn
+                      v-if="!showDeleteCheck"
+                      outlined
+                      color="red"
+                      @click.stop="showDeleteCheck = true"
+                      :elevation="hover ? 4 : 0"
+                      :loading="loading"
+                    >
+                      删除影评
+                    </v-btn>
+                  </template>
+                </v-hover>
+              </v-scale-transition>
+              <v-scale-transition
+                origin="left center 0"
+                leave-absolute
+                mode="out-in"
+              >
+                <v-btn
+                  id="deleteCheck"
+                  v-if="showDeleteCheck"
+                  outlined
+                  color="red"
+                  @click.stop="onDeleteClicked"
+                  v-click-outside="onDeleteClickOutside"
+                  :loading="loading"
+                >
+                  <v-icon dense class="mr-1">mdi-alert</v-icon>
+                  确认? 点此删除
+                </v-btn>
+              </v-scale-transition>
+              <v-spacer></v-spacer>
+              <v-hover>
+                <template v-slot:default="{ hover }">
+                  <v-btn
+                    outlined
+                    class="mr-4"
+                    :elevation="hover ? 4 : 0"
+                    @click="cancelUpdate"
+                    :loading="loading"
+                  >
+                    取消
+                  </v-btn>
+                </template>
+              </v-hover>
+              <v-hover>
+                <template v-slot:default="{ hover }">
+                  <v-btn
+                    color="primary"
+                    :elevation="hover ? 4 : 0"
+                    @click="updateReview"
+                    :loading="loading"
+                  >
+                    保存并返回
+                  </v-btn>
+                </template>
+              </v-hover>
+            </v-row>
           </div>
         </v-expansion-panel-content>
       </v-expansion-panel>
@@ -172,12 +241,22 @@ import RatingInput from "@/components/RatingInput";
 export default {
   name: "Settings",
   components: { RatingInput },
+  props: {
+    mode: {
+      required: true,
+      type: String,
+      default() {
+        return "new";
+      },
+    },
+  },
   data() {
     return {
       loading: false,
       showSettings: 0,
       showYear: true,
       showClearCheck: false,
+      showDeleteCheck: false,
       tmpYear: 0,
       awesome: {
         screenplay: false,
@@ -235,17 +314,26 @@ export default {
       this.$store.dispatch("updateRadar");
       this.showClearCheck = false;
     },
-    enterBlur(event) {
-      event.target.blur();
-    },
-    toggleShowYear() {
-      this.showYear = !this.showYear;
-      if (this.showYear) {
-        this.$store.commit("setMovieYear", this.tmpYear);
-      } else {
-        this.tmpYear = this.year;
-        this.$store.commit("setMovieYear", 0);
+    onDeleteClickOutside() {
+      if (this.showDeleteCheck) {
+        document.getElementById("deleteCheck").style.position = "absolute";
+        this.showDeleteCheck = false;
       }
+    },
+    async onDeleteClicked() {
+      this.loading = true;
+      await this.$store.dispatch("deleteUserReview", this.movie.reviewId);
+      document.getElementById("deleteCheck").style.position = "absolute";
+      this.showDeleteCheck = false;
+      this.loading = false;
+      this.$store.commit("setIsEditing", false);
+      await this.$router.replace("/user");
+      await this.$store.dispatch("restoreMovie");
+    },
+    async cancelUpdate() {
+      this.$store.commit("setIsEditing", false);
+      await this.$router.replace("/user");
+      await this.$store.dispatch("restoreMovie");
     },
     async sendReview() {
       this.loading = true;
@@ -256,7 +344,26 @@ export default {
       }
       this.loading = false;
       this.showSettings = undefined;
-      this.$store.commit("showToast", { type: "success", message: "保存成功" });
+    },
+    async updateReview() {
+      this.loading = true;
+      await this.$store.dispatch("updateUserReview", this.$store.state.movie);
+      this.loading = false;
+      this.$store.commit("setIsEditing", false);
+      await this.$router.replace("/user");
+      await this.$store.dispatch("restoreMovie");
+    },
+    toggleShowYear() {
+      this.showYear = !this.showYear;
+      if (this.showYear) {
+        this.$store.commit("setMovieYear", this.tmpYear);
+      } else {
+        this.tmpYear = this.year;
+        this.$store.commit("setMovieYear", 0);
+      }
+    },
+    enterBlur(event) {
+      event.target.blur();
     },
   },
 };
@@ -266,31 +373,6 @@ export default {
 .settings {
   border-width: 2px;
   border-color: #36b079;
-}
-.searchRow {
-  margin: 0 0 2vh 0;
-}
-.genreCheckbox {
-  width: 110px;
-  text-align: start;
-}
-.checkboxRow {
-  margin-bottom: 0.5em;
-}
-.checkboxCol {
-}
-.ant-checkbox-group {
-  width: 100%;
-}
-.inputField {
-  width: 100%;
-}
-.searchButton {
-  margin-left: 1vw;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  padding-bottom: 5px;
 }
 ::v-deep .no-counter input[type="number"] {
   -moz-appearance: textfield;

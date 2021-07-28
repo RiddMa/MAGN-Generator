@@ -116,11 +116,11 @@ export default {
   name: "Review",
   components: { RatingRow },
   props: {
-    chartId: {
+    mode: {
       required: true,
       type: String,
       default() {
-        return "radarChart";
+        return "new";
       },
     },
   },
@@ -130,6 +130,16 @@ export default {
     };
   },
   computed: {
+    chartId: {
+      get() {
+        if (this.mode === "new") {
+          return "newRadar";
+        } else if (this.mode === "edit") {
+          return "editRadar";
+        }
+        return "newRadar";
+      },
+    },
     comment: {
       get: function () {
         return this.$store.state.movie.comment;
@@ -159,7 +169,7 @@ export default {
   },
   methods: {},
   async mounted() {
-    this.$store.dispatch("heartbeat");
+    // this.$store.dispatch("heartbeat");
     this.$store.commit("setReviewDate");
     this.$store.commit("setMovieRatingAvg");
     if (!this.$route.fullPath.startsWith("/render")) {
