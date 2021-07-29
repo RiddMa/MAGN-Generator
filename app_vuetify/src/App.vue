@@ -89,7 +89,6 @@ export default {
       } else {
         fromPos = routerPosition.indexOf(from.path);
       }
-      console.log(fromPos, toPos);
       this.transitionName = toPos > fromPos ? "fold-left" : "fold-right";
     },
   },
