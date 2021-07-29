@@ -9,25 +9,24 @@
               :elevation="hover ? 12 : 6"
               outlined
             >
-              <transition
-                v-on:enter="titleEnter"
-                v-on:leave="titleLeave"
-                v-bind:css="false"
+              <!--              <transition-->
+              <!--                v-on:enter="titleEnter"-->
+              <!--                v-on:leave="titleLeave"-->
+              <!--                v-bind:css="false"-->
+              <!--              >-->
+              <v-card-title
+                id="aboutTitle"
+                class="awesomeTitle text-h3 ma-auto pa-auto align-baseline"
               >
-                <v-card-title
-                  v-if="test"
-                  id="aboutTitle"
-                  class="awesomeTitle text-h3 ma-auto pa-auto align-baseline"
+                MAG(N) 影评
+                <v-spacer></v-spacer>
+                <span class="text-body-1 text--primary">
+                  当前版本：v2.0.0-preview1</span
                 >
-                  MAG(N) 影评
-                  <v-spacer></v-spacer>
-                  <span class="text-body-1 text--primary">
-                    当前版本：v2.0.0-preview1</span
-                  >
-                </v-card-title>
-              </transition>
+              </v-card-title>
+              <!--              </transition>-->
 
-              <v-btn @click="moveTitle">123</v-btn>
+              <!--              <v-btn @click="moveTitle">123</v-btn>-->
               <v-card-text class="aboutText ma-auto pa-auto text--primary">
                 <p class="text-h6 mx-0 mt-3 mb-1 pa-0">目前实现的功能</p>
                 用户系统：注册/登录，同一浏览器自动记住登录，使用MD5+HTTPS+Scrypt-KDF+JsonWebToken实现。在用户界面，显示所有影评的列表并选择某个影评进行增删查改。<br />
