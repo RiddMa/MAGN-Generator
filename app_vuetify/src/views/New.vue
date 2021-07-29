@@ -12,16 +12,11 @@
 <script>
 import Review from "@/components/Review";
 import Settings from "@/components/Settings";
-import { newIn, newOut } from "@/utils/animate";
 export default {
   name: "New",
   components: { Settings, Review },
-  mounted() {
-    // newIn("left");
-  },
-  beforeDestroy() {
-    // newOut("left");
-  },
+  mounted() {},
+  beforeDestroy() {},
 };
 </script>
 

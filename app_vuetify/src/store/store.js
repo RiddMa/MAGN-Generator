@@ -70,7 +70,7 @@ export default new Vuex.Store({
       if (data.timer !== undefined) {
         state.toast.timer = data.timer;
       } else {
-        state.toast.timer = 1500;
+        state.toast.timer = 2250;
       }
       if (data.icon === undefined && data.type === undefined) {
         state.toast.icon = "mdi-information-outline";
@@ -107,14 +107,12 @@ export default new Vuex.Store({
     },
   },
   actions: {
-    async isUserLoggedIn(context, that) {
+    async isUserLoggedIn(context) {
       if (localStorage.getItem("token") === null) {
         context.commit("showToast", {
           message: "请先登录。您的更改已缓存。",
           type: "info",
-          timer: 1500,
         });
-        await that.$router.push("/login");
         return false;
       } else {
         return true;

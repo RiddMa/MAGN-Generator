@@ -1,62 +1,114 @@
 import anime from "animejs";
-export function aboutIn() {
-  let width = window.innerWidth;
-  let elements = document.querySelector("#aboutBase");
-  anime({
-    direction: "reverse",
-    targets: elements,
-    translateX: width,
-    duration: 1000,
-    opacity: ["100%", "0%"],
-    easing: "cubicBezier(1.000, -0.020, 1.000, 0.360)",
-    // easing: "cubicBezier(0.250, 0.100, 0.250, 1.000)",
-  });
-}
-export function aboutOut() {
-  let width = window.innerWidth;
-  let elements = document.querySelector("#aboutBase");
-  anime({
-    targets: elements,
-    translateX: width,
-    duration: 1000,
-    opacity: ["100%", "0%"],
-    easing: "cubicBezier(0.250, 0.100, 0.250, 1.000)",
-  });
+export function enter(direction, el, done) {
+  el.style.position = "absolute";
+  const width = window.innerWidth;
+  const height = window.innerHeight;
+  const easeCurve = "cubicBezier(1,0,.6,-0.1)";
+  const duration = 1000;
+  switch (direction) {
+    case "right": {
+      anime({
+        direction: "reverse",
+        targets: el,
+        translateX: width,
+        duration: duration,
+        opacity: ["100%", "0%"],
+        easing: easeCurve,
+        complete: done,
+      });
+      break;
+    }
+    case "left": {
+      anime({
+        direction: "reverse",
+        targets: el,
+        translateX: -width,
+        duration: duration,
+        opacity: ["100%", "0%"],
+        easing: easeCurve,
+        complete: done,
+      });
+      break;
+    }
+    case "up": {
+      anime({
+        direction: "reverse",
+        targets: el,
+        translateY: height,
+        duration: duration,
+        opacity: ["100%", "0%"],
+        easing: easeCurve,
+        complete: done,
+      });
+      break;
+    }
+    case "down": {
+      anime({
+        direction: "reverse",
+        targets: el,
+        translateY: -height,
+        duration: duration,
+        opacity: ["100%", "0%"],
+        easing: easeCurve,
+        complete: done,
+      });
+      break;
+    }
+  }
+  el.style.position = "relative";
 }
 
-export function newIn(from) {
-  let width;
-  if (from === "left") {
-    width = -window.innerWidth;
-  } else if (from === "right") {
-    width = window.innerWidth;
+export function leave(direction, el, done) {
+  el.style.position = "absolute";
+  const width = window.innerWidth;
+  const height = window.innerHeight;
+  const easeCurve = "cubicBezier(0.4,1.1,0,1)";
+  const duration = 1000;
+  switch (direction) {
+    case "right": {
+      anime({
+        targets: el,
+        translateX: -width,
+        duration: duration,
+        opacity: ["100%", "0%"],
+        easing: easeCurve,
+        complete: done,
+      });
+      break;
+    }
+    case "left": {
+      anime({
+        targets: el,
+        translateX: width,
+        duration: duration,
+        opacity: ["100%", "0%"],
+        easing: easeCurve,
+        complete: done,
+      });
+      break;
+    }
+    case "up": {
+      anime({
+        targets: el,
+        translateY: -height,
+        duration: duration,
+        opacity: ["100%", "0%"],
+        easing: easeCurve,
+        complete: done,
+      });
+      break;
+    }
+    case "down": {
+      anime({
+        targets: el,
+        translateY: height,
+        duration: duration,
+        opacity: ["100%", "0%"],
+        easing: easeCurve,
+        complete: done,
+      });
+      break;
+    }
   }
-  let elements = document.querySelector("#newBase");
-  anime({
-    direction: "reverse",
-    targets: elements,
-    translateX: width,
-    duration: 1000,
-    opacity: ["100%", "0%"],
-    easing: "cubicBezier(1.000, -0.020, 1.000, 0.360)",
-    // easing: "cubicBezier(0.250, 0.100, 0.250, 1.000)",
-  });
-}
-
-export function newOut(to) {
-  let width;
-  if (to === "left") {
-    width = -window.innerWidth;
-  } else if (to === "right") {
-    width = window.innerWidth;
-  }
-  let elements = document.querySelector("#newBase");
-  anime({
-    targets: elements,
-    translateX: width,
-    duration: 1000,
-    opacity: ["100%", "0%"],
-    // easing: "cubicBezier(1.000, -0.020, 1.000, 0.360)",
-    easing: "cubicBezier(0.250, 0.100, 0.250, 1.000)",
-  });
+  // el.style.position = "relative";
 }

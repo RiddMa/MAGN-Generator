@@ -125,9 +125,7 @@ export default {
     },
   },
   data() {
-    return {
-      username: this.$store.state.username,
-    };
+    return {};
   },
   computed: {
     chartId: {
@@ -157,6 +155,7 @@ export default {
       },
     },
     ...mapState({
+      username: (state) => state.userStore.username,
       fitPhone: (state) => state.fitPhone,
       showCommentInput: (state) => state.showCommentInput,
       radarPlot: (state) => state.radarPlot,

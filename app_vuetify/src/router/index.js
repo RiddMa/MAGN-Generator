@@ -1,14 +1,14 @@
 import Vue from "vue";
 import VueRouter from "vue-router";
-import Home from "../views/Home.vue";
 import store from "@/store/store";
+import goTo from "vuetify/lib/services/goto";
 Vue.use(VueRouter);
 
 const routes = [
   {
     path: "/",
     name: "Home",
-    component: Home,
+    component: () => import("../views/New"),
     beforeEnter(to, from, next) {
       if (store.state.isEditing) {
         store.commit("showToast", {
@@ -35,15 +35,24 @@ const routes = [
     path: "/login",
     name: "Login",
     component: () => import("../views/User/Login"),
-    beforeEnter(to, from, next) {
-      localStorage.setItem("preRoute", from.path);
-      next();
-    },
+    // beforeEnter(to, from, next) {
+    //   localStorage.setItem("preRoute", from.path);
+    //   next();
+    // },
   },
   {
     path: "/user",
     name: "User",
     component: () => import("../views/User/User"),
+    async beforeEnter(to, from, next) {
+      if (await store.dispatch("isUserLoggedIn")) {
+        next();
+      } else {
+        store.commit("pushPendingQueue", "getAllUserReview");
+        localStorage.setItem("preRoute", "/user");
+        next("/login");
+      }
+    },
   },
   {
     path: "/view/:id",
@@ -66,15 +75,19 @@ const router = new VueRouter({
   mode: "history",
   base: process.env.BASE_URL,
   routes,
+  scrollBehavior(to, from, savedPosition) {
+    let scrollTo = 0;
+    if (to.hash) {
+      scrollTo = to.hash;
+    } else if (savedPosition) {
+      scrollTo = savedPosition.y;
+    }
+    return goTo(scrollTo);
+  },
 });
-// router.afterEach(async () => {
-//   let { status, data } = await store.dispatch("heartbeat");
-//   if (status !== 200 || data.status !== "OK") {
-//     store.commit("showToast", {
-//       type: "error",
-//       message: "无法连接至服务器",
-//       timer: -1,
-//     });
-//   }
+// router.beforeEach((to, from, next) => {
+//   localStorage.setItem("preRoute", from.path);
+//   localStorage.setItem("toRoute", to.path);
+//   next();
 // });
 export default router;

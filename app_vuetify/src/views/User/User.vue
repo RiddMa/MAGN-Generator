@@ -71,12 +71,8 @@ export default {
     },
   },
   async mounted() {
-    this.$store.dispatch("heartbeat");
-    if (await this.$store.dispatch("isUserLoggedIn", this)) {
-      this.$store.dispatch("getAllUserReview");
-    } else {
-      this.$store.commit("pushPendingQueue", "getAllUserReview");
-    }
+    await this.$store.dispatch("heartbeat");
+    await this.$store.dispatch("getAllUserReview");
   },
 };
 </script>

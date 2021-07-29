@@ -36,7 +36,6 @@ app.use(
       /^\/api\/register/,
       /^\/api\/internal/,
       /^\/api\/heartbeat/,
-      /^\/test/,
     ],
   })
 );

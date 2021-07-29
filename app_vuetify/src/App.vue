@@ -18,7 +18,7 @@
     </v-app-bar>
     <v-main>
       <v-container fluid>
-        <transition :name="transitionName">
+        <transition v-on:enter="tabEnter" v-on:leave="tabLeave">
           <router-view />
         </transition>
       </v-container>
@@ -34,12 +34,13 @@
 <script>
 import VToast from "@/components/vToast";
 import { mapState } from "vuex";
+import { enter, leave } from "@/utils/animate";
 export default {
   name: "App",
   components: { VToast },
   data: () => ({
     blurTab: true,
-    transitionName: "fold-left",
+    transitionDirection: "fold-left",
   }),
   computed: {
     ...mapState({
@@ -48,7 +49,16 @@ export default {
       isEditing: (state) => state.isEditing,
     }),
   },
-  methods: {},
+  methods: {
+    tabEnter(el, done) {
+      console.log("enter", this.transitionDirection);
+      enter(this.transitionDirection, el, done);
+    },
+    tabLeave(el, done) {
+      console.log("leave", this.transitionDirection);
+      leave(this.transitionDirection, el, done);
+    },
+  },
   async mounted() {
     try {
       await this.$store.dispatch("initStore");
@@ -70,33 +80,33 @@ export default {
     }
     this.$store.commit("setUsername", localStorage.getItem("username"));
   },
-  // vue监听路由对象$route的方法
   watch: {
-    // watch $route 决定使用哪种过渡
     $route(to, from) {
-      //to、from是最基本的路由对象，分别表示从(from)某个页面跳转到(to)另一个页面,to.path（表示要跳转到的路由地址），from.path同理。
-      const routerPosition = ["/", "/user", "/?", "/about"];
+      const routerPosition = ["/", "/user", "/?(edit)", "/about"];
       //找到to.path和from.path在routerDeep数组中的下标
-      let toPos;
-      if (to.path.startsWith("/edit")) {
-        toPos = 2;
-      } else {
-        toPos = routerPosition.indexOf(to.path);
-      }
-      let fromPos;
+      let toPos = routerPosition.indexOf(to.path);
+      let fromPos = routerPosition.indexOf(from.path);
+      //临时导航下标确定
       if (from.path.startsWith("/edit")) {
         fromPos = 2;
-      } else {
-        fromPos = routerPosition.indexOf(from.path);
       }
-      this.transitionName = toPos > fromPos ? "fold-left" : "fold-right";
+      if (to.path.startsWith("/edit")) {
+        toPos = 2;
+      }
+      this.transitionDirection = toPos > fromPos ? "right" : "left"; //正常导航方向选择
+      //类弹窗导航方向选择
+      if (to.path === "/login") {
+        this.transitionDirection = "down";
+      }
+      if (from.path === "/login") {
+        this.transitionDirection = "up";
+      }
     },
   },
 };
 </script>
 
 <style scoped>
-@import url("styles/navigation.css");
 body {
   font-family: "Helvetica Neue", Helvetica, Arial, "PingFang SC",
     "Hiragino Sans GB", "Heiti SC", "Microsoft YaHei UI", "WenQuanYi Micro Hei",

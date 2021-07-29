@@ -253,7 +253,7 @@ export default {
   data() {
     return {
       loading: false,
-      showSettings: 0,
+      showSettings: undefined,
       showYear: true,
       showClearCheck: false,
       showDeleteCheck: false,
@@ -299,7 +299,6 @@ export default {
       genreTags: "genreTags",
     }),
   },
-  mounted() {},
   methods: {
     onSearch() {},
     onClearAllClickOutside() {
@@ -337,10 +336,12 @@ export default {
     },
     async sendReview() {
       this.loading = true;
-      if ((await this.$store.dispatch("isUserLoggedIn", this)) === true) {
+      if (await this.$store.dispatch("isUserLoggedIn")) {
         await this.$store.dispatch("saveUserReview", this.$store.state.movie);
       } else {
+        // localStorage.setItem("preRoute", "/user");
         this.$store.commit("pushPendingQueue", "saveUserReview");
+        await this.$router.push("/login");
       }
       this.loading = false;
       this.showSettings = undefined;
@@ -365,6 +366,11 @@ export default {
     enterBlur(event) {
       event.target.blur();
     },
+  },
+  mounted() {
+    setTimeout(() => {
+      this.showSettings = 0;
+    }, 750);
   },
 };
 </script>
