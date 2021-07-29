@@ -22,7 +22,7 @@
         <!--          v-if="searchText === '' || showTitleInput === true"-->
         <!--          v-model:value="searchText"-->
         <!--          placeholder="输入电影名称…"-->
-        <!--          enter-button="确认"-->
+        <!--          routeEnter-button="确认"-->
         <!--          size="large"-->
         <!--          allowclear-->
         <!--          @search="handleSearch()"-->

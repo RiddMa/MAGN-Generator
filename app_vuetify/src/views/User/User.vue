@@ -1,27 +1,39 @@
 <template>
-  <v-container fluid id="userBase">
-    <v-row>
-      <v-col class="reviewBase ma-auto">
-        <template v-if="reviewList.length === 0">
-          <v-row class="justify-center mt-4">
-            <v-icon x-large>{{ svgPath }}</v-icon>
-          </v-row>
-          <v-row class="justify-center mt-4">
-            <span class="text-h6 text--secondary">暂无影评</span>
-          </v-row>
-          <v-row class="justify-center mt-4">
-            <span class="text-body-1 text--secondary mt-4">
-              从顶部导航栏点击“新建”以创建新的影评。或点击“关于”查看使用帮助。
-            </span>
-          </v-row>
-        </template>
-        <template v-for="movie in reviewList">
+  <v-container fluid id="userBase" style="position: relative">
+    <v-row style="position: relative">
+      <v-col class="reviewBase ma-auto" style="position: relative">
+        <!--        <v-btn @click="testList.push(Math.random().toString())">add</v-btn>-->
+        <!--        <v-btn @click="testList.splice(1, 1)">remove</v-btn>-->
+        <transition-group
+          name="flip-list"
+          v-on:enter="tabItemEnterCaller"
+          v-on:leave="tabItemLeaveCaller"
+        >
           <ReviewCard
+            v-for="(movie, index) in reviewList"
+            v-bind:key="movie.reviewId"
+            v-bind:data-index="index"
             class="mb-8"
             :movie.sync="movie"
-            v-bind:key="movie.reviewId"
           ></ReviewCard>
-        </template>
+          <v-container
+            fluid
+            v-if="reviewList.length === 0"
+            v-bind:key="'EmptyReminder'"
+          >
+            <v-row class="justify-center mt-4">
+              <v-icon x-large>{{ svgPath }}</v-icon>
+            </v-row>
+            <v-row class="justify-center mt-4">
+              <span class="text-h6 text--secondary">暂无影评</span>
+            </v-row>
+            <v-row class="justify-center mt-4">
+              <span class="text-body-1 text--secondary mt-4">
+                从顶部导航栏点击“新建”以创建新的影评。或点击“关于”查看使用帮助。
+              </span>
+            </v-row>
+          </v-container>
+        </transition-group>
       </v-col>
     </v-row>
   </v-container>
@@ -31,6 +43,7 @@
 import { mapGetters, mapState } from "vuex";
 import ReviewCard from "@/components/ReviewCard";
 import { mdiFileHidden } from "@mdi/js";
+import { tabItemEnter, tabItemLeave } from "@/utils/animate";
 
 export default {
   name: "UserProfile",
@@ -46,6 +59,7 @@ export default {
       drawerLoading: false,
       listLoading: false,
       svgPath: mdiFileHidden,
+      testList: [],
     };
   },
   computed: {
@@ -58,17 +72,18 @@ export default {
     }),
   },
   methods: {
-    toggleDrawer(reviewId) {
-      this.listLoading = true;
-      this.drawerHeight = window.innerHeight;
-      this.$store.commit("setMovie", this.getReviewById(reviewId));
-      this.drawerVisible = true;
+    /*
+    animation
+     */
+    tabItemEnterCaller(el, done) {
+      tabItemEnter(el, done, el.dataset.index * 100);
     },
-    onVisibleChange() {
-      if (this.drawerVisible === true) {
-        this.listLoading = false;
-      }
+    tabItemLeaveCaller(el, done) {
+      tabItemLeave(el, done);
     },
+    /*
+    animation
+     */
   },
   async mounted() {
     await this.$store.dispatch("heartbeat");
@@ -77,6 +92,12 @@ export default {
 };
 </script>
 
+<style>
+.flip-list-move {
+  transition: transform 0.75s;
+  transition-timing-function: cubic-bezier(0.4, 1.1, 0, 1);
+}
+</style>
 <style scoped>
 .reviewBase {
   max-width: 1024px;

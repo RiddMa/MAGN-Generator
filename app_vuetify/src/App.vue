@@ -10,20 +10,24 @@
       elevation="0"
     >
       <v-tabs centered :optional="true">
-        <v-tab to="/">新建</v-tab>
-        <v-tab to="/user">用户</v-tab>
-        <v-tab v-if="isEditing" :to="editURL">编辑</v-tab>
-        <v-tab to="/about">关于</v-tab>
+        <v-tab to="/" v-bind:key="'New'">新建</v-tab>
+        <v-tab to="/user" v-bind:key="'User'">用户</v-tab>
+        <v-tab v-if="isEditing" :to="editURL" v-bind:key="'Edit'">编辑</v-tab>
+        <v-tab to="/about" v-bind:key="'About'">关于</v-tab>
       </v-tabs>
     </v-app-bar>
-    <v-main>
+    <v-main style="position: relative">
       <v-container fluid>
-        <transition v-on:enter="tabEnter" v-on:leave="tabLeave">
+        <transition
+          v-on:enter="routeEnterCaller"
+          v-on:leave="routeLeaveCaller"
+          v-bind:css="false"
+        >
           <router-view />
         </transition>
       </v-container>
     </v-main>
-    <v-footer padless>
+    <v-footer padless style="position: relative">
       <v-col class="text-center">
         {{ new Date().getFullYear() }} — <strong>Ridd</strong>
       </v-col>
@@ -34,7 +38,12 @@
 <script>
 import VToast from "@/components/vToast";
 import { mapState } from "vuex";
-import { enter, leave } from "@/utils/animate";
+import {
+  routeEnter,
+  routeLeave,
+  tabItemEnter,
+  tabItemLeave,
+} from "@/utils/animate";
 export default {
   name: "App",
   components: { VToast },
@@ -50,13 +59,13 @@ export default {
     }),
   },
   methods: {
-    tabEnter(el, done) {
+    routeEnterCaller(el, done) {
       console.log("enter", this.transitionDirection);
-      enter(this.transitionDirection, el, done);
+      routeEnter(this.transitionDirection, el, done);
     },
-    tabLeave(el, done) {
+    routeLeaveCaller(el, done) {
       console.log("leave", this.transitionDirection);
-      leave(this.transitionDirection, el, done);
+      routeLeave(this.transitionDirection, el, done);
     },
   },
   async mounted() {

@@ -10,8 +10,8 @@
               outlined
             >
               <!--              <transition-->
-              <!--                v-on:enter="titleEnter"-->
-              <!--                v-on:leave="titleLeave"-->
+              <!--                v-on:routeEnter="titleEnter"-->
+              <!--                v-on:routeLeave="titleLeave"-->
               <!--                v-bind:css="false"-->
               <!--              >-->
               <v-card-title
@@ -70,7 +70,7 @@
   </v-container>
 </template>
 <script>
-import { enter, leave } from "@/utils/animate";
+import { routeEnter, routeLeave } from "@/utils/animate";
 
 export default {
   name: "About",
@@ -84,10 +84,10 @@ export default {
       this.test = !this.test;
     },
     titleEnter(el, done) {
-      enter("right", el, done);
+      routeEnter("right", el, done);
     },
     titleLeave(el, done) {
-      leave("right", el, done);
+      routeLeave("right", el, done);
     },
   },
   mounted() {},

@@ -1,5 +1,7 @@
 import anime from "animejs";
-export function enter(direction, el, done) {
+const easeIn = "cubicBezier(1,0,.6,-0.1)";
+const easeOut = "cubicBezier(0.4,1.1,0,1)";
+export function routeEnter(direction, el, done) {
   el.style.position = "absolute";
   const width = window.innerWidth;
   const height = window.innerHeight;
@@ -58,7 +60,7 @@ export function enter(direction, el, done) {
   el.style.position = "relative";
 }
 
-export function leave(direction, el, done) {
+export function routeLeave(direction, el, done) {
   el.style.position = "absolute";
   const width = window.innerWidth;
   const height = window.innerHeight;
@@ -110,5 +112,30 @@ export function leave(direction, el, done) {
       break;
     }
   }
-  // el.style.position = "relative";
+}
+
+export function tabItemEnter(el, done, delay) {
+  anime({
+    direction: "reverse",
+    targets: el,
+    duration: 1000,
+    opacity: ["100%", "0%"],
+    translateY: 500,
+    easing: easeIn,
+    complete: done,
+    endDelay: delay,
+  });
+}
+
+export function tabItemLeave(el, done) {
+  el.style.position = "absolute";
+  anime({
+    targets: el,
+    duration: 1000,
+    opacity: ["100%", "0%"],
+    scale: 0,
+    // translateY: -window.innerHeight,
+    easing: easeOut,
+    complete: done,
+  });
 }

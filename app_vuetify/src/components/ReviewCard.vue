@@ -136,6 +136,7 @@
 
 <script>
 import moment from "moment";
+import goTo from "vuetify/lib/services/goto";
 moment.locale("zh-cn");
 export default {
   name: "ReviewCard",
@@ -171,15 +172,30 @@ export default {
     },
   },
   methods: {
-    toggleFullScreen() {
-      // document.getElementById(`RC${this.movie.reviewId}`).style.height =
-      //   "500px";
-    },
     onCardClicked() {
       if (this.showDeleteCheck) {
         this.showDeleteCheck = false;
       } else {
         this.reveal = !this.reveal;
+      }
+    },
+    scroll() {
+      let scrollTop =
+        window.pageYOffset ||
+        document.documentElement.scrollTop ||
+        document.body.scrollTop ||
+        0;
+      let scrollBottom =
+        document.body.scrollHeight -
+        scrollTop -
+        document.documentElement.clientHeight;
+      let offset =
+        document
+          .querySelector(`#RC${this.movie.reviewId}`)
+          .getBoundingClientRect().height - scrollBottom;
+      if (offset > 0) {
+        let scrollTo = scrollTop - offset + 10;
+        goTo(scrollTo);
       }
     },
     async onViewClicked() {
@@ -195,16 +211,13 @@ export default {
     async onDeleteClicked() {
       //show modal
       this.loading = true;
+      this.scroll();
       await this.$store.dispatch("deleteUserReview", this.movie.reviewId);
       this.showDeleteCheck = false;
       this.loading = false;
     },
   },
-  mounted() {
-    // let elem = document.getElementById("reviewCard");
-    // this.height = elem.offsetHeight;
-    // this.width = elem.offsetWidth;
-  },
+  mounted() {},
 };
 </script>
 
