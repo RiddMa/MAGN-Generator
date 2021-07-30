@@ -12,7 +12,12 @@
       <v-tabs centered :optional="true">
         <v-tab to="/" v-bind:key="'New'">新建</v-tab>
         <v-tab to="/user" v-bind:key="'User'">用户</v-tab>
-        <v-tab v-if="isEditing" :to="editURL" v-bind:key="'Edit'">编辑</v-tab>
+        <v-tab v-if="isViewing" :to="viewURL" v-bind:key="'ViewMovie'">
+          查看
+        </v-tab>
+        <v-tab v-if="isEditing" :to="editURL" v-bind:key="'EditMovie'">
+          编辑
+        </v-tab>
         <v-tab to="/about" v-bind:key="'About'">关于</v-tab>
       </v-tabs>
     </v-app-bar>
@@ -38,12 +43,7 @@
 <script>
 import VToast from "@/components/vToast";
 import { mapState } from "vuex";
-import {
-  routeEnter,
-  routeLeave,
-  tabItemEnter,
-  tabItemLeave,
-} from "@/utils/animate";
+import { routeEnter, routeLeave } from "@/utils/animate";
 export default {
   name: "App",
   components: { VToast },
@@ -56,15 +56,14 @@ export default {
       editURL: (state) => state.editURL,
       viewURL: (state) => state.viewURL,
       isEditing: (state) => state.isEditing,
+      isViewing: (state) => state.isViewing,
     }),
   },
   methods: {
     routeEnterCaller(el, done) {
-      console.log("enter", this.transitionDirection);
       routeEnter(this.transitionDirection, el, done);
     },
     routeLeaveCaller(el, done) {
-      console.log("leave", this.transitionDirection);
       routeLeave(this.transitionDirection, el, done);
     },
   },
@@ -91,15 +90,19 @@ export default {
   },
   watch: {
     $route(to, from) {
-      const routerPosition = ["/", "/user", "/?(edit)", "/about"];
+      const routerPosition = ["/", "/user", "/?(view)", "/?(edit)", "/about"];
       //找到to.path和from.path在routerDeep数组中的下标
       let toPos = routerPosition.indexOf(to.path);
       let fromPos = routerPosition.indexOf(from.path);
       //临时导航下标确定
       if (from.path.startsWith("/edit")) {
+        fromPos = 3;
+      } else if (from.path.startsWith("/view")) {
         fromPos = 2;
       }
       if (to.path.startsWith("/edit")) {
+        toPos = 3;
+      } else if (to.path.startsWith("/view")) {
         toPos = 2;
       }
       this.transitionDirection = toPos > fromPos ? "right" : "left"; //正常导航方向选择

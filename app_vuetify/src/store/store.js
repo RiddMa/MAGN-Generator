@@ -31,7 +31,13 @@ export default new Vuex.Store({
     editURL: "/",
     viewURL: "/",
     isEditing: false,
-    movieBak: undefined,
+    isViewing: false,
+    movieBak: {
+      create: undefined,
+      edit: undefined,
+      view: undefined,
+    },
+    currentTag: "/",
   }),
   mutations: {
     setIsEditing(state, toBool) {
@@ -40,8 +46,14 @@ export default new Vuex.Store({
     setEditURL(state, reviewId) {
       state.editURL = `/edit/${reviewId}`;
     },
+    setIsViewing(state, toBool) {
+      state.isViewing = toBool;
+    },
     setViewURL(state, reviewId) {
-      state.editURL = `/view/${reviewId}`;
+      state.viewURL = `/view/${reviewId}`;
+    },
+    setCurrentTag(state, tag) {
+      state.currentTag = tag;
     },
     setSearchText(state, searched) {
       state.searchText = searched;
@@ -118,19 +130,39 @@ export default new Vuex.Store({
         return true;
       }
     },
-    backupMovie(context) {
+    backupMovie(context, place) {
       const _ = require("lodash");
-      context.state.movieBak = _.cloneDeep(context.state.movie);
-      context.commit("clearMovie");
-      // if (context.state.radarPlot !== undefined) {
-      //   context.state.radarPlot.destroy();
-      //   context.state.radarPlot = undefined;
-      // }
+      switch (place) {
+        case "/": {
+          context.state.movieBak.create = _.cloneDeep(context.state.movie);
+          break;
+        }
+        case "/view": {
+          context.state.movieBak.view = _.cloneDeep(context.state.movie);
+          break;
+        }
+        case "/edit": {
+          context.state.movieBak.edit = _.cloneDeep(context.state.movie);
+          break;
+        }
+      }
     },
-    restoreMovie(context) {
+    restoreMovie(context, place) {
       const _ = require("lodash");
-      context.state.movie = _.cloneDeep(context.state.movieBak);
-      context.state.movieBak = undefined;
+      switch (place) {
+        case "/": {
+          context.state.movie = _.cloneDeep(context.state.movieBak.create);
+          break;
+        }
+        case "/view": {
+          context.state.movie = _.cloneDeep(context.state.movieBak.view);
+          break;
+        }
+        case "/edit": {
+          context.state.movie = _.cloneDeep(context.state.movieBak.edit);
+          break;
+        }
+      }
     },
     drawRadar(context, container) {
       const data = context.getters.radarData;

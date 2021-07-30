@@ -57,7 +57,7 @@ const routes = [
   {
     path: "/view/:id",
     name: "View",
-    component: () => import("../views/User/View"),
+    component: () => import("../views/User/Preview"),
   },
   {
     path: "/edit/:id",

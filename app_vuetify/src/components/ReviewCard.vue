@@ -137,6 +137,7 @@
 <script>
 import moment from "moment";
 import goTo from "vuetify/lib/services/goto";
+import store from "@/store/store";
 moment.locale("zh-cn");
 export default {
   name: "ReviewCard",
@@ -199,13 +200,21 @@ export default {
       }
     },
     async onViewClicked() {
+      store.commit("setCurrentTag", "/view");
+      this.$store.commit("setIsViewing", true);
+      this.$store.commit("setViewURL", this.movie.reviewId);
+      await this.$store.dispatch("backupMovie");
+      this.$store.commit("setMovie", this.movie);
+      this.$store.commit("setCurrentTag", "/view");
       await this.$router.push(this.$store.state.viewURL);
     },
     async onEditClicked() {
-      await this.$store.dispatch("backupMovie");
-      this.$store.commit("setEditURL", this.movie.reviewId);
-      this.$store.commit("setMovie", this.movie);
+      store.commit("setCurrentTag", "/edit");
       this.$store.commit("setIsEditing", true);
+      this.$store.commit("setEditURL", this.movie.reviewId);
+      await this.$store.dispatch("backupMovie");
+      this.$store.commit("setMovie", this.movie);
+      this.$store.commit("setCurrentTag", "/edit");
       await this.$router.push(this.$store.state.editURL);
     },
     async onDeleteClicked() {

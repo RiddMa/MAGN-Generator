@@ -2,8 +2,7 @@
   <v-container fluid id="userBase" style="position: relative">
     <v-row style="position: relative">
       <v-col class="reviewBase ma-auto" style="position: relative">
-        <!--        <v-btn @click="testList.push(Math.random().toString())">add</v-btn>-->
-        <!--        <v-btn @click="testList.splice(1, 1)">remove</v-btn>-->
+        <p class="mb-6 text--secondary text-center">你好，{{ username }}!</p>
         <transition-group
           name="flip-list"
           v-on:enter="tabItemEnterCaller"
@@ -66,6 +65,7 @@ export default {
     ...mapState({
       reviewList: (state) => state.userStore.reviewList,
       fitPhone: (state) => state.fitPhone,
+      username: (state) => state.userStore.username,
     }),
     ...mapGetters({
       getReviewById: "getReviewById",

@@ -46,7 +46,7 @@
               ></v-checkbox>
               <v-text-field
                 class="no-counter text-body-1 text--primary"
-                v-model.number="year"
+                v-model="year"
                 type="number"
                 label="上映年份"
                 placeholder="请输入电影上映年份……"
@@ -58,6 +58,7 @@
                 :loading="loading"
                 :disabled="loading || !showYear"
                 @keydown.enter="enterBlur"
+                maxlength="4"
                 style="max-width: 175px"
               ></v-text-field>
             </v-row>
@@ -288,7 +289,12 @@ export default {
         return this.$store.state.movie.year;
       },
       set(newYear) {
-        this.$store.commit("setMovieYear", newYear);
+        if (
+          newYear.toString().length === 4 &&
+          !newYear.toString().includes(".")
+        ) {
+          this.$store.commit("setMovieYear", newYear);
+        }
       },
     },
     ...mapState({
@@ -300,7 +306,6 @@ export default {
     }),
   },
   methods: {
-    onSearch() {},
     onClearAllClickOutside() {
       if (this.showClearCheck) {
         document.getElementById("clearCheckAgain").style.position = "absolute";
@@ -312,6 +317,27 @@ export default {
       this.$store.commit("clearMovie");
       this.$store.dispatch("updateRadar");
       this.showClearCheck = false;
+    },
+    async sendReview() {
+      this.loading = true;
+      if (await this.$store.dispatch("isUserLoggedIn")) {
+        await this.$store.dispatch("saveUserReview", this.$store.state.movie);
+      } else {
+        this.$store.commit("pushPendingQueue", "saveUserReview");
+        await this.$router.push("/login");
+      }
+      this.loading = false;
+      this.showSettings = undefined;
+    },
+    /*
+    edit mode
+     */
+    async updateReview() {
+      this.loading = true;
+      await this.$store.dispatch("updateUserReview", this.$store.state.movie);
+      this.loading = false;
+      this.$store.commit("setIsEditing", false);
+      await this.$router.replace("/user");
     },
     onDeleteClickOutside() {
       if (this.showDeleteCheck) {
@@ -327,33 +353,14 @@ export default {
       this.loading = false;
       this.$store.commit("setIsEditing", false);
       await this.$router.replace("/user");
-      await this.$store.dispatch("restoreMovie");
     },
     async cancelUpdate() {
       this.$store.commit("setIsEditing", false);
       await this.$router.replace("/user");
-      await this.$store.dispatch("restoreMovie");
     },
-    async sendReview() {
-      this.loading = true;
-      if (await this.$store.dispatch("isUserLoggedIn")) {
-        await this.$store.dispatch("saveUserReview", this.$store.state.movie);
-      } else {
-        // localStorage.setItem("preRoute", "/user");
-        this.$store.commit("pushPendingQueue", "saveUserReview");
-        await this.$router.push("/login");
-      }
-      this.loading = false;
-      this.showSettings = undefined;
-    },
-    async updateReview() {
-      this.loading = true;
-      await this.$store.dispatch("updateUserReview", this.$store.state.movie);
-      this.loading = false;
-      this.$store.commit("setIsEditing", false);
-      await this.$router.replace("/user");
-      await this.$store.dispatch("restoreMovie");
-    },
+    /*
+    edit mode
+     */
     toggleShowYear() {
       this.showYear = !this.showYear;
       if (this.showYear) {

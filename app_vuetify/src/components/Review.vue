@@ -46,21 +46,25 @@
                   <RatingRow
                     class="ratingRow"
                     :desc="'剧情'"
+                    :readonly="readOnly"
                     :rating.sync="movie.rating.screenplay"
                   />
                   <RatingRow
                     class="ratingRow"
                     :desc="'视效/摄影'"
+                    :readonly="readOnly"
                     :rating.sync="movie.rating.visual"
                   />
                   <RatingRow
                     class="ratingRow"
                     :desc="'演出/剪辑'"
+                    :readonly="readOnly"
                     :rating.sync="movie.rating.editing"
                   />
                   <RatingRow
                     class="ratingRow"
                     :desc="'配乐/音效'"
+                    :readonly="readOnly"
                     :rating.sync="movie.rating.sound"
                   />
                   <RatingRow
@@ -87,8 +91,11 @@
               >
                 <v-card-text class="text-center text--primary">
                   <v-textarea
+                    v-model="comment"
+                    auto-grow
+                    no-resize
+                    :readonly="readOnly"
                     placeholder="请输入影评……"
-                    :value="movie.comment"
                     counter
                   ></v-textarea>
                 </v-card-text>
@@ -128,14 +135,23 @@ export default {
     return {};
   },
   computed: {
+    readOnly: {
+      get() {
+        return this.mode === "view";
+      },
+    },
     chartId: {
       get() {
-        if (this.mode === "new") {
-          return "newRadar";
-        } else if (this.mode === "edit") {
-          return "editRadar";
+        switch (this.mode) {
+          case "new":
+            return "newRadar";
+          case "edit":
+            return "editRadar";
+          case "view":
+            return "viewRadar";
+          default:
+            return "newRadar";
         }
-        return "newRadar";
       },
     },
     comment: {
@@ -174,7 +190,6 @@ export default {
     if (!this.$route.fullPath.startsWith("/render")) {
       if (this.$store.state.radarPlot !== undefined) {
         this.$store.state.radarPlot.destroy();
-        console.log("destroy");
         this.$store.state.radarPlot = undefined;
       }
       await this.$store.dispatch("drawRadar", this.chartId);

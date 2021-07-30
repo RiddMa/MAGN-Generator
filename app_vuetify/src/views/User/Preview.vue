@@ -1,9 +1,12 @@
 <template>
-  <v-container id="newBase" fluid>
+  <v-container fluid>
     <v-row>
       <v-col class="reviewBase ma-auto">
-        <Settings mode="new"></Settings>
-        <Review mode="new"></Review>
+        <p class="mb-6 text--secondary text-center">
+          尚未完工，凑合看看?
+          <v-btn @click="onLeaveClicked">退出</v-btn>
+        </p>
+        <Review mode="view"></Review>
       </v-col>
     </v-row>
   </v-container>
@@ -11,15 +14,18 @@
 
 <script>
 import Review from "@/components/Review";
-import Settings from "@/components/Settings";
 import store from "@/store/store";
 export default {
-  name: "New",
-  components: { Settings, Review },
-  mounted() {},
-  beforeDestroy() {},
+  name: "Preview",
+  components: { Review },
+  methods: {
+    onLeaveClicked() {
+      this.$store.commit("setIsViewing", false);
+      this.$router.replace("/user");
+    },
+  },
   async beforeRouteEnter(to, from, next) {
-    const tag = "/";
+    const tag = "/view";
     if (store.state.currentTag !== tag) {
       store.commit("setCurrentTag", tag);
       await store.dispatch("restoreMovie", tag);
@@ -27,7 +33,7 @@ export default {
     next();
   },
   async beforeRouteLeave(to, from, next) {
-    await store.dispatch("backupMovie", "/");
+    await store.dispatch("backupMovie", "/view");
     next();
   },
 };
