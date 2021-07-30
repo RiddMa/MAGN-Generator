@@ -12,7 +12,7 @@
             v-for="(movie, index) in reviewList"
             v-bind:key="movie.reviewId"
             v-bind:data-index="index"
-            class="mb-8"
+            class="ma-auto"
             :movie.sync="movie"
           ></ReviewCard>
           <v-container

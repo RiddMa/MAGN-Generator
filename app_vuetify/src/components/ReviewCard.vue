@@ -1,10 +1,10 @@
 <template>
-  <div>
+  <v-container fluid style="position: relative">
     <v-hover>
       <template v-slot:default="{ hover }">
         <v-card
           :id="`RC${movie.reviewId}`"
-          class="reviewCard ma-4 px-4 pt-0 pb-4 transition-swing"
+          class="reviewCard mx-4 my-2 px-4 pt-0 pb-4 transition-swing"
           outlined
           v-blur
           :min-width="width"
@@ -131,7 +131,7 @@
         </v-card>
       </template>
     </v-hover>
-  </div>
+  </v-container>
 </template>
 
 <script>
