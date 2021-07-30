@@ -4,6 +4,7 @@ import "./registerServiceWorker";
 import router from "./router";
 import store from "./store/store";
 import vuetify from "./plugins/vuetify";
+import VueMeta from "vue-meta";
 
 Vue.config.productionTip = false;
 
@@ -12,6 +13,11 @@ Vue.directive("blur", {
   inserted: function (el) {
     el.onfocus = (ev) => ev.target.blur();
   },
+});
+
+Vue.use(VueMeta, {
+  // 定义组件中的数据对象
+  keyName: "head",
 });
 
 new Vue({

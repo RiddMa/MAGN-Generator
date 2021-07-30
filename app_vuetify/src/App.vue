@@ -46,6 +46,10 @@ import { mapState } from "vuex";
 import { routeEnter, routeLeave } from "@/utils/animate";
 export default {
   name: "App",
+  head: {
+    title: "MAG(N)",
+    meta: [{ name: "MAG(N)", content: "MAG(N)" }],
+  },
   components: { VToast },
   data: () => ({
     blurTab: true,

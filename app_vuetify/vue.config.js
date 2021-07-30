@@ -1,4 +1,4 @@
-const webpack = require("webpack");
+// const webpack = require("webpack");
 module.exports = {
   transpileDependencies: ["vuetify"],
   devServer: {
@@ -18,7 +18,13 @@ module.exports = {
     // },
   },
   lintOnSave: false, //关闭eslint检查
-  configureWebpack: {
-    plugins: [new webpack.IgnorePlugin(/^\.\/locale$/, /moment$/)],
+  // configureWebpack: {
+  //   plugins: [new webpack.IgnorePlugin(/^\.\/locale$/, /moment$/)],
+  // },
+  chainWebpack: (config) => {
+    config.plugin("html").tap((args) => {
+      args[0].title = "MAG(N)";
+      return args;
+    });
   },
 };
