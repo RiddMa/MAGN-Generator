@@ -21,9 +21,10 @@
         <v-tab to="/about" v-bind:key="'About'">关于</v-tab>
       </v-tabs>
     </v-app-bar>
-    <v-main style="position: relative">
+    <v-main v-resize="onResize" style="position: relative">
       <v-container fluid>
         <transition
+          v-on:appear="routeAppearCaller"
           v-on:enter="routeEnterCaller"
           v-on:leave="routeLeaveCaller"
           v-bind:css="false"
@@ -53,7 +54,7 @@ export default {
   components: { VToast },
   data: () => ({
     blurTab: true,
-    transitionDirection: "fold-left",
+    transitionDirection: "up",
   }),
   computed: {
     ...mapState({
@@ -64,26 +65,39 @@ export default {
     }),
   },
   methods: {
+    routeAppearCaller(el, done) {
+      routeEnter("up", el, done);
+    },
     routeEnterCaller(el, done) {
       routeEnter(this.transitionDirection, el, done);
     },
     routeLeaveCaller(el, done) {
       routeLeave(this.transitionDirection, el, done);
     },
-  },
-  async mounted() {
-    try {
-      await this.$store.dispatch("initStore");
-      if (document.body.clientWidth < 720) {
+    onResize() {
+      this.windowSize = { x: window.innerWidth, y: window.innerHeight };
+      if (this.windowSize.x < 800) {
+        //临时
+        this.$store.commit("showToast", {
+          type: "error",
+          message: "手机端暂未适配……当前页面宽度过窄，可能导致页面显示不正常",
+          timer: 5000,
+        });
         this.$store.commit("setFitPhone", true);
       } else {
         this.$store.commit("setFitPhone", false);
       }
+    },
+  },
+  async mounted() {
+    try {
+      await this.$store.dispatch("initStore");
+      this.onResize();
       let { status, data } = await this.$store.dispatch("heartbeat");
       if (status !== 200 || data.status !== "OK") {
         this.$store.commit("showToast", {
           type: "error",
-          message: "无法连接至服务器",
+          message: "无法连接至服务器,请联系管理员",
           timer: -1,
         });
       }

@@ -14,7 +14,7 @@
           @click="onCardClicked"
         >
           <v-row class="mt-1">
-            <v-col cols="9">
+            <v-col cols="8">
               <v-card-title class="reviewTitle mb-2 text-h4">
                 {{ movie.title }}
               </v-card-title>

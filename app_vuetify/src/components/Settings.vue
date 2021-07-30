@@ -103,7 +103,6 @@
                 :rating.sync="movie.rating.sound"
                 :loading="loading"
               ></RatingInput>
-              <v-spacer></v-spacer>
             </v-row>
             <v-row v-if="mode === 'new'">
               <v-scale-transition
