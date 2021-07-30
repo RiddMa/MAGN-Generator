@@ -1,8 +1,7 @@
 <template>
   <v-snackbar
     id="snackbar"
-    class="mt-4"
-    content-class="toast"
+    class="dialog mt-4"
     :app="true"
     light
     elevation="12"
@@ -14,41 +13,47 @@
     v-model="toast.show"
     :vertical="toast.dialog"
   >
-    <v-row class="justify-center mx-2 my-1">
-      <v-spacer></v-spacer>
-      <span class="text--primary text-body-1 ma-0 pa-0">
-        <v-icon dense light left :color="toast.color">
-          {{ toast.icon }}
-        </v-icon>
-        {{ toast.message }}
-      </span>
-      <v-spacer></v-spacer>
-    </v-row>
-    <v-row
-      class="justify-center align-center mx-2 mt-4 mb-1 pa-0"
-      v-if="toast.dialog"
-    >
-      <v-btn
-        class="ma-0 pa-0"
-        light
-        color="primary"
-        outlined
-        elevation="4"
-        @click="onDialogButtonClicked(false)"
+    <v-container class="ma-0 pa-0" fluid style="position: relative">
+      <v-row class="justify-center mt-2 mb-0 mx-0 pa-0" style="width: 100%">
+        <span class="body--text text-body-1 ma-0 pa-0">
+          <v-icon dense light :color="toast.color">
+            {{ toast.icon }}
+          </v-icon>
+          {{ toast.message }}
+        </span>
+      </v-row>
+      <v-row
+        class="justify-space-between mx-0 mt-4 mb-0 pa-0"
+        style="width: 100%"
+        v-if="toast.dialog"
       >
-        <span> 取消 </span>
-      </v-btn>
-      <v-spacer></v-spacer>
-      <v-btn
-        light
-        color="red"
-        outlined
-        elevation="4"
-        @click="onDialogButtonClicked(true)"
-      >
-        <span> 好 </span>
-      </v-btn>
-    </v-row>
+        <v-spacer></v-spacer>
+        <v-btn
+          class="text-button ma-0 pa-0"
+          light
+          color="primary"
+          outlined
+          elevation="0"
+          @click="onDialogButtonClicked(false)"
+          :loading="loading"
+        >
+          <span> 取消 </span>
+        </v-btn>
+        <v-spacer></v-spacer>
+        <v-btn
+          class="dialog text-button"
+          light
+          color="red"
+          outlined
+          elevation="0"
+          @click="onDialogButtonClicked(true)"
+          :loading="loading"
+        >
+          <span> 好! </span>
+        </v-btn>
+        <v-spacer></v-spacer>
+      </v-row>
+    </v-container>
   </v-snackbar>
 </template>
 
@@ -59,7 +64,9 @@ import { setCSSBlur, unsetCSSBlur } from "@/utils/util";
 export default {
   name: "vToast",
   data() {
-    return {};
+    return {
+      loading: false,
+    };
   },
   computed: {
     ...mapState({
@@ -67,15 +74,28 @@ export default {
     }),
   },
   methods: {
-    onDialogButtonClicked(bool) {
+    async onDialogButtonClicked(bool) {
       if (bool) {
         //true
+        this.loading = true;
         this.$store.commit("setToastResult", true);
         this.toast.show = false;
         switch (this.toast.func) {
           case "clearMovie": {
             this.$store.commit("clearMovie");
-            this.$store.dispatch("updateRadar");
+            await this.$store.dispatch("updateRadar");
+            this.loading = false;
+            break;
+          }
+          case "deleteMovie": {
+            await this.$store.dispatch(
+              "deleteUserReview",
+              this.$store.state.movie.reviewId
+            );
+            this.$store.commit("setIsEditing", false);
+            this.loading = false;
+            await this.$router.replace("/user");
+            break;
           }
         }
       } else {
@@ -86,6 +106,7 @@ export default {
     },
   },
   updated() {
+    // document.querySelector(".v-snack__content").style.width = "100%";
     if (this.toast.show && this.toast.dialog) {
       setCSSBlur(".v-overlay__scrim");
       setCSSBlur("#dialogOverlay");
@@ -96,8 +117,15 @@ export default {
 
 <style>
 #snackbar .v-snack__wrapper {
-  background-color: rgba(255, 255, 255, 0.5) !important;
+  background-color: rgba(255, 255, 255, 0.75) !important;
   backdrop-filter: blur(5px) !important;
   -webkit-backdrop-filter: blur(5px) !important;
+}
+
+#snackbar .v-snack__content {
+  width: 100%;
+}
+.dialog {
+  border-width: 2px;
 }
 </style>

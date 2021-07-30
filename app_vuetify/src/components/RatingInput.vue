@@ -9,7 +9,7 @@
       @change="handleAwesomeChange"
     ></v-checkbox>
     <v-text-field
-      class="no-counter text-body-1 text--primary"
+      class="no-counter text-body-1 primary--text"
       v-model.number="inputRating"
       type="number"
       :label="desc"
@@ -18,7 +18,6 @@
       @click:prepend-inner="inputRating -= 1"
       append-icon="mdi-plus"
       @click:append="inputRating += 1"
-      :color="'#40ba83'"
       :loading="loading"
       :disabled="loading"
       @keydown.enter="enterBlur"

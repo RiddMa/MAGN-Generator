@@ -3,6 +3,7 @@ import Vuex from "vuex";
 import netStore from "@/store/net";
 import userStore from "@/store/user";
 import movieStore from "@/store/movie";
+import _ from "lodash";
 const { Radar } = require("@antv/g2plot");
 
 Vue.use(Vuex);
@@ -94,6 +95,9 @@ export default new Vuex.Store({
         state.toast.color = "primary";
         state.toast.icon = "mdi-help-circle-outline";
         state.toast.func = data.type;
+        // if (data.payload !== undefined) {
+        //   state.toast.payload = data.payload;
+        // }
       } else {
         // not a dialog
         state.toast.dialog = false;
@@ -166,7 +170,9 @@ export default new Vuex.Store({
       const _ = require("lodash");
       switch (place) {
         case "/": {
-          context.state.movie = _.cloneDeep(context.state.movieBak.create);
+          if (context.state.movieBak.create !== undefined) {
+            context.state.movie = _.cloneDeep(context.state.movieBak.create);
+          }
           break;
         }
         case "/view": {

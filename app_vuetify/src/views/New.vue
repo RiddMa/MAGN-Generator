@@ -1,6 +1,6 @@
 <template>
   <v-container v-if="fitPhone" id="newBase" fluid class="ma-0 pa-0">
-    <v-row v-if="fitPhone" class="ma-0 pa-0">
+    <v-row class="ma-0 pa-0">
       <v-col class="ma-0 pa-0">
         <SettingsPhone mode="new"></SettingsPhone>
         <ReviewPhone mode="new"></ReviewPhone>

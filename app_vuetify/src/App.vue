@@ -6,8 +6,9 @@
       color="rgba(255, 255, 255, 0.5) !important"
       :value="toast.dialog && toast.show"
       opacity="0.75"
+      style="z-index: 20000"
     ></v-overlay>
-    <v-toast></v-toast>
+    <v-toast style="z-index: 20001"></v-toast>
     <v-app-bar
       class="appBar"
       app

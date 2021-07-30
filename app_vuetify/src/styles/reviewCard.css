@@ -1,5 +1,5 @@
 .reviewCard {
-  border-color: #40ba83;
+  border-color: var(--v-primary-base);
   border-width: 2px;
   /*border-left-width: 10px;*/
 }
@@ -14,10 +14,10 @@
   hyphens: auto;
 }
 .reviewTitle {
-  color: #40ba83;
+  color: var(--v-primary-base);
 }
 .reviewSubTitle {
-  color: #40ba83;
+  color: var(--v-primary-base);
   word-break: normal;
   -webkit-hyphens: auto;
   -moz-hyphens: auto;

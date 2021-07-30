@@ -24,8 +24,8 @@
               :key="genre"
               class="mr-2 ml-0 pa-auto"
               :ripple="false"
-              color="#40ba83"
-              text-color="secondary"
+              color="primary"
+              text-color="body"
               outlined
               light
               label
@@ -103,7 +103,7 @@
             </template>
           </v-hover>
           <v-container fluid class="mx-auto my-auto px-0">
-            <v-row class="mx-2 px-0">
+            <v-row class="body--text mx-2 px-0">
               <span class="text-left">{{ username }}</span>
               <v-spacer></v-spacer>
               <span class="text-right">{{ reviewDate }}</span>

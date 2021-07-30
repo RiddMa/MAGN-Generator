@@ -1,7 +1,15 @@
 <template>
-  <v-container fluid>
+  <v-container v-if="fitPhone" id="editBase" fluid class="ma-0 pa-0">
+    <v-row v-if="fitPhone" class="ma-0 pa-0">
+      <v-col class="ma-0 pa-0">
+        <SettingsPhone mode="edit"></SettingsPhone>
+        <ReviewPhone mode="edit"></ReviewPhone>
+      </v-col>
+    </v-row>
+  </v-container>
+  <v-container v-else id="editBase" fluid>
     <v-row>
-      <v-col class="reviewBase ma-auto">
+      <v-col class="reviewBase mx-auto">
         <Settings mode="edit"></Settings>
         <Review mode="edit"></Review>
       </v-col>
@@ -13,9 +21,17 @@
 import Review from "@/components/Review";
 import Settings from "@/components/Settings";
 import store from "@/store/store";
+import SettingsPhone from "@/components/SettingsPhone";
+import ReviewPhone from "@/components/ReviewPhone";
+import { mapState } from "vuex";
 export default {
   name: "Edit",
-  components: { Settings, Review },
+  components: { ReviewPhone, SettingsPhone, Settings, Review },
+  computed: {
+    ...mapState({
+      fitPhone: (state) => state.fitPhone,
+    }),
+  },
   async beforeRouteEnter(to, from, next) {
     const tag = "/edit";
     if (store.state.currentTag !== tag) {

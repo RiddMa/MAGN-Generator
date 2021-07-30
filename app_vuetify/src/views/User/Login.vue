@@ -11,11 +11,11 @@
               :loading="loading"
             >
               <v-card-title>
-                <v-tabs v-model="tab" centered light>
-                  <v-tab href="#tab-0" class="text-h6 text--primary">
+                <v-tabs v-blur v-model="tab" centered light>
+                  <v-tab v-blur href="#tab-0" class="text-h6 text--primary">
                     登录
                   </v-tab>
-                  <v-tab href="#tab-1" class="text-h6 text--primary">
+                  <v-tab v-blur href="#tab-1" class="text-h6 text--primary">
                     注册
                   </v-tab>
                 </v-tabs>
@@ -23,7 +23,7 @@
               <v-card-text>
                 <div class="mt-2 mx-4">
                   <v-text-field
-                    class="text-body-2 text--primary"
+                    class="text-body-2 primary--text"
                     v-model="username"
                     :rules="[rules.userRequired, rules.userMax64]"
                     type="text"
@@ -39,7 +39,7 @@
                     @keydown.enter="enterHandler"
                   ></v-text-field>
                   <v-text-field
-                    class="text-body-2 text--primary"
+                    class="text-body-2 primary--text"
                     v-model="password"
                     :append-icon="showPassword ? 'mdi-eye' : 'mdi-eye-off'"
                     :rules="[rules.pwRequired, rules.pwMin8, rules.pwMax128]"
@@ -141,7 +141,7 @@
                   <v-tab-item :value="'tab-1'" :key="1">
                     <div class="mx-4 mb-4 mt-2">
                       <v-text-field
-                        class="text-body-2 text--primary mb-4"
+                        class="text-body-2 primary--text mb-4"
                         v-model="passwordCheck"
                         :append-icon="showPassword ? 'mdi-eye' : 'mdi-eye-off'"
                         :rules="[rules.pwRequired, rules.pwCheck]"

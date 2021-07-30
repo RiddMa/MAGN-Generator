@@ -9,7 +9,7 @@
           <div class="my-6 mx-2 px-auto">
             <v-row>
               <v-text-field
-                class="text-body-1 text--primary"
+                class="text-body-1 primary--text"
                 v-model="movie.title"
                 type="text"
                 label="标题"
@@ -24,7 +24,7 @@
             </v-row>
             <v-row>
               <v-text-field
-                class="text-body-1 text--primary"
+                class="text-body-1 primary--text"
                 v-model="movie.titleCN"
                 type="text"
                 label="中文标题"
@@ -53,7 +53,7 @@
                 @change="toggleShowYear"
               ></v-checkbox>
               <v-text-field
-                class="no-counter text-body-1 text--primary"
+                class="no-counter text-body-1 primary--text"
                 v-model="year"
                 type="number"
                 label="上映年份"
@@ -123,11 +123,11 @@
               <v-hover :value="showClearCheck">
                 <template v-slot:default="{ hover }">
                   <v-btn
-                    class="mr-2"
+                    class="text-button"
                     outlined
-                    color="red"
+                    color="error"
                     @click.stop="onClearClicked"
-                    :elevation="hover ? 4 : 0"
+                    :elevation="hover ? 6 : 2"
                     :loading="loading"
                     :disabled="loading"
                   >
@@ -139,9 +139,10 @@
               <v-hover>
                 <template v-slot:default="{ hover }">
                   <v-btn
+                    class="text-button"
                     outlined
-                    color="primary"
-                    :elevation="hover ? 4 : 0"
+                    color="success"
+                    :elevation="hover ? 6 : 2"
                     @click="sendReview"
                     :loading="loading"
                   >
@@ -150,52 +151,28 @@
                 </template>
               </v-hover>
             </v-row>
-            <v-row v-if="mode === 'edit'">
-              <v-scale-transition
-                origin="left center 0"
-                leave-absolute
-                mode="out-in"
-              >
-                <v-hover :value="showDeleteCheck">
-                  <template v-slot:default="{ hover }">
-                    <v-btn
-                      v-if="!showDeleteCheck"
-                      outlined
-                      color="red"
-                      @click.stop="showDeleteCheck = true"
-                      :elevation="hover ? 4 : 0"
-                      :loading="loading"
-                    >
-                      删除影评
-                    </v-btn>
-                  </template>
-                </v-hover>
-              </v-scale-transition>
-              <v-scale-transition
-                origin="left center 0"
-                leave-absolute
-                mode="out-in"
-              >
-                <v-btn
-                  id="deleteCheck"
-                  v-if="showDeleteCheck"
-                  outlined
-                  color="red"
-                  @click.stop="onDeleteClicked"
-                  v-click-outside="onDeleteClickOutside"
-                  :loading="loading"
-                >
-                  <v-icon dense class="mr-1">mdi-alert</v-icon>
-                  确认? 点此删除
-                </v-btn>
-              </v-scale-transition>
-              <v-spacer></v-spacer>
+            <v-row v-if="mode === 'edit'" class="justify-space-between">
               <v-hover>
                 <template v-slot:default="{ hover }">
                   <v-btn
+                    class="text-button"
+                    color="error"
                     outlined
-                    class="mr-4"
-                    :elevation="hover ? 4 : 0"
+                    @click.stop="onDeleteClicked"
+                    :elevation="hover ? 6 : 2"
+                    :loading="loading"
+                  >
+                    删除
+                  </v-btn>
+                </template>
+              </v-hover>
+              <v-hover>
+                <template v-slot:default="{ hover }">
+                  <v-btn
+                    class="text-button"
+                    color="body"
+                    outlined
+                    :elevation="hover ? 6 : 2"
                     @click="cancelUpdate"
                     :loading="loading"
                   >
@@ -206,8 +183,10 @@
               <v-hover>
                 <template v-slot:default="{ hover }">
                   <v-btn
-                    color="primary"
-                    :elevation="hover ? 4 : 0"
+                    class="text-button"
+                    color="success"
+                    outlined
+                    :elevation="hover ? 6 : 2"
                     @click="updateReview"
                     :loading="loading"
                   >
@@ -294,11 +273,14 @@ export default {
     }),
   },
   methods: {
+    /*
+    create mode
+     */
     onClearClicked() {
       this.$store.commit("showToast", {
         dialog: true,
         type: "clearMovie",
-        message: "确认清空所有信息？（包括影片信息、评分、评价）",
+        message: "清空所有信息？包括影片信息、评分、评价",
       });
     },
     async sendReview() {
@@ -313,31 +295,26 @@ export default {
       this.showSettings = undefined;
     },
     /*
+    create mode
+     */
+    /*
     edit mode
      */
+    async onDeleteClicked() {
+      this.$store.commit("showToast", {
+        dialog: true,
+        type: "deleteMovie",
+        message: "删除此影评？",
+      });
+    },
+    async cancelUpdate() {
+      this.$store.commit("setIsEditing", false);
+      await this.$router.replace("/user");
+    },
     async updateReview() {
       this.loading = true;
       await this.$store.dispatch("updateUserReview", this.$store.state.movie);
       this.loading = false;
-      this.$store.commit("setIsEditing", false);
-      await this.$router.replace("/user");
-    },
-    onDeleteClickOutside() {
-      if (this.showDeleteCheck) {
-        document.getElementById("deleteCheck").style.position = "absolute";
-        this.showDeleteCheck = false;
-      }
-    },
-    async onDeleteClicked() {
-      this.loading = true;
-      await this.$store.dispatch("deleteUserReview", this.movie.reviewId);
-      document.getElementById("deleteCheck").style.position = "absolute";
-      this.showDeleteCheck = false;
-      this.loading = false;
-      this.$store.commit("setIsEditing", false);
-      await this.$router.replace("/user");
-    },
-    async cancelUpdate() {
       this.$store.commit("setIsEditing", false);
       await this.$router.replace("/user");
     },
@@ -366,10 +343,10 @@ export default {
 </script>
 
 <style scoped>
-.settings {
-  border-width: 2px;
-  border-color: #36b079;
-}
+/*.settings {*/
+/*  border-width: 2px;*/
+/*  border-color: #36b079;*/
+/*}*/
 ::v-deep .no-counter input[type="number"] {
   -moz-appearance: textfield;
 }

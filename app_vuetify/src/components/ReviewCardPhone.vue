@@ -4,58 +4,52 @@
       <template v-slot:default="{ hover }">
         <v-card
           :id="`RC${movie.reviewId}`"
-          class="reviewCard mx-0 mt-4 px-2 pt-0 pb-2 transition-swing"
+          class="reviewCard mx-0 mt-4 px-0 pt-0 pb-2 transition-swing"
           outlined
           v-blur
-          :min-width="width"
-          :min-height="height"
           :loading="loading"
           :elevation="hover ? 12 : 6"
           @click="onCardClicked"
         >
-          <v-row class="mt-1">
-            <v-col cols="8">
-              <v-card-title class="reviewTitle mb-2 text-h4">
-                {{ movie.title }}
-              </v-card-title>
-              <v-card-subtitle class="reviewSubTitle text-h5">
-                {{ movie.titleCN }}.{{ movie.year }}
-              </v-card-subtitle>
-            </v-col>
-            <v-spacer></v-spacer>
-            <v-col
-              class="align-content-center align-self-center align-baseline"
-            >
-              <v-row class="ratingRow justify-end">
-                <span class="text-right text-h4 yellow--text text--darken-3">
-                  {{ movie.rating.avg }}
-                </span>
-                <span
-                  class="text-right text-body-2 yellow--text text--darken-3"
-                >
-                  /10
-                </span>
-              </v-row>
-              <v-row class="ratingRow justify-end">
-                <span class="text-right text--secondary mt-3">
-                  {{ reviewDate }}
-                </span>
-              </v-row>
-            </v-col>
-            <v-col
-              class="
-                align-end align-content-center align-self-center
-                ml-2
-                mr-n6
-              "
-            >
-              <v-btn text depressed right height="100" width="15" min-width="0">
-                <v-icon> mdi-dots-vertical </v-icon>
-              </v-btn>
-            </v-col>
+          <v-row class="reviewTitle text-h4 mt-4 ml-4 mb-0 pa-auto">
+            {{ movie.title }}
           </v-row>
-          <v-row>
-            <span class="reviewQuote mx-7 mb-8 pl-2 pr-0 py-0 text--secondary">
+          <v-row class="reviewSubTitle text-h5 ml-4 my-0 pa-auto">
+            {{ movie.titleCN }}.{{ movie.year }}
+          </v-row>
+          <v-row
+            class="ratingRow ma-0 pa-0 justify-space-between"
+            style="width: 100%"
+          >
+            <div>
+              <span class="ml-4 text-h6 yellow--text text--darken-3">
+                {{ movie.rating.avg }}
+              </span>
+              <span class="text-body-2 yellow--text text--darken-3"> /10 </span>
+            </div>
+            <span class="text-right text-body-2 text--secondary mt-3">
+              {{ reviewDate }}
+            </span>
+            <v-btn
+              text
+              v-blur
+              right
+              depressed
+              small
+              class="mr-4 pa-0"
+              style="width: 25px"
+              min-height="0px"
+              min-width="0px"
+            >
+              <v-icon> mdi-dots-horizontal </v-icon>
+            </v-btn>
+          </v-row>
+
+          <v-row style="width: 100%">
+            <span
+              class="reviewQuote ml-7 mr-2 mb-8 pl-2 pr-1 py-0 text--secondary"
+              style="width: 100%"
+            >
               {{ movie.comment }}
             </span>
           </v-row>
@@ -66,64 +60,53 @@
               class="transition-fast-in-fast-out v-card--reveal"
             >
               <!--              <v-divider class="mx-3"></v-divider>-->
-              <v-container class="mt-0 mb-2">
-                <v-row>
-                  <v-col cols="3">
-                    <v-hover>
-                      <template v-slot:default="{ hover }">
-                        <v-btn
-                          class="editButton transition-swing"
-                          outlined
-                          block
-                          :elevation="hover ? 6 : 2"
-                          color="red"
-                          :disabled="loading"
-                          @click.stop="onDeleteClicked"
-                        >
-                          <v-icon dense>mdi-delete-outline</v-icon>
-                          删除
-                        </v-btn>
-                      </template>
-                    </v-hover>
-                  </v-col>
-                  <v-spacer></v-spacer>
-                  <v-col cols="3">
-                    <v-hover>
-                      <template v-slot:default="{ hover }">
-                        <v-btn
-                          class="editButton transition-swing"
-                          outlined
-                          block
-                          :elevation="hover ? 6 : 2"
-                          color="blue lighten-1"
-                          :disabled="loading"
-                          @click.stop="onEditClicked"
-                        >
-                          <v-icon dense>mdi-pencil-outline</v-icon>
-                          编辑
-                        </v-btn>
-                      </template>
-                    </v-hover>
-                  </v-col>
-                  <v-spacer></v-spacer>
-                  <v-col cols="3">
-                    <v-hover>
-                      <template v-slot:default="{ hover }">
-                        <v-btn
-                          class="editButton transition-swing"
-                          outlined
-                          block
-                          :elevation="hover ? 6 : 2"
-                          color="green lighten-1"
-                          :disabled="loading"
-                          @click.stop="onViewClicked"
-                        >
-                          <v-icon dense>mdi-file-find</v-icon>
-                          查看
-                        </v-btn>
-                      </template>
-                    </v-hover>
-                  </v-col>
+              <v-container fluid class="mb-3">
+                <v-row class="justify-space-between">
+                  <v-hover>
+                    <template v-slot:default="{ hover }">
+                      <v-btn
+                        class="editButton transition-swing ml-4"
+                        outlined
+                        :elevation="hover ? 6 : 2"
+                        color="red"
+                        :disabled="loading"
+                        @click.stop="onDeleteClicked"
+                      >
+                        <v-icon dense>mdi-delete-outline</v-icon>
+                        删除
+                      </v-btn>
+                    </template>
+                  </v-hover>
+                  <v-hover>
+                    <template v-slot:default="{ hover }">
+                      <v-btn
+                        class="editButton transition-swing ma-0"
+                        outlined
+                        :elevation="hover ? 6 : 2"
+                        color="blue lighten-1"
+                        :disabled="loading"
+                        @click.stop="onEditClicked"
+                      >
+                        <v-icon dense>mdi-pencil-outline</v-icon>
+                        编辑
+                      </v-btn>
+                    </template>
+                  </v-hover>
+                  <v-hover>
+                    <template v-slot:default="{ hover }">
+                      <v-btn
+                        class="editButton transition-swing mr-4"
+                        outlined
+                        :elevation="hover ? 6 : 2"
+                        color="green lighten-1"
+                        :disabled="loading"
+                        @click.stop="onViewClicked"
+                      >
+                        <v-icon dense>mdi-file-find</v-icon>
+                        查看
+                      </v-btn>
+                    </template>
+                  </v-hover>
                 </v-row>
               </v-container>
             </div>
@@ -236,9 +219,6 @@ export default {
 }
 
 .ratingRow {
-  justify-self: end;
-  justify-items: end;
-  justify-content: end;
   align-self: baseline;
   align-items: baseline;
   align-content: baseline;
@@ -253,16 +233,12 @@ export default {
 .editButton {
   border-width: 1.5px;
 }
-.reviewTitle {
-  color: #36b079;
-}
-.reviewSubTitle {
-  color: rgba(54, 176, 121, 0.9);
-}
+
 .reviewQuote {
   border: 0 solid lightgrey;
   border-radius: 0;
   border-left-width: 2px;
+  border-right-width: 2px;
   word-break: normal; /* maybe !important  */
   -webkit-hyphens: auto;
   -moz-hyphens: auto;
