@@ -3,7 +3,6 @@ import Vuex from "vuex";
 import netStore from "@/store/net";
 import userStore from "@/store/user";
 import movieStore from "@/store/movie";
-import _ from "lodash";
 const { Radar } = require("@antv/g2plot");
 
 Vue.use(Vuex);
@@ -19,8 +18,11 @@ export default new Vuex.Store({
       show: false,
       message: "",
       color: "",
-      timer: 1500,
+      timer: 2250,
       icon: "",
+      dialog: false,
+      func: undefined,
+      accept: undefined,
     },
     showTitleInput: false,
     showCommentInput: true,
@@ -67,6 +69,9 @@ export default new Vuex.Store({
     setFitPhone(state, toBool) {
       state.fitPhone = toBool;
     },
+    setToastResult(state, toBool) {
+      state.toast.accept = toBool;
+    },
     pushPendingQueue(state, message) {
       state.pendingQueue.push(message);
     },
@@ -79,30 +84,40 @@ export default new Vuex.Store({
     },
     showToast(state, data) {
       state.toast.message = data.message;
-      if (data.timer !== undefined) {
-        state.toast.timer = data.timer;
-      } else {
-        state.toast.timer = 2250;
-      }
       if (data.icon === undefined && data.type === undefined) {
         state.toast.icon = "mdi-information-outline";
       }
-
-      switch (data.type) {
-        case "success": {
-          state.toast.color = "green";
-          state.toast.icon = "mdi-check-circle-outline";
-          break;
+      if (data.dialog === true) {
+        // if use toast as a dialog
+        state.toast.dialog = true;
+        state.toast.timer = -1;
+        state.toast.color = "primary";
+        state.toast.icon = "mdi-help-circle-outline";
+        state.toast.func = data.type;
+      } else {
+        // not a dialog
+        state.toast.dialog = false;
+        if (data.timer !== undefined) {
+          state.toast.timer = data.timer;
+        } else {
+          state.toast.timer = 2250;
         }
-        case "info": {
-          state.toast.color = "blue";
-          state.toast.icon = "mdi-information-outline";
-          break;
-        }
-        case "error": {
-          state.toast.color = "red";
-          state.toast.icon = "mdi-alert-outline";
-          break;
+        switch (data.type) {
+          case "success": {
+            state.toast.color = "green";
+            state.toast.icon = "mdi-check-circle-outline";
+            break;
+          }
+          case "info": {
+            state.toast.color = "blue";
+            state.toast.icon = "mdi-information-outline";
+            break;
+          }
+          case "error": {
+            state.toast.color = "red";
+            state.toast.icon = "mdi-alert-outline";
+            break;
+          }
         }
       }
       state.toast.show = true;
@@ -228,6 +243,11 @@ export default new Vuex.Store({
     updateRadar(context) {
       const data = context.getters.radarData;
       context.state.radarPlot.changeData(data);
+    },
+    getToastResult(context) {
+      let tmp = context.state.toast.accept;
+      context.state.toast.accept = undefined;
+      return tmp;
     },
   },
 });

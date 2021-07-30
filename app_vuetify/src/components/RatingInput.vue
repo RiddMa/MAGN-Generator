@@ -22,7 +22,6 @@
       :loading="loading"
       :disabled="loading"
       @keydown.enter="enterBlur"
-      style="max-width: 175px"
       @change="onRatingChange"
     ></v-text-field>
   </div>

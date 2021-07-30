@@ -1,5 +1,12 @@
 <template>
   <v-app>
+    <v-overlay
+      id="dialogOverlay"
+      light
+      color="rgba(255, 255, 255, 0.5) !important"
+      :value="toast.dialog && toast.show"
+      opacity="0.75"
+    ></v-overlay>
     <v-toast></v-toast>
     <v-app-bar
       class="appBar"
@@ -62,6 +69,7 @@ export default {
       viewURL: (state) => state.viewURL,
       isEditing: (state) => state.isEditing,
       isViewing: (state) => state.isViewing,
+      toast: (state) => state.toast,
     }),
   },
   methods: {
@@ -78,11 +86,11 @@ export default {
       this.windowSize = { x: window.innerWidth, y: window.innerHeight };
       if (this.windowSize.x < 800) {
         //临时
-        this.$store.commit("showToast", {
-          type: "error",
-          message: "手机端暂未适配……当前页面宽度过窄，可能导致页面显示不正常",
-          timer: 5000,
-        });
+        // this.$store.commit("showToast", {
+        //   type: "error",
+        //   message: "手机端暂未适配……当前页面宽度过窄，可能导致页面显示不正常",
+        //   timer: 5000,
+        // });
         this.$store.commit("setFitPhone", true);
       } else {
         this.$store.commit("setFitPhone", false);

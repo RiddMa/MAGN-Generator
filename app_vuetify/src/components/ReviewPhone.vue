@@ -2,23 +2,23 @@
   <v-hover>
     <template v-slot:default="{ hover }">
       <v-card
-        class="reviewCard mx-4 mt-4 mb-10 pa-4 transition-swing"
+        class="reviewCard mx-0 mt-4 pa-0 mb-10 transition-swing"
         outlined
         :elevation="hover ? 12 : 6"
       >
-        <v-card-title class="text-h3 pa-auto mx-2 mb-auto mt-2">
+        <v-card-title class="text-h3 pa-auto mx-1 mb-auto mt-2">
           <div class="reviewTitle">
             {{ movie.title }}
           </div>
         </v-card-title>
-        <v-card-subtitle class="text-h4 pa-auto mx-2 my-auto">
+        <v-card-subtitle class="text-h4 pa-auto mx-1 my-auto">
           <span v-if="movie.year !== 0" class="reviewSubTitle">
             {{ movie.titleCN }}.{{ movie.year }}
           </span>
           <span v-else class="reviewSubTitle">
             {{ movie.titleCN }}
           </span>
-          <v-container fluid class="px-0">
+          <v-container fluid class="px-0 mb-0 pb-0">
             <v-chip
               v-for="genre in genreCheckedCN"
               :key="genre"
@@ -38,36 +38,36 @@
           <v-hover>
             <template v-slot:default="{ hover }">
               <v-card
-                class="reviewCard mt-2 mb-8 mx-2 px-4 pt-4 transition-swing"
+                class="reviewCard mt-2 mb-4 mx-1 px-2 pt-4 transition-swing"
                 outlined
                 :elevation="hover ? 6 : 0"
               >
                 <v-card-text class="text-center text--primary">
-                  <RatingRow
+                  <RatingRowPhone
                     class="ratingRow"
                     :desc="'剧情'"
                     :readonly="readOnly"
                     :rating.sync="movie.rating.screenplay"
                   />
-                  <RatingRow
+                  <RatingRowPhone
                     class="ratingRow"
                     :desc="'视效/摄影'"
                     :readonly="readOnly"
                     :rating.sync="movie.rating.visual"
                   />
-                  <RatingRow
+                  <RatingRowPhone
                     class="ratingRow"
                     :desc="'演出/剪辑'"
                     :readonly="readOnly"
                     :rating.sync="movie.rating.editing"
                   />
-                  <RatingRow
+                  <RatingRowPhone
                     class="ratingRow"
                     :desc="'配乐/音效'"
                     :readonly="readOnly"
                     :rating.sync="movie.rating.sound"
                   />
-                  <RatingRow
+                  <RatingRowPhone
                     class="ratingRow"
                     :readonly="true"
                     :allow-half="true"
@@ -75,7 +75,7 @@
                     :rating.sync="movie.rating.avg"
                   />
                   <v-row class="ratingRow">
-                    <div :id="chartId" />
+                    <v-container fluid :id="chartId" class="ma-0 pa-0" />
                   </v-row>
                 </v-card-text>
               </v-card>
@@ -85,7 +85,7 @@
           <v-hover>
             <template v-slot:default="{ hover }">
               <v-card
-                class="reviewCard my-8 mx-2 px-4 transition-swing"
+                class="reviewCard my-6 mx-1 px-4 transition-swing"
                 outlined
                 :elevation="hover ? 6 : 0"
               >
@@ -103,7 +103,7 @@
             </template>
           </v-hover>
           <v-container fluid class="mx-auto my-auto px-0">
-            <v-row class="mx-2 px-0">
+            <v-row class="mx-1 px-0">
               <span class="text-left">{{ username }}</span>
               <v-spacer></v-spacer>
               <span class="text-right">{{ reviewDate }}</span>
@@ -117,11 +117,11 @@
 
 <script>
 import { mapGetters, mapState } from "vuex";
-import RatingRow from "@/components/RatingRow";
+import RatingRowPhone from "@/components/RatingRowPhone";
 
 export default {
-  name: "Review",
-  components: { RatingRow },
+  name: "ReviewPhone",
+  components: { RatingRowPhone },
   props: {
     mode: {
       required: true,
@@ -195,6 +195,13 @@ export default {
       await this.$store.dispatch("drawRadar", this.chartId);
     } else {
       await this.$store.dispatch("drawRadarNoAnimation", this.chartId);
+    }
+    let elem = document.querySelector(`#${this.chartId}`);
+    const rect = elem.getBoundingClientRect();
+    if (rect.width < rect.height) {
+      elem.style.height = `${rect.width}px`;
+    } else {
+      elem.style.width = `${rect.height}px`;
     }
   },
 };

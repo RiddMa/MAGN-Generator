@@ -1,7 +1,15 @@
 <template>
-  <v-container id="newBase" fluid>
+  <v-container v-if="fitPhone" id="newBase" fluid class="ma-0 pa-0">
+    <v-row v-if="fitPhone" class="ma-0 pa-0">
+      <v-col class="ma-0 pa-0">
+        <SettingsPhone mode="new"></SettingsPhone>
+        <ReviewPhone mode="new"></ReviewPhone>
+      </v-col>
+    </v-row>
+  </v-container>
+  <v-container v-else id="newBase" fluid>
     <v-row>
-      <v-col class="reviewBase ma-auto">
+      <v-col class="reviewBase mx-auto">
         <Settings mode="new"></Settings>
         <Review mode="new"></Review>
       </v-col>
@@ -13,9 +21,17 @@
 import Review from "@/components/Review";
 import Settings from "@/components/Settings";
 import store from "@/store/store";
+import { mapState } from "vuex";
+import SettingsPhone from "@/components/SettingsPhone";
+import ReviewPhone from "@/components/ReviewPhone";
 export default {
   name: "New",
-  components: { Settings, Review },
+  components: { ReviewPhone, SettingsPhone, Settings, Review },
+  computed: {
+    ...mapState({
+      fitPhone: (state) => state.fitPhone,
+    }),
+  },
   mounted() {},
   beforeDestroy() {},
   async beforeRouteEnter(to, from, next) {

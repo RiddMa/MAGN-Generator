@@ -71,7 +71,6 @@ const movieStore = {
       }
     },
     setMovieComment(state, newComment) {
-      console.log(newComment)
       state.comment = newComment;
     },
     setMovie(state, newMovie) {
