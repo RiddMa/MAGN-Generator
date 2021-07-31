@@ -123,7 +123,7 @@
               <v-hover :value="showClearCheck">
                 <template v-slot:default="{ hover }">
                   <v-btn
-                    class="text-button"
+                    class="outlineBtn text-button"
                     outlined
                     color="error"
                     @click.stop="onClearClicked"
@@ -139,7 +139,7 @@
               <v-hover>
                 <template v-slot:default="{ hover }">
                   <v-btn
-                    class="text-button"
+                    class="outlineBtn text-button"
                     outlined
                     color="success"
                     :elevation="hover ? 6 : 2"
@@ -155,7 +155,7 @@
               <v-hover>
                 <template v-slot:default="{ hover }">
                   <v-btn
-                    class="text-button"
+                    class="outlineBtn text-button"
                     color="error"
                     outlined
                     @click.stop="onDeleteClicked"
@@ -169,7 +169,7 @@
               <v-hover>
                 <template v-slot:default="{ hover }">
                   <v-btn
-                    class="text-button"
+                    class="outlineBtn text-button"
                     color="body"
                     outlined
                     :elevation="hover ? 6 : 2"
@@ -183,9 +183,8 @@
               <v-hover>
                 <template v-slot:default="{ hover }">
                   <v-btn
-                    class="text-button"
+                    class="outlineBtn text-button"
                     color="success"
-                    outlined
                     :elevation="hover ? 6 : 2"
                     @click="updateReview"
                     :loading="loading"
@@ -342,11 +341,8 @@ export default {
 };
 </script>
 
+<style src="../styles/customButton.css" scoped></style>
 <style scoped>
-/*.settings {*/
-/*  border-width: 2px;*/
-/*  border-color: #36b079;*/
-/*}*/
 ::v-deep .no-counter input[type="number"] {
   -moz-appearance: textfield;
 }

@@ -4,7 +4,7 @@
       <template v-slot:default="{ hover }">
         <v-card
           :id="`RC${movie.reviewId}`"
-          class="reviewCard mx-0 mt-4 px-0 pt-0 pb-2 transition-swing"
+          class="reviewCard mx-0 mt-4 px-0 pt-0 pb-1 transition-swing"
           outlined
           v-blur
           :loading="loading"
@@ -21,11 +21,11 @@
             class="ratingRow ma-0 pa-0 justify-space-between"
             style="width: 100%"
           >
-            <div>
-              <span class="ml-4 text-h6 yellow--text text--darken-3">
+            <div class="yellow--text text--darken-3">
+              <span class="ml-4 text-h6">
                 {{ movie.rating.avg }}
               </span>
-              <span class="text-body-2 yellow--text text--darken-3"> /10 </span>
+              <span class="text-body-2"> /10 </span>
             </div>
             <span class="text-right text-body-2 text--secondary mt-3">
               {{ reviewDate }}
@@ -48,7 +48,7 @@
           <v-row style="width: 100%">
             <span
               class="reviewQuote ml-7 mr-2 mb-8 pl-2 pr-1 py-0 text--secondary"
-              style="width: 100%"
+              style="width: 100%; font-size: 0.9rem"
             >
               {{ movie.comment }}
             </span>
@@ -213,6 +213,7 @@ export default {
 };
 </script>
 
+<style src="../styles/customButton.css" scoped></style>
 <style src="../styles/reviewCard.css" scoped></style>
 <style scoped>
 .reviewCard {

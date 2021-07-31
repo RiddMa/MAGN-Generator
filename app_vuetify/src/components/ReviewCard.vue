@@ -13,49 +13,55 @@
           :elevation="hover ? 12 : 6"
           @click="onCardClicked"
         >
-          <v-row class="mt-1">
-            <v-col cols="8">
-              <v-card-title class="reviewTitle mb-2 text-h4">
-                {{ movie.title }}
-              </v-card-title>
-              <v-card-subtitle class="reviewSubTitle text-h5">
-                {{ movie.titleCN }}.{{ movie.year }}
-              </v-card-subtitle>
-            </v-col>
-            <v-spacer></v-spacer>
-            <v-col
-              class="align-content-center align-self-center align-baseline"
-            >
-              <v-row class="ratingRow justify-end">
-                <span class="text-right text-h4 yellow--text text--darken-3">
-                  {{ movie.rating.avg }}
+          <v-row
+            class="justify-space-between mt-1 mb-0 pb-0"
+            style="width: 100%"
+          >
+            <v-col>
+              <v-row
+                class="justify-space-between align-baseline ml-4 mt-4 pa-auto"
+                style="width: 100%"
+              >
+                <span class="reviewTitle mb-2 text-h3">
+                  {{ movie.title }}
                 </span>
                 <span
-                  class="text-right text-body-2 yellow--text text--darken-3"
+                  class="
+                    text-right text-h4
+                    ma-0
+                    pa-0
+                    yellow--text
+                    text--darken-3
+                  "
                 >
-                  /10
+                  {{ movie.rating.avg }}
+                  <span class="text-body-1"> /10 </span>
                 </span>
               </v-row>
-              <v-row class="ratingRow justify-end">
+              <v-row
+                class="justify-space-between align-baseline ml-4 mt-4 pa-auto"
+                style="width: 100%"
+              >
+                <span class="reviewSubTitle text-h4 mb-0 pb-0">
+                  {{ movie.titleCN }}.{{ movie.year }}
+                </span>
                 <span class="text-right text--secondary mt-3">
                   {{ reviewDate }}
                 </span>
               </v-row>
             </v-col>
             <v-col
-              class="
-                align-end align-content-center align-self-center
-                ml-2
-                mr-n6
-              "
+              class="shrink justify-end align-center mr-0 pr-0 ma-auto pa-auto"
             >
-              <v-btn text depressed right height="100" width="15" min-width="0">
+              <v-btn text depressed right height="100" width="30" min-width="0">
                 <v-icon> mdi-dots-vertical </v-icon>
               </v-btn>
             </v-col>
           </v-row>
-          <v-row>
-            <span class="reviewQuote mx-7 mb-8 pl-2 pr-0 py-0 text--secondary">
+          <v-row class="my-4 mr-0 pa-0" style="width: 100%">
+            <span
+              class="reviewQuote ml-7 mr-1 mb-0 pl-2 pr-0 py-0 text--secondary"
+            >
               {{ movie.comment }}
             </span>
           </v-row>
@@ -72,11 +78,15 @@
                     <v-hover>
                       <template v-slot:default="{ hover }">
                         <v-btn
-                          class="editButton transition-swing"
+                          class="
+                            outlineBtn
+                            transition-swing
+                            text-button
+                            error--text
+                          "
                           outlined
                           block
                           :elevation="hover ? 6 : 2"
-                          color="red"
                           :disabled="loading"
                           @click.stop="onDeleteClicked"
                         >
@@ -91,11 +101,15 @@
                     <v-hover>
                       <template v-slot:default="{ hover }">
                         <v-btn
-                          class="editButton transition-swing"
+                          class="
+                            outlineBtn
+                            transition-swing
+                            text-button
+                            info--text
+                          "
                           outlined
                           block
                           :elevation="hover ? 6 : 2"
-                          color="blue lighten-1"
                           :disabled="loading"
                           @click.stop="onEditClicked"
                         >
@@ -110,11 +124,15 @@
                     <v-hover>
                       <template v-slot:default="{ hover }">
                         <v-btn
-                          class="editButton transition-swing"
+                          class="
+                            outlineBtn
+                            transition-swing
+                            text-button
+                            success--text
+                          "
                           outlined
                           block
                           :elevation="hover ? 6 : 2"
-                          color="green lighten-1"
                           :disabled="loading"
                           @click.stop="onViewClicked"
                         >
@@ -195,7 +213,7 @@ export default {
           .querySelector(`#RC${this.movie.reviewId}`)
           .getBoundingClientRect().height - scrollBottom;
       if (offset > 0) {
-        let scrollTo = scrollTop - offset + 10;
+        let scrollTo = scrollTop - offset;
         goTo(scrollTo);
       }
     },
@@ -230,19 +248,9 @@ export default {
 };
 </script>
 
+<style src="../styles/customButton.css" scoped></style>
 <style src="../styles/reviewCard.css" scoped></style>
 <style scoped>
-.reviewCard {
-}
-
-.ratingRow {
-  justify-self: end;
-  justify-items: end;
-  justify-content: end;
-  align-self: baseline;
-  align-items: baseline;
-  align-content: baseline;
-}
 .v-card--reveal {
   left: 0;
   top: 0;
@@ -253,12 +261,7 @@ export default {
 .editButton {
   border-width: 1.5px;
 }
-.reviewTitle {
-  color: #36b079;
-}
-.reviewSubTitle {
-  color: rgba(54, 176, 121, 0.9);
-}
+
 .reviewQuote {
   border: 0 solid lightgrey;
   border-radius: 0;

@@ -33,10 +33,15 @@ export default {
     }),
   },
   async beforeRouteEnter(to, from, next) {
+    console.log(to);
     const tag = "/edit";
     if (store.state.currentTag !== tag) {
       store.commit("setCurrentTag", tag);
       await store.dispatch("restoreMovie", tag);
+    }
+    if (store.state.userStore.reviewList.length === 0) {
+      store.state.reloadWarning = true;
+      next("/user");
     }
     next();
   },

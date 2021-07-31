@@ -109,10 +109,10 @@ const netStore = {
           .post("/getAllUserReview")
           .then((response) => {
             context.commit("setReviewList", response.data);
-            context.commit("showToast", {
-              type: "success",
-              message: "获取成功",
-            });
+            // context.commit("showToast", {
+            //   type: "success",
+            //   message: "获取成功",
+            // });
             resolve(response);
           })
           .catch((e) => {

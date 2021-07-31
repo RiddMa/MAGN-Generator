@@ -87,6 +87,8 @@ import ReviewCard from "@/components/ReviewCard";
 import ReviewCardPhone from "@/components/ReviewCardPhone";
 import { mdiFileHidden } from "@mdi/js";
 import { tabItemEnter, tabItemLeave } from "@/utils/animate";
+import store from "@/store/store";
+import { setCSSBlur } from "@/utils/util";
 
 export default {
   name: "UserProfile",
@@ -131,6 +133,16 @@ export default {
      */
   },
   async mounted() {
+    if (this.$store.state.reloadWarning) {
+      store.commit("showToast", {
+        type: "error",
+        message: "错误：请勿刷新或直接访问“查看”及“编辑”页面。刷新中……",
+        timer: 4000,
+      });
+      setCSSBlur(".v-overlay__scrim");
+      setCSSBlur("#dialogOverlay");
+      setTimeout(() => location.reload(), 4000);
+    }
     await this.$store.dispatch("heartbeat");
     await this.$store.dispatch("getAllUserReview");
   },

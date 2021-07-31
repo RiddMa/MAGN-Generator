@@ -14,7 +14,7 @@
     :vertical="toast.dialog"
   >
     <v-container class="ma-0 pa-0" fluid style="position: relative">
-      <v-row class="justify-center mt-2 mb-0 mx-0 pa-0" style="width: 100%">
+      <v-row class="justify-center mt-0 mb-0 mx-0 pa-0" style="width: 100%">
         <span class="body--text text-body-1 ma-0 pa-0">
           <v-icon dense light :color="toast.color">
             {{ toast.icon }}
@@ -29,11 +29,11 @@
       >
         <v-spacer></v-spacer>
         <v-btn
-          class="text-button ma-0 pa-0"
+          class="text-button ma-auto pa-auto"
           light
-          color="primary"
+          color="success"
           outlined
-          elevation="0"
+          elevation="2"
           @click="onDialogButtonClicked(false)"
           :loading="loading"
         >
@@ -41,11 +41,11 @@
         </v-btn>
         <v-spacer></v-spacer>
         <v-btn
-          class="dialog text-button"
+          class="text-button ma-auto pa-auto"
           light
-          color="red"
+          color="error"
           outlined
-          elevation="0"
+          elevation="2"
           @click="onDialogButtonClicked(true)"
           :loading="loading"
         >
@@ -115,6 +115,7 @@ export default {
 };
 </script>
 
+<style src="../styles/customButton.css" scoped></style>
 <style>
 #snackbar .v-snack__wrapper {
   background-color: rgba(255, 255, 255, 0.75) !important;
@@ -124,8 +125,5 @@ export default {
 
 #snackbar .v-snack__content {
   width: 100%;
-}
-.dialog {
-  border-width: 2px;
 }
 </style>

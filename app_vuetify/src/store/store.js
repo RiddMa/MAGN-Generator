@@ -41,6 +41,7 @@ export default new Vuex.Store({
       view: undefined,
     },
     currentTag: "/",
+    reloadWarning: false,
   }),
   mutations: {
     setIsEditing(state, toBool) {

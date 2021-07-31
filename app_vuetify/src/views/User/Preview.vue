@@ -4,13 +4,13 @@
       <v-col class="ma-0 pa-0">
         <p class="mb-4 text-center">
           <v-btn
-            class="quitBtn"
-            color="success"
+            class="outlineBtn text-button"
             outlined
             block
+            elevation="2"
             @click="onLeaveClicked"
-            >退出</v-btn
-          >
+            >退出
+          </v-btn>
         </p>
         <ReviewPhone mode="view"></ReviewPhone>
       </v-col>
@@ -19,15 +19,15 @@
   <v-container v-else id="reviewBase" fluid>
     <v-row>
       <v-col class="reviewBase mx-auto">
-        <p class="mb-6 text-center">
+        <p class="mx-4 mt-2 mb-8 pa-auto text-center">
           <v-btn
-            class="quitBtn"
-            color="success"
+            class="outlineBtn secondary--text text-button"
             outlined
             block
+            elevation="2"
             @click="onLeaveClicked"
-            >退出</v-btn
-          >
+            >退出
+          </v-btn>
         </p>
         <Review mode="view"></Review>
       </v-col>
@@ -60,6 +60,10 @@ export default {
       store.commit("setCurrentTag", tag);
       await store.dispatch("restoreMovie", tag);
     }
+    if (store.state.userStore.reviewList.length === 0) {
+      store.state.reloadWarning = true;
+      next("/user");
+    }
     next();
   },
   async beforeRouteLeave(to, from, next) {
@@ -69,11 +73,9 @@ export default {
 };
 </script>
 
+<style src="../../styles/customButton.css" scoped></style>
 <style scoped>
 .reviewBase {
   max-width: 1024px;
-}
-.quitBtn {
-  border-width: 1.5px;
 }
 </style>

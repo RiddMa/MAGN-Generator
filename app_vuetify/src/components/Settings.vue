@@ -9,12 +9,11 @@
           <div class="my-6 mx-2 px-auto">
             <v-row>
               <v-text-field
-                class="text-body-1 text--primary"
+                class="text-body-1 primary--text"
                 v-model="movie.title"
                 type="text"
                 label="标题"
                 placeholder="请输入电影英文标题……"
-                :color="'#40ba83'"
                 clearable
                 validate-on-blur
                 :loading="loading"
@@ -22,14 +21,13 @@
                 @keydown.enter="titleHandler"
               ></v-text-field>
             </v-row>
-            <v-row>
+            <v-row style="white-space: nowrap">
               <v-text-field
-                class="text-body-1 text--primary"
+                class="text-body-1 primary--text"
                 v-model="movie.titleCN"
                 type="text"
                 label="中文标题"
                 placeholder="请输入电影中文标题……"
-                :color="'#40ba83'"
                 clearable
                 validate-on-blur
                 :loading="loading"
@@ -45,7 +43,7 @@
                 @change="toggleShowYear"
               ></v-checkbox>
               <v-text-field
-                class="no-counter text-body-1 text--primary"
+                class="no-counter text-body-1 primary--text"
                 v-model="year"
                 type="number"
                 label="上映年份"
@@ -54,7 +52,6 @@
                 @click:prepend-inner="year -= 1"
                 append-icon="mdi-plus"
                 @click:append="year += 1"
-                :color="'#40ba83'"
                 :loading="loading"
                 :disabled="loading || !showYear"
                 @keydown.enter="enterBlur"
@@ -79,29 +76,33 @@
                 </template>
               </v-chip-group>
             </v-row>
-            <v-row>
+            <v-row style="white-space: nowrap">
               <RatingInput
                 desc="剧情"
                 :rating.sync="movie.rating.screenplay"
                 :loading="loading"
+                style="max-width: 24%"
               ></RatingInput>
               <v-spacer></v-spacer>
               <RatingInput
                 desc="视效/摄影"
                 :rating.sync="movie.rating.visual"
                 :loading="loading"
+                style="max-width: 24%"
               ></RatingInput>
               <v-spacer></v-spacer>
               <RatingInput
                 desc="演出/剪辑"
                 :rating.sync="movie.rating.editing"
                 :loading="loading"
+                style="max-width: 24%"
               ></RatingInput>
               <v-spacer></v-spacer>
               <RatingInput
                 desc="音乐/音效"
                 :rating.sync="movie.rating.sound"
                 :loading="loading"
+                style="max-width: 24%"
               ></RatingInput>
             </v-row>
             <v-row v-if="mode === 'new'">
@@ -114,11 +115,11 @@
                   <template v-slot:default="{ hover }">
                     <v-btn
                       v-if="!showClearCheck"
-                      class="mr-2"
+                      class="outlineBtn mr-2 text-button"
                       outlined
-                      color="red"
+                      color="error"
                       @click.stop="showClearCheck = true"
-                      :elevation="hover ? 4 : 0"
+                      :elevation="hover ? 6 : 2"
                       :loading="loading"
                       :disabled="loading"
                     >
@@ -135,8 +136,9 @@
                 <v-btn
                   id="clearCheckAgain"
                   v-if="showClearCheck"
-                  outlined
-                  color="red"
+                  class="outlineBtn text-button"
+                  color="error"
+                  elevation="2"
                   @click.stop="onClearAllChecked"
                   v-click-outside="onClearAllClickOutside"
                   :loading="loading"
@@ -150,9 +152,9 @@
               <v-hover>
                 <template v-slot:default="{ hover }">
                   <v-btn
-                    outlined
-                    color="primary"
-                    :elevation="hover ? 4 : 0"
+                    class="outlineBtn text-button"
+                    color="success"
+                    :elevation="hover ? 6 : 2"
                     @click="sendReview"
                     :loading="loading"
                   >
@@ -167,14 +169,15 @@
                 leave-absolute
                 mode="out-in"
               >
-                <v-hover :value="showDeleteCheck">
+                <v-hover>
                   <template v-slot:default="{ hover }">
                     <v-btn
+                      class="outlineBtn text-button"
                       v-if="!showDeleteCheck"
                       outlined
-                      color="red"
+                      color="error"
                       @click.stop="showDeleteCheck = true"
-                      :elevation="hover ? 4 : 0"
+                      :elevation="hover ? 6 : 2"
                       :loading="loading"
                     >
                       删除影评
@@ -190,8 +193,8 @@
                 <v-btn
                   id="deleteCheck"
                   v-if="showDeleteCheck"
-                  outlined
-                  color="red"
+                  class="outlineBtn text-button"
+                  color="error"
                   @click.stop="onDeleteClicked"
                   v-click-outside="onDeleteClickOutside"
                   :loading="loading"
@@ -204,9 +207,9 @@
               <v-hover>
                 <template v-slot:default="{ hover }">
                   <v-btn
+                    class="outlineBtn mr-4 accent--text text-button"
                     outlined
-                    class="mr-4"
-                    :elevation="hover ? 4 : 0"
+                    :elevation="hover ? 6 : 2"
                     @click="cancelUpdate"
                     :loading="loading"
                   >
@@ -217,8 +220,9 @@
               <v-hover>
                 <template v-slot:default="{ hover }">
                   <v-btn
-                    color="primary"
-                    :elevation="hover ? 4 : 0"
+                    class="outlineBtn text-button"
+                    color="success"
+                    :elevation="hover ? 6 : 2"
                     @click="updateReview"
                     :loading="loading"
                   >
@@ -381,11 +385,8 @@ export default {
 };
 </script>
 
+<style src="../styles/customButton.css" scoped></style>
 <style scoped>
-.settings {
-  border-width: 2px;
-  border-color: #36b079;
-}
 ::v-deep .no-counter input[type="number"] {
   -moz-appearance: textfield;
 }
