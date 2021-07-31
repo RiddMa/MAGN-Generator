@@ -65,10 +65,15 @@
                   <v-hover>
                     <template v-slot:default="{ hover }">
                       <v-btn
-                        class="editButton transition-swing ml-4"
+                        class="
+                          outlineBtn
+                          transition-swing
+                          text-button
+                          error--text
+                          ml-4
+                        "
                         outlined
                         :elevation="hover ? 6 : 2"
-                        color="red"
                         :disabled="loading"
                         @click.stop="onDeleteClicked"
                       >
@@ -80,10 +85,15 @@
                   <v-hover>
                     <template v-slot:default="{ hover }">
                       <v-btn
-                        class="editButton transition-swing ma-0"
+                        class="
+                          outlineBtn
+                          transition-swing
+                          text-button
+                          info--text
+                        "
                         outlined
                         :elevation="hover ? 6 : 2"
-                        color="blue lighten-1"
+                        color="info"
                         :disabled="loading"
                         @click.stop="onEditClicked"
                       >
@@ -95,10 +105,16 @@
                   <v-hover>
                     <template v-slot:default="{ hover }">
                       <v-btn
-                        class="editButton transition-swing mr-4"
+                        class="
+                          outlineBtn
+                          transition-swing
+                          text-button
+                          success--text
+                          mr-4
+                        "
                         outlined
                         :elevation="hover ? 6 : 2"
-                        color="green lighten-1"
+                        color="success"
                         :disabled="loading"
                         @click.stop="onViewClicked"
                       >
