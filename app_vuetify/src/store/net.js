@@ -158,14 +158,14 @@ const netStore = {
           });
       });
     },
-    async downloadPoster(context) {
+    async downloadPoster(context, reviewId) {
       return new Promise((resolve, reject) => {
         context.state
           .instance({
             url: "/downloadPoster",
             method: "post",
             data: {
-              reviewId: context.rootState.movie.reviewId,
+              reviewId: reviewId,
             },
             responseType: "blob",
           })

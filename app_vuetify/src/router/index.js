@@ -73,6 +73,15 @@ const routes = [
       next();
     },
   },
+  {
+    path: "/poster/:reviewId",
+    name: "PosterShow",
+    component: () => import("../views/PosterShow"),
+    beforeEnter(to, from, next) {
+      localStorage.setItem("preRoute", from.path);
+      next();
+    },
+  },
 ];
 
 const router = new VueRouter({

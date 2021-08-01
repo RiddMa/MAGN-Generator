@@ -326,7 +326,6 @@ export default {
     },
     ...mapState({
       fitPhone: (state) => state.fitPhone,
-      posterURL: (state) => state.netStore.posterURL,
     }),
     ...mapGetters({
       genreList: "genreList",
@@ -335,10 +334,12 @@ export default {
   },
   methods: {
     async onRenderClicked() {
+      this.loading = true;
       await this.$store.dispatch("saveUserReview", this.$store.state.movie);
       await this.$store.dispatch("generatePoster");
-      await this.$store.dispatch("downloadPoster");
-      document.querySelector("#imgDisplay").src = this.posterURL;
+      this.loading = false;
+      this.$store.commit("showToast");
+      await this.$router.push(`/poster/${this.movie.reviewId}`);
     },
     onClearAllClickOutside() {
       if (this.showClearCheck) {
