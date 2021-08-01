@@ -1,51 +1,56 @@
 <template>
   <v-app>
-    <v-overlay
-      id="dialogOverlay"
-      light
-      color="rgba(255, 255, 255, 0.5) !important"
-      :value="toast.dialog && toast.show"
-      opacity="0.75"
-      style="z-index: 20000"
-    ></v-overlay>
-    <v-toast style="z-index: 20001"></v-toast>
-    <v-app-bar
-      class="appBar"
-      app
-      color="rgba(255, 255, 255, 0.5)"
-      light
-      dense
-      elevation="0"
-    >
-      <v-tabs centered :optional="true">
-        <v-tab to="/" v-bind:key="'New'">新建</v-tab>
-        <v-tab to="/user" v-bind:key="'User'">用户</v-tab>
-        <v-tab v-if="isViewing" :to="viewURL" v-bind:key="'ViewMovie'">
-          查看
-        </v-tab>
-        <v-tab v-if="isEditing" :to="editURL" v-bind:key="'EditMovie'">
-          编辑
-        </v-tab>
-        <v-tab to="/about" v-bind:key="'About'">关于</v-tab>
-      </v-tabs>
-    </v-app-bar>
-    <v-main v-resize="onResize" style="position: relative">
-      <v-container fluid>
-        <transition
-          v-on:appear="routeAppearCaller"
-          v-on:enter="routeEnterCaller"
-          v-on:leave="routeLeaveCaller"
-          v-bind:css="false"
-        >
+    <template v-if="!isSSR">
+      <v-overlay
+        id="dialogOverlay"
+        light
+        color="rgba(255, 255, 255, 0.5) !important"
+        :value="toast.dialog && toast.show"
+        opacity="0.75"
+        style="z-index: 20000"
+      ></v-overlay>
+      <v-toast style="z-index: 20001"></v-toast>
+      <v-app-bar
+        class="appBar"
+        app
+        color="rgba(255, 255, 255, 0.5)"
+        light
+        dense
+        elevation="0"
+      >
+        <v-tabs v-model="activeTab" centered>
+          <v-tab to="/" v-bind:key="0">新建</v-tab>
+          <v-tab to="/user" v-bind:key="1">用户</v-tab>
+          <v-tab v-if="isViewing" :to="viewURL" v-bind:key="2"> 查看 </v-tab>
+          <v-tab v-if="isEditing" :to="editURL" v-bind:key="3"> 编辑 </v-tab>
+          <v-tab to="/about" v-bind:key="4">关于</v-tab>
+        </v-tabs>
+      </v-app-bar>
+      <v-main v-resize="onResize" style="position: relative">
+        <v-container fluid>
+          <transition
+            v-on:appear="routeAppearCaller"
+            v-on:enter="routeEnterCaller"
+            v-on:leave="routeLeaveCaller"
+            v-bind:css="false"
+          >
+            <router-view />
+          </transition>
+        </v-container>
+      </v-main>
+      <v-footer padless style="position: relative">
+        <v-col class="text-center">
+          {{ new Date().getFullYear() }} — <strong>Ridd</strong>
+        </v-col>
+      </v-footer>
+    </template>
+    <template v-else>
+      <v-main>
+        <v-container fluid>
           <router-view />
-        </transition>
-      </v-container>
-    </v-main>
-    <v-footer padless style="position: relative">
-      <v-col class="text-center">
-        {{ new Date().getFullYear() }} — <strong>Ridd</strong>
-      </v-col>
-    </v-footer>
+        </v-container>
+      </v-main>
+    </template>
   </v-app>
 </template>
 
@@ -61,6 +66,7 @@ export default {
   },
   components: { VToast },
   data: () => ({
+    activeTab: 0,
     blurTab: true,
     transitionDirection: "up",
   }),
@@ -70,6 +76,7 @@ export default {
       viewURL: (state) => state.viewURL,
       isEditing: (state) => state.isEditing,
       isViewing: (state) => state.isViewing,
+      isSSR: (state) => state.isSSR,
       toast: (state) => state.toast,
     }),
   },

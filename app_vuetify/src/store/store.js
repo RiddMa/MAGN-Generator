@@ -4,6 +4,7 @@ import netStore from "@/store/net";
 import userStore from "@/store/user";
 import movieStore from "@/store/movie";
 import _ from "lodash";
+import { theme } from "@/plugins/vuetify";
 const { Radar } = require("@antv/g2plot");
 
 Vue.use(Vuex);
@@ -42,6 +43,7 @@ export default new Vuex.Store({
     },
     currentTag: "/",
     reloadWarning: false,
+    isSSR: false,
   }),
   mutations: {
     setIsEditing(state, toBool) {
@@ -67,6 +69,9 @@ export default new Vuex.Store({
     },
     setCommentInput(state, toBool) {
       state.showCommentInput = toBool;
+    },
+    setIsSSR(state, toBool) {
+      state.isSSR = toBool;
     },
     setFitPhone(state, toBool) {
       state.fitPhone = toBool;
@@ -204,13 +209,13 @@ export default new Vuex.Store({
         tooltip: {
           showCrosshairs: false,
         },
-        color: "#42C090",
+        color: theme.light.primary,
         point: {
           size: 2,
         },
         area: {
           style: {
-            fill: "#61DDAA",
+            fill: theme.light.primary,
           },
         },
       });
@@ -234,13 +239,13 @@ export default new Vuex.Store({
         tooltip: {
           showCrosshairs: false,
         },
-        color: "#42C090",
+        color: theme.light.primary,
         point: {
           size: 2,
         },
         area: {
           style: {
-            fill: "#61DDAA",
+            fill: theme.light.primary,
           },
         },
         animation: false,

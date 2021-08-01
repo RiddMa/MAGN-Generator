@@ -1,6 +1,7 @@
 class Store {
   constructor() {
     this.movieCache = [];
+    this.idList = [];
   }
   static getInstance() {
     if (!Store.instance) {
@@ -19,10 +20,20 @@ class Store {
       this.movieCache.splice(index, 1);
     }
   }
-
-  getMovieByUser(reviewId) {
-    return this.movieCache.find((o, i) => {
-      if (o.reviewId === reviewId) {
+  cacheReviewId(reviewId) {
+    this.idList.push(reviewId);
+  }
+  removeReviewId(reviewId) {
+    let index = this.idList.findIndex((item) => {
+      return item === reviewId;
+    });
+    if (index !== -1) {
+      this.idList.splice(index, 1);
+    }
+  }
+  getId(reviewId) {
+    return this.idList.find((item, i) => {
+      if (item === reviewId) {
         return true;
       }
     });

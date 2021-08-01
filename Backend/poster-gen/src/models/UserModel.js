@@ -35,6 +35,17 @@ module.exports = {
       ErrHandler(e);
     }
   },
+  async findUserByUUID(uuid) {
+    try {
+      return (
+        await UserModel.findOne({
+          uuid: uuid,
+        })
+      ).username;
+    } catch (e) {
+      ErrHandler(e);
+    }
+  },
   async changeUsername(oldName, newName) {
     // try {
     //   let result = await UserModel.findOne({

@@ -82,6 +82,16 @@ const movieStore = {
       state.rating = newMovie.rating;
       state.comment = newMovie.comment;
     },
+    setMovieForSSR(state, movie) {
+      state.reviewId = movie.reviewId;
+      state.timestamp = moment(movie.timestamp);
+      state.title = movie.title;
+      state.titleCN = movie.titleCN;
+      state.year = movie.year;
+      state.genre = movie.genre;
+      state.rating = movie.rating;
+      state.comment = movie.comment;
+    },
     clearMovie(state) {
       state.reviewId = "";
       state.title = "";

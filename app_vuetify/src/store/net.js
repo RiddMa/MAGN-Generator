@@ -1,7 +1,6 @@
 import axios from "axios";
 import QS from "qs";
 const { v1: UUIDv1 } = require("uuid");
-const { baseURL } = require("./config");
 
 const netStore = {
   state: {
@@ -13,6 +12,7 @@ const netStore = {
     initStore(context) {
       let newInstance = axios.create({
         baseURL: "https://www.ridd.xyz/api/",
+        // baseURL: "http://localhost:8090/api/",
         method: "post",
         timeout: 10000,
         headers: {
@@ -179,13 +179,15 @@ const netStore = {
           });
       });
     },
-    async getMovieAttrTid(context, uuid) {
+    async getMovieAttrTid(context, info) {
       return new Promise((resolve, reject) => {
         context.state.instance
-          .post("/internal/getMovieAttr/" + uuid)
+          .post(`/internal/getMovieAttr/${info.uuid}/${info.reviewId}`)
           .then((response) => {
-            context.rootState.movie = response.data;
-            context.commit("updateRadar");
+            // context.rootState.movie = response.data;
+            context.commit("setMovie", response.data);
+            context.commit("setMovieRatingAvg");
+            context.dispatch("updateRadar");
             resolve(response);
           })
           .catch((e) => {
@@ -197,6 +199,21 @@ const netStore = {
       try {
         let response = await context.state.instance.post("/heartbeat", {});
         return { status: response.status, data: response.data };
+      } catch (e) {
+        console.log(e);
+        return { status: e.response.status, data: e.response.data };
+      }
+    },
+    async getUsername(context, uuid) {
+      try {
+        let response = await context.state.instance.post(
+          "/internal/getUsername",
+          {
+            uuid: uuid,
+          }
+        );
+        context.commit("setUsername", response.data);
+        return response.data;
       } catch (e) {
         console.log(e);
         return { status: e.response.status, data: e.response.data };

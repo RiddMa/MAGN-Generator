@@ -121,7 +121,6 @@
                       @click.stop="showClearCheck = true"
                       :elevation="hover ? 6 : 2"
                       :loading="loading"
-                      :disabled="loading"
                     >
                       清空全部
                     </v-btn>
@@ -142,13 +141,25 @@
                   @click.stop="onClearAllChecked"
                   v-click-outside="onClearAllClickOutside"
                   :loading="loading"
-                  :disabled="loading"
                 >
                   <v-icon dense class="mr-1">mdi-alert</v-icon>
                   确认? 点此清空全部
                 </v-btn>
               </v-scale-transition>
               <v-spacer></v-spacer>
+              <v-hover>
+                <template v-slot:default="{ hover }">
+                  <v-btn
+                    class="outlineBtn text-button success--text mr-4"
+                    outlined
+                    :elevation="hover ? 6 : 2"
+                    @click="onRenderClicked"
+                    :loading="loading"
+                  >
+                    保存并渲染截图
+                  </v-btn>
+                </template>
+              </v-hover>
               <v-hover>
                 <template v-slot:default="{ hover }">
                   <v-btn
@@ -214,6 +225,19 @@
                     :loading="loading"
                   >
                     取消
+                  </v-btn>
+                </template>
+              </v-hover>
+              <v-hover>
+                <template v-slot:default="{ hover }">
+                  <v-btn
+                    class="outlineBtn text-button success--text mr-4"
+                    outlined
+                    :elevation="hover ? 6 : 2"
+                    @click="onRenderClicked"
+                    :loading="loading"
+                  >
+                    保存并渲染截图
                   </v-btn>
                 </template>
               </v-hover>
@@ -302,6 +326,7 @@ export default {
     },
     ...mapState({
       fitPhone: (state) => state.fitPhone,
+      posterURL: (state) => state.netStore.posterURL,
     }),
     ...mapGetters({
       genreList: "genreList",
@@ -309,6 +334,12 @@ export default {
     }),
   },
   methods: {
+    async onRenderClicked() {
+      await this.$store.dispatch("saveUserReview", this.$store.state.movie);
+      await this.$store.dispatch("generatePoster");
+      await this.$store.dispatch("downloadPoster");
+      document.querySelector("#imgDisplay").src = this.posterURL;
+    },
     onClearAllClickOutside() {
       if (this.showClearCheck) {
         document.getElementById("clearCheckAgain").style.position = "absolute";

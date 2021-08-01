@@ -8,7 +8,29 @@
   >
     <v-row style="position: relative" class="ma-0 pa-0">
       <v-col class="ma-0 pa-0" style="position: relative">
-        <p class="mb-2 text--secondary text-center">你好，{{ username }}!</p>
+        <transition-group
+          name="flip-list"
+          v-on:enter="fadeInCaller"
+          v-on:leave="fadeOutCaller"
+        >
+          <p
+            v-if="listLoading"
+            class="mb-2 text--secondary text-center"
+            key="0"
+            style="width: 100%; position: relative"
+          >
+            加载中……
+          </p>
+          <p
+            v-else
+            class="mb-2 text--secondary text-center"
+            key="1"
+            style="width: 100%; position: relative"
+          >
+            你好，{{ username }}!
+          </p>
+        </transition-group>
+
         <transition-group
           name="flip-list"
           v-on:enter="tabItemEnterCaller"
@@ -45,7 +67,28 @@
   <v-container v-else fluid id="userBase" style="position: relative">
     <v-row style="position: relative">
       <v-col class="reviewBase ma-auto" style="position: relative">
-        <p class="mb-6 text--secondary text-center">你好，{{ username }}!</p>
+        <transition-group
+          name="flip-list"
+          v-on:enter="fadeInCaller"
+          v-on:leave="fadeOutCaller"
+        >
+          <p
+            v-if="listLoading"
+            class="mb-2 text--secondary text-center"
+            key="0"
+            style="width: 100%; position: relative"
+          >
+            加载中……
+          </p>
+          <p
+            v-else
+            class="mb-2 text--secondary text-center"
+            key="1"
+            style="width: 100%; position: relative"
+          >
+            你好，{{ username }}!
+          </p>
+        </transition-group>
         <transition-group
           name="flip-list"
           v-on:enter="tabItemEnterCaller"
@@ -86,7 +129,7 @@ import { mapGetters, mapState } from "vuex";
 import ReviewCard from "@/components/ReviewCard";
 import ReviewCardPhone from "@/components/ReviewCardPhone";
 import { mdiFileHidden } from "@mdi/js";
-import { tabItemEnter, tabItemLeave } from "@/utils/animate";
+import { fadeIn, fadeOut, tabItemEnter, tabItemLeave } from "@/utils/animate";
 import store from "@/store/store";
 import { setCSSBlur } from "@/utils/util";
 
@@ -128,11 +171,18 @@ export default {
     tabItemLeaveCaller(el, done) {
       tabItemLeave(el, done);
     },
+    fadeInCaller(el, done) {
+      fadeIn(el, done);
+    },
+    fadeOutCaller(el, done) {
+      fadeOut(el, done);
+    },
     /*
     animation
      */
   },
   async mounted() {
+    this.listLoading = true;
     if (this.$store.state.reloadWarning) {
       store.commit("showToast", {
         type: "error",
@@ -145,6 +195,7 @@ export default {
     }
     await this.$store.dispatch("heartbeat");
     await this.$store.dispatch("getAllUserReview");
+    this.listLoading = false;
   },
 };
 </script>

@@ -65,9 +65,13 @@ const routes = [
     component: () => import("../views/User/Edit"),
   },
   {
-    path: "/render/:id",
+    path: "/render/:uuid/:reviewId",
     name: "PosterSSR",
     component: () => import("../views/PosterSSR"),
+    beforeEnter(to, from, next) {
+      store.commit("setIsSSR", true);
+      next();
+    },
   },
 ];
 

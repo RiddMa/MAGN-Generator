@@ -98,11 +98,15 @@ module.exports = {
       LogHandler(`Retrieved reviews ${reviewId} for ${uuid}`);
       return (
         await UserReviewModel.findOne(
-          { uuid: uuid, reviews: { $elemMatch: { reviewId: reviewId } } },
-          {},
+          { uuid: uuid },
+          {
+            reviews: {
+              $elemMatch: { reviewId: reviewId },
+            },
+          },
           { lean: true }
         )
-      ).reviews;
+      ).reviews[0];
     } catch (e) {
       ErrHandler(e);
     }

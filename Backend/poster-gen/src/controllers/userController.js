@@ -49,4 +49,8 @@ module.exports = {
       }
     }
   },
+  "POST /api/internal/getUsername": async (ctx, next) => {
+    const username = await UserDAO.findUserByUUID(ctx.request.body.uuid);
+    await ctx.rest(ctx, next, 200, username);
+  },
 };

@@ -4,12 +4,19 @@
       <v-col class="ma-0 pa-0">
         <p class="mb-4 text-center">
           <v-btn
-            class="outlineBtn text-button"
+            class="grow outlineBtn text-button"
             outlined
-            block
             elevation="2"
             @click="onLeaveClicked"
-            >退出
+          >
+            退出
+          </v-btn>
+          <v-btn
+            class="grow text-button"
+            elevation="2"
+            @click="onRenderClicked"
+          >
+            渲染截图
           </v-btn>
         </p>
         <ReviewPhone mode="view"></ReviewPhone>
@@ -19,16 +26,33 @@
   <v-container v-else id="reviewBase" fluid>
     <v-row>
       <v-col class="reviewBase mx-auto">
-        <p class="mx-4 mt-2 mb-8 pa-auto text-center">
-          <v-btn
-            class="outlineBtn secondary--text text-button"
-            outlined
-            block
-            elevation="2"
-            @click="onLeaveClicked"
-            >退出
-          </v-btn>
-        </p>
+        <v-row class="justify-space-between mx-4 mt-2 mb-8 pa-auto text-center">
+          <v-hover>
+            <template v-slot:default="{ hover }">
+              <v-btn
+                class="grow outlineBtn secondary--text text-button"
+                outlined
+                :elevation="hover ? 6 : 2"
+                @click="onLeaveClicked"
+                style="min-width: 45%"
+                >退出
+              </v-btn>
+            </template>
+          </v-hover>
+          <v-spacer></v-spacer>
+          <v-hover>
+            <template v-slot:default="{ hover }">
+              <v-btn
+                class="grow text-button success"
+                :elevation="hover ? 6 : 2"
+                @click="onRenderClicked"
+                style="min-width: 45%"
+              >
+                渲染截图
+              </v-btn>
+            </template>
+          </v-hover>
+        </v-row>
         <Review mode="view"></Review>
       </v-col>
     </v-row>

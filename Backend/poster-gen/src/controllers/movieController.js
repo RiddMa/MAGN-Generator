@@ -8,7 +8,7 @@ const { rootDir } = require("../../config");
 
 const sleep = (delay) => new Promise((resolve) => setTimeout(resolve, delay));
 
-async function getScreenshot(url, filename, width = 1449, height = 900) {
+async function getScreenshot(url, uuid, reviewId, width = 1440, height = 900) {
   const browser = await puppeteer.launch({
     // headless: false,
     defaultViewport: {
@@ -19,10 +19,16 @@ async function getScreenshot(url, filename, width = 1449, height = 900) {
     args: ["--disable-web-security"],
   });
   const page = await browser.newPage();
-  await page.goto(url);
   console.log("Going to " + url);
+  await page.goto(url);
+  await page.waitForResponse(
+    `https://www.ridd.xyz/api/internal/getMovieAttr/${uuid}/${reviewId}`
+  );
 
-  let body = await page.$("#toImageCol");
+  await sleep(20);
+  let filename = `${uuid}_${reviewId}`;
+
+  let body = await page.$("#toPoster");
   await body.screenshot({
     path: path.resolve(`${rootDir}/resources/screenshot/${filename}.png`),
     type: "png",
@@ -54,7 +60,7 @@ module.exports = {
     await ctx.rest(ctx, next, 200, reviewList);
   },
   /*
-  body: reviewId
+  body: idList
    */
   "POST /api/deleteUserReview": async (ctx, next) => {
     const reviewId = ctx.request.body.reviewId;
@@ -75,18 +81,18 @@ module.exports = {
   "POST /api/generatePoster": async (ctx, next) => {
     const uuid = ctx.state.jwtData.uuid;
     const reviewId = ctx.request.body.reviewId;
-    const movieReview = (await UserReviewDAO.getUserReview(uuid, reviewId))
-      .reviews[0];
-    const url = `http://localhost:8080/render/${reviewId}`;
 
-    store.saveMovie2Cache(movieReview);
-    const res = await getScreenshot(url, reviewId);
-    store.removeMovieCache(reviewId);
+    const url = `https://www.ridd.xyz/render/${uuid}/${reviewId}`;
+    // const url = `http://localhost:8080/render/${uuid}/${reviewId}`;
+    const res = await getScreenshot(url, uuid, reviewId);
     await ctx.rest(ctx, next, 200, { filename: res });
   },
-  "POST /api/internal/getMovieAttr/:reviewId": async (ctx, next) => {
-    console.log("Puppeteer请求 " + ctx.params.reviewId);
-    let result = store.getMovieByUser(ctx.params.reviewId);
+  "POST /api/internal/getMovieAttr/:uuid/:reviewId": async (ctx, next) => {
+    console.log("Puppeteer请求 ", ctx.params.uuid, ctx.params.reviewId);
+    const result = await UserReviewDAO.getUserReview(
+      ctx.params.uuid,
+      ctx.params.reviewId
+    );
     await ctx.rest(ctx, next, 200, result);
   },
 };

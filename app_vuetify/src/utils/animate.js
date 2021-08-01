@@ -139,3 +139,24 @@ export function tabItemLeave(el, done) {
     complete: done,
   });
 }
+
+export function fadeIn(el, done) {
+  anime({
+    targets: el,
+    duration: 500,
+    opacity: ["0%", "100%"],
+    easing: easeIn,
+    complete: done,
+  });
+}
+
+export function fadeOut(el, done) {
+  el.style.position = "absolute";
+  anime({
+    targets: el,
+    duration: 500,
+    opacity: ["100%", "0%"],
+    easing: easeOut,
+    complete: done,
+  });
+}

@@ -187,14 +187,14 @@ export default {
     // this.$store.dispatch("heartbeat");
     this.$store.commit("setReviewDate");
     this.$store.commit("setMovieRatingAvg");
-    if (!this.$route.fullPath.startsWith("/render")) {
+    if (this.$route.fullPath.startsWith("/render")) {
+      await this.$store.dispatch("drawRadarNoAnimation", this.chartId);
+    } else {
       if (this.$store.state.radarPlot !== undefined) {
         this.$store.state.radarPlot.destroy();
         this.$store.state.radarPlot = undefined;
       }
       await this.$store.dispatch("drawRadar", this.chartId);
-    } else {
-      await this.$store.dispatch("drawRadarNoAnimation", this.chartId);
     }
   },
 };

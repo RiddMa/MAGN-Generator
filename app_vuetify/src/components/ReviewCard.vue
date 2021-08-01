@@ -22,27 +22,32 @@
                 class="justify-space-between align-baseline ml-4 mt-4 pa-auto"
                 style="width: 100%"
               >
-                <span class="reviewTitle mb-2 text-h3">
-                  {{ movie.title }}
-                </span>
-                <span
-                  class="
-                    text-right text-h4
-                    ma-0
-                    pa-0
-                    yellow--text
-                    text--darken-3
-                  "
-                >
-                  {{ movie.rating.avg }}
-                  <span class="text-body-1"> /10 </span>
-                </span>
+                <v-col class="justify-start align-baseline ma-0 pa-0">
+                  <span class="reviewTitle mb-2 text-h4">
+                    {{ movie.title }}
+                  </span>
+                </v-col>
+                <v-col class="shrink ma-0 pa-0">
+                  <span
+                    class="
+                      text-right text-h4
+                      ma-0
+                      pa-0
+                      yellow--text
+                      text--darken-3
+                    "
+                    style="white-space: nowrap; display: inline-block"
+                  >
+                    {{ movie.rating.avg }}
+                    <span class="text-body-1 ma-0 pa-0"> /10 </span>
+                  </span>
+                </v-col>
               </v-row>
               <v-row
                 class="justify-space-between align-baseline ml-4 mt-4 pa-auto"
                 style="width: 100%"
               >
-                <span class="reviewSubTitle text-h4 mb-0 pb-0">
+                <span class="reviewSubTitle text-h5 mb-0 pb-0">
                   {{ movie.titleCN }}.{{ movie.year }}
                 </span>
                 <span class="text-right text--secondary mt-3">
