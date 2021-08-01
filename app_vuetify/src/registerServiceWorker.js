@@ -19,11 +19,12 @@ if (process.env.NODE_ENV === "production") {
       console.log("Content has been cached for offline use.");
     },
     updatefound() {
-      store.commit("showToast", {
-        dialog: true,
-        type: "updatePage",
-        message: "应用有更新，正在加载并更新页面",
-      });
+      // store.commit("showToast", {
+      //   dialog: true,
+      //   type: "updatePage",
+      //   message: "应用有更新，正在加载并更新页面",
+      // });
+      alert("应用有更新，正在加载并更新页面");
       console.log("New content is downloading.");
     },
     updated() {
