@@ -16,7 +16,7 @@ async function getScreenshot(url, uuid, reviewId, width = 1440, height = 900) {
       height: height,
       deviceScaleFactor: 3,
     },
-    args: ["--disable-web-security"],
+    args: ["--disable-web-security","--no-sandbox"],
   });
   const page = await browser.newPage();
   console.log("Going to " + url);
