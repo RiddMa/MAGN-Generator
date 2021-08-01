@@ -1,6 +1,7 @@
 const puppeteer = require("puppeteer");
 const { v1: UUIDv1 } = require("uuid");
 const path = require("path");
+const fse = require("fs-extra")
 const Token = require("../lib/token");
 const store = require("../lib/store");
 const UserReviewDAO = require("../models/UserReviewModel");
@@ -25,12 +26,12 @@ async function getScreenshot(url, uuid, reviewId, width = 1440, height = 900) {
     `https://www.ridd.xyz/api/internal/getMovieAttr/${uuid}/${reviewId}`
   );
 
-  await sleep(20);
+  await fse.ensureDir(`${rootDir}/screenshot`);
   let filename = `${uuid}_${reviewId}`;
 
   let body = await page.$("#toPoster");
   await body.screenshot({
-    path: path.resolve(`${rootDir}/resources/screenshot/${filename}.png`),
+    path: path.resolve(`${rootDir}/screenshot/${filename}.png`),
     type: "png",
     fullPage: false,
   });
