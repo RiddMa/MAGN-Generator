@@ -2,7 +2,9 @@
   <v-container v-if="fitPhone" id="reviewBase" fluid class="ma-0 pa-0">
     <v-row v-if="fitPhone" class="ma-0 pa-0">
       <v-col class="ma-0 pa-0">
-        <v-row class="justify-space-between mb-4 mt-2 mx-auto pa-auto text-center">
+        <v-row
+          class="justify-space-between mb-4 mt-2 mx-auto pa-auto text-center"
+        >
           <v-btn
             class="grow outlineBtn text-button"
             outlined
@@ -11,7 +13,7 @@
             @click="onLeaveClicked"
             :loading="loading"
           >
-            退出
+            返回
           </v-btn>
           <v-btn
             class="grow text-button success"
@@ -40,7 +42,8 @@
                 @click="onLeaveClicked"
                 style="max-width: 45%"
                 :loading="loading"
-                >退出
+              >
+                返回
               </v-btn>
             </template>
           </v-hover>

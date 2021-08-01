@@ -33,7 +33,6 @@ export default {
     }),
   },
   async beforeRouteEnter(to, from, next) {
-    console.log(to);
     const tag = "/edit";
     if (store.state.currentTag !== tag) {
       store.commit("setCurrentTag", tag);

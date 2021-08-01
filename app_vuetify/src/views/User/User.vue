@@ -187,11 +187,11 @@ export default {
       store.commit("showToast", {
         type: "error",
         message: "错误：请勿刷新或直接访问“查看”及“编辑”页面。刷新中……",
-        timer: 4000,
+        timer: 3000,
       });
       setCSSBlur(".v-overlay__scrim");
       setCSSBlur("#dialogOverlay");
-      setTimeout(() => location.reload(), 4000);
+      setTimeout(() => location.reload(), 3000);
     }
     await this.$store.dispatch("heartbeat");
     await this.$store.dispatch("getAllUserReview");

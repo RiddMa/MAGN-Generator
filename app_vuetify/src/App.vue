@@ -1,5 +1,5 @@
 <template>
-  <v-app>
+  <v-app style="position: relative">
     <template v-if="!isSSR">
       <v-overlay
         id="dialogOverlay"
@@ -10,22 +10,50 @@
         style="z-index: 20000"
       ></v-overlay>
       <v-toast style="z-index: 20001"></v-toast>
+      <!--      <v-app-bar-->
+      <!--        class="appBar"-->
+      <!--        app-->
+      <!--        color="rgba(255, 255, 255, 0.5)"-->
+      <!--        light-->
+      <!--        dense-->
+      <!--        elevation="2"-->
+      <!--      >-->
+      <!--        <v-tabs v-model="activeTab" show-arrows>-->
+      <!--          <v-tab to="/" v-bind:key="0">新建</v-tab>-->
+      <!--          <v-tab to="/user" v-bind:key="1">用户</v-tab>-->
+      <!--          <v-tab v-if="isViewing" :to="viewURL" v-bind:key="2"> 查看 </v-tab>-->
+      <!--          <v-tab v-if="isEditing" :to="editURL" v-bind:key="3"> 编辑 </v-tab>-->
+      <!--          <v-tab to="/about" v-bind:key="4">关于</v-tab>-->
+      <!--        </v-tabs>-->
+      <!--      </v-app-bar>-->
       <v-app-bar
+        id="appBar"
         class="appBar"
         app
-        color="rgba(255, 255, 255, 0.5)"
         light
         dense
-        elevation="0"
+        elevation="4"
+        color="rgba(255, 255, 255, 0.5)"
       >
-        <v-tabs v-model="activeTab" centered>
-          <v-tab to="/" v-bind:key="0">新建</v-tab>
-          <v-tab to="/user" v-bind:key="1">用户</v-tab>
-          <v-tab v-if="isViewing" :to="viewURL" v-bind:key="2"> 查看 </v-tab>
-          <v-tab v-if="isEditing" :to="editURL" v-bind:key="3"> 编辑 </v-tab>
-          <v-tab to="/about" v-bind:key="4">关于</v-tab>
+        <v-tabs class="navTab" v-model="activeTab" centered>
+          <v-tab to="/" v-bind:key="0" class="TAB grow">
+            <span class="tabText">新建</span>
+          </v-tab>
+          <v-tab to="/user" v-bind:key="1" class="TAB grow">
+            <span class="tabText">用户</span>
+          </v-tab>
+          <v-tab v-if="isViewing" :to="viewURL" v-bind:key="2" class="TAB grow">
+            <span class="tabText">查看</span>
+          </v-tab>
+          <v-tab v-if="isEditing" :to="editURL" v-bind:key="3" class="TAB grow">
+            <span class="tabText">编辑</span>
+          </v-tab>
+          <v-tab to="/about" v-bind:key="4" class="TAB grow">
+            <span class="tabText">关于</span>
+          </v-tab>
         </v-tabs>
       </v-app-bar>
+
       <v-main v-resize="onResize" style="position: relative">
         <v-container fluid>
           <transition
@@ -69,6 +97,7 @@ export default {
     activeTab: 0,
     blurTab: true,
     transitionDirection: "up",
+    windowSize: undefined,
   }),
   computed: {
     ...mapState({
@@ -93,16 +122,11 @@ export default {
     onResize() {
       this.windowSize = { x: window.innerWidth, y: window.innerHeight };
       if (this.windowSize.x < 800) {
-        //临时
-        // this.$store.commit("showToast", {
-        //   type: "error",
-        //   message: "手机端暂未适配……当前页面宽度过窄，可能导致页面显示不正常",
-        //   timer: 5000,
-        // });
         this.$store.commit("setFitPhone", true);
       } else {
         this.$store.commit("setFitPhone", false);
       }
+      document.querySelector("#appBar").style.width = `${this.windowSize.x}px`;
     },
   },
   async mounted() {
@@ -174,7 +198,18 @@ body {
   -moz-osx-font-smoothing: grayscale;
 }
 .appBar {
-  -webkit-backdrop-filter: blur(5px);
-  backdrop-filter: blur(5px);
+  -webkit-backdrop-filter: blur(7px);
+  backdrop-filter: blur(7px);
+}
+.navTab {
+  z-index: 19999;
+}
+.TAB {
+  min-width: 25px;
+  max-width: 150px;
+}
+.tabText {
+  white-space: nowrap;
+  display: inline-block;
 }
 </style>
