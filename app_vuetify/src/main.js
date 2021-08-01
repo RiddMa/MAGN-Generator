@@ -6,7 +6,7 @@ import store from "./store/store";
 import vuetify from "./plugins/vuetify";
 import VueMeta from "vue-meta";
 
-Vue.config.productionTip = false;
+// Vue.config.productionTip = false;
 
 // Register a global custom directive called `v-blur` that prevents focus
 Vue.directive("blur", {

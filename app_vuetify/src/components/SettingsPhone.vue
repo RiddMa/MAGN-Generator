@@ -330,7 +330,7 @@ export default {
       if (await this.$store.dispatch("isUserLoggedIn")) {
         await this.$store.dispatch("saveUserReview", this.$store.state.movie);
       } else {
-        this.$store.commit("pushPendingQueue", "saveUserReview");
+        this.$store.commit("setPending", "saveUserReview");
         await this.$router.push("/login");
       }
       this.loading = false;

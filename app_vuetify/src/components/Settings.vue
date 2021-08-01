@@ -335,11 +335,19 @@ export default {
   methods: {
     async onSaveRenderClicked() {
       this.loading = true;
-      await this.$store.dispatch("saveUserReview", this.$store.state.movie);
-      await this.$store.dispatch("generatePoster");
-      this.loading = false;
-      this.$store.commit("showToast", { type: "success", message: "生成成功" });
-      await this.$router.push(`/poster/${this.movie.reviewId}`);
+      if (await this.$store.dispatch("isUserLoggedIn")) {
+        await this.$store.dispatch("saveUserReview", this.$store.state.movie);
+        await this.$store.dispatch("generatePoster");
+        this.loading = false;
+        this.$store.commit("showToast", {
+          type: "success",
+          message: "生成成功",
+        });
+        await this.$router.push(`/poster/${this.movie.reviewId}`);
+      } else {
+        this.$store.commit("setPending", "save&Render");
+        await this.$router.push("/login");
+      }
     },
     onClearAllClickOutside() {
       if (this.showClearCheck) {
@@ -358,7 +366,7 @@ export default {
       if (await this.$store.dispatch("isUserLoggedIn")) {
         await this.$store.dispatch("saveUserReview", this.$store.state.movie);
       } else {
-        this.$store.commit("pushPendingQueue", "saveUserReview");
+        this.$store.commit("setPending", "saveUserReview");
         await this.$router.push("/login");
       }
       this.loading = false;

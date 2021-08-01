@@ -31,7 +31,7 @@ export default new Vuex.Store({
     searchText: "The Shawshank Redemption",
     fitPhone: true,
     radarPlot: undefined,
-    pendingQueue: [],
+    pending: "",
     editURL: "/",
     viewURL: "/",
     isEditing: false,
@@ -79,15 +79,11 @@ export default new Vuex.Store({
     setToastResult(state, toBool) {
       state.toast.accept = toBool;
     },
-    pushPendingQueue(state, message) {
-      state.pendingQueue.push(message);
+    setPending(state, message) {
+      state.pending = message;
     },
-    popPendingQueue(state, message) {
-      state.pendingQueue.findIndex((msg, i) => {
-        if (msg === message) {
-          state.pendingQueue.splice(i, 1);
-        }
-      });
+    clearPending(state) {
+      state.pending = "";
     },
     showToast(state, data) {
       state.toast.message = data.message;

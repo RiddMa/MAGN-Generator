@@ -296,19 +296,45 @@ export default {
       localStorage.setItem("username", this.username);
       this.$store.commit("setUsername", this.username);
       const preRoute = localStorage.getItem("preRoute");
-      if (preRoute === null) {
-        await this.$router.replace("/user");
+      const msg = this.$store.state.pending;
+      if (msg !== "") {
+        switch (msg) {
+          case "saveUserReview": {
+            this.loading = true;
+            await this.$store.dispatch(
+              "saveUserReview",
+              this.$store.state.movie
+            );
+            this.$store.commit("clearPending");
+            await this.$router.replace(`/user`);
+            break;
+          }
+          case "save&Render": {
+            this.loading = true;
+            await this.$store.dispatch(
+              "saveUserReview",
+              this.$store.state.movie
+            );
+            await this.$store.dispatch("generatePoster");
+            this.$store.commit("showToast", {
+              type: "success",
+              message: "生成成功",
+            });
+            this.$store.commit("clearPending");
+            await this.$router.replace(
+              `/poster/${this.$store.state.movie.reviewId}`
+            );
+            break;
+          }
+        }
       } else {
-        await this.$router.replace(preRoute);
-      }
-      const msg = this.$store.state.pendingQueue[0];
-      switch (msg) {
-        case "saveUserReview": {
-          await this.$store.dispatch("saveUserReview");
-          this.$store.commit("popPendingQueue", "saveUserReview");
-          break;
+        if (preRoute === null) {
+          await this.$router.replace("/user");
+        } else {
+          await this.$router.replace(preRoute);
         }
       }
+      this.loading = false;
     },
   },
   mounted() {

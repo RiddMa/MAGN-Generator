@@ -1,6 +1,7 @@
 /* eslint-disable no-console */
 
 import { register } from "register-service-worker";
+import store from "@/store/store";
 
 if (process.env.NODE_ENV === "production") {
   register(`${process.env.BASE_URL}service-worker.js`, {
@@ -14,13 +15,20 @@ if (process.env.NODE_ENV === "production") {
       console.log("Service worker has been registered.");
     },
     cached() {
+      alert();
       console.log("Content has been cached for offline use.");
     },
     updatefound() {
+      store.commit("showToast", {
+        dialog: true,
+        type: "updatePage",
+        message: "应用有更新，正在加载并更新页面",
+      });
       console.log("New content is downloading.");
     },
     updated() {
       console.log("New content is available; please refresh.");
+      window.location.reload(true);
     },
     offline() {
       console.log(

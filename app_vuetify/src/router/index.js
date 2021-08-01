@@ -48,7 +48,7 @@ const routes = [
       if (await store.dispatch("isUserLoggedIn")) {
         next();
       } else {
-        store.commit("pushPendingQueue", "getAllUserReview");
+        store.commit("setPending", "getAllUserReview");
         localStorage.setItem("preRoute", "/user");
         next("/login");
       }
