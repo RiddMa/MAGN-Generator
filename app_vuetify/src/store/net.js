@@ -4,8 +4,8 @@ const { v1: UUIDv1 } = require("uuid");
 
 const netStore = {
   state: {
-    instance: null,
-    posterURL: null,
+    instance: undefined,
+    posterURL: undefined,
   },
   mutations: {},
   actions: {

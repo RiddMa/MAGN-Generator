@@ -153,10 +153,10 @@
                     class="outlineBtn text-button success--text mr-4"
                     outlined
                     :elevation="hover ? 6 : 2"
-                    @click="onRenderClicked"
+                    @click="onSaveRenderClicked"
                     :loading="loading"
                   >
-                    保存并渲染截图(测试中)
+                    保存并渲染截图
                   </v-btn>
                 </template>
               </v-hover>
@@ -234,7 +234,7 @@
                     class="outlineBtn text-button success--text mr-4"
                     outlined
                     :elevation="hover ? 6 : 2"
-                    @click="onRenderClicked"
+                    @click="onUpdateRenderClicked"
                     :loading="loading"
                   >
                     保存并渲染截图
@@ -333,12 +333,12 @@ export default {
     }),
   },
   methods: {
-    async onRenderClicked() {
+    async onSaveRenderClicked() {
       this.loading = true;
       await this.$store.dispatch("saveUserReview", this.$store.state.movie);
       await this.$store.dispatch("generatePoster");
       this.loading = false;
-      this.$store.commit("showToast");
+      this.$store.commit("showToast", { type: "success", message: "生成成功" });
       await this.$router.push(`/poster/${this.movie.reviewId}`);
     },
     onClearAllClickOutside() {
@@ -367,6 +367,14 @@ export default {
     /*
     edit mode
      */
+    async onUpdateRenderClicked() {
+      this.loading = true;
+      await this.$store.dispatch("updateUserReview", this.$store.state.movie);
+      await this.$store.dispatch("generatePoster");
+      this.loading = false;
+      this.$store.commit("showToast", { type: "success", message: "生成成功" });
+      await this.$router.push(`/poster/${this.movie.reviewId}`);
+    },
     async updateReview() {
       this.loading = true;
       await this.$store.dispatch("updateUserReview", this.$store.state.movie);

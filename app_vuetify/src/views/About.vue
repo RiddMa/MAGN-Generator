@@ -1,5 +1,5 @@
 <template>
-  <v-container v-if="fitPhone" id="aboutBase" fluid class="mx-0 mt-0 mb-8 pa-0">
+  <v-container v-if="fitPhone" id="aboutBase" fluid class="mx-0 mt-2 mb-8 pa-0">
     <v-row class="ma-0 pa-0">
       <v-col class="aboutBase ma-0 pa-0">
         <AboutCard :fit-phone="true"></AboutCard>

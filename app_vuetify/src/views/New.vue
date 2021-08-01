@@ -1,6 +1,5 @@
 <template>
   <v-container v-if="fitPhone" id="newBase" fluid class="ma-0 pa-0">
-    <v-img id="imgDisplay" alt="123" src="" />
     <v-row class="ma-0 pa-0">
       <v-col class="ma-0 pa-0">
         <SettingsPhone mode="new"></SettingsPhone>
@@ -9,7 +8,6 @@
     </v-row>
   </v-container>
   <v-container v-else id="newBase" fluid>
-    <img id="imgDisplay" alt="123" src="" />
     <v-row>
       <v-col class="reviewBase mx-auto">
         <Settings mode="new"></Settings>

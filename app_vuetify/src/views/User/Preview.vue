@@ -2,23 +2,27 @@
   <v-container v-if="fitPhone" id="reviewBase" fluid class="ma-0 pa-0">
     <v-row v-if="fitPhone" class="ma-0 pa-0">
       <v-col class="ma-0 pa-0">
-        <p class="mb-4 text-center">
+        <v-row class="justify-space-between mb-4 mt-2 mx-auto pa-auto text-center">
           <v-btn
             class="grow outlineBtn text-button"
             outlined
             elevation="2"
+            style="max-width: 45%"
             @click="onLeaveClicked"
+            :loading="loading"
           >
             退出
           </v-btn>
           <v-btn
-            class="grow text-button"
+            class="grow text-button success"
             elevation="2"
             @click="onRenderClicked"
+            style="max-width: 45%"
+            :loading="loading"
           >
             渲染截图
           </v-btn>
-        </p>
+        </v-row>
         <ReviewPhone mode="view"></ReviewPhone>
       </v-col>
     </v-row>
@@ -34,19 +38,20 @@
                 outlined
                 :elevation="hover ? 6 : 2"
                 @click="onLeaveClicked"
-                style="min-width: 45%"
+                style="max-width: 45%"
+                :loading="loading"
                 >退出
               </v-btn>
             </template>
           </v-hover>
-          <v-spacer></v-spacer>
           <v-hover>
             <template v-slot:default="{ hover }">
               <v-btn
                 class="grow text-button success"
                 :elevation="hover ? 6 : 2"
                 @click="onRenderClicked"
-                style="min-width: 45%"
+                style="max-width: 45%"
+                :loading="loading"
               >
                 渲染截图
               </v-btn>
@@ -67,15 +72,27 @@ import ReviewPhone from "@/components/ReviewPhone";
 export default {
   name: "Preview",
   components: { ReviewPhone, Review },
+  data() {
+    return {
+      loading: false,
+    };
+  },
   computed: {
     ...mapState({
       fitPhone: (state) => state.fitPhone,
     }),
   },
   methods: {
-    onLeaveClicked() {
+    async onLeaveClicked() {
       this.$store.commit("setIsViewing", false);
-      this.$router.replace("/user");
+      await this.$router.replace("/user");
+    },
+    async onRenderClicked() {
+      this.loading = true;
+      await this.$store.dispatch("generatePoster");
+      this.loading = false;
+      this.$store.commit("showToast", { type: "success", message: "生成成功" });
+      await this.$router.push(`/poster/${this.$store.state.movie.reviewId}`);
     },
   },
   async beforeRouteEnter(to, from, next) {

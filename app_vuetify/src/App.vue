@@ -147,6 +147,12 @@ export default {
       if (from.path === "/login") {
         this.transitionDirection = "up";
       }
+      if (to.path.startsWith("/poster")) {
+        this.transitionDirection = "down";
+      }
+      if (from.path.startsWith("/poster")) {
+        this.transitionDirection = "up";
+      }
     },
   },
 };
@@ -155,15 +161,15 @@ export default {
 <style scoped>
 body {
   font-family: "Helvetica Neue", Helvetica, Arial, "PingFang SC",
-    "Hiragino Sans GB", "Heiti SC", "Microsoft YaHei UI", "WenQuanYi Micro Hei",
-    sans-serif;
+    "Source Han Sans CN", "Hiragino Sans GB", "Heiti SC", "Microsoft YaHei UI",
+    "WenQuanYi Micro Hei", sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
 #app {
   font-family: "Helvetica Neue", Helvetica, Arial, "PingFang SC",
-    "Hiragino Sans GB", "Heiti SC", "Microsoft YaHei UI", "WenQuanYi Micro Hei",
-    sans-serif;
+    "Source Han Sans CN", "Hiragino Sans GB", "Heiti SC", "Microsoft YaHei UI",
+    "WenQuanYi Micro Hei", sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }

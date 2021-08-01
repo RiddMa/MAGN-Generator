@@ -119,81 +119,116 @@
               ></RatingInput>
             </v-row>
 
-            <v-row v-if="mode === 'new'">
-              <v-hover :value="showClearCheck">
-                <template v-slot:default="{ hover }">
-                  <v-btn
-                    class="outlineBtn text-button"
-                    outlined
-                    color="error"
-                    @click.stop="onClearClicked"
-                    :elevation="hover ? 6 : 2"
-                    :loading="loading"
-                    :disabled="loading"
-                  >
-                    清空全部
-                  </v-btn>
-                </template>
-              </v-hover>
-              <v-spacer></v-spacer>
-              <v-hover>
-                <template v-slot:default="{ hover }">
-                  <v-btn
-                    class="outlineBtn text-button"
-                    outlined
-                    color="success"
-                    :elevation="hover ? 6 : 2"
-                    @click="sendReview"
-                    :loading="loading"
-                  >
-                    保存至云端
-                  </v-btn>
-                </template>
-              </v-hover>
-            </v-row>
-            <v-row v-if="mode === 'edit'" class="justify-space-between">
-              <v-hover>
-                <template v-slot:default="{ hover }">
-                  <v-btn
-                    class="outlineBtn text-button"
-                    color="error"
-                    outlined
-                    @click.stop="onDeleteClicked"
-                    :elevation="hover ? 6 : 2"
-                    :loading="loading"
-                  >
-                    删除
-                  </v-btn>
-                </template>
-              </v-hover>
-              <v-hover>
-                <template v-slot:default="{ hover }">
-                  <v-btn
-                    class="outlineBtn text-button"
-                    color="body"
-                    outlined
-                    :elevation="hover ? 6 : 2"
-                    @click="cancelUpdate"
-                    :loading="loading"
-                  >
-                    取消
-                  </v-btn>
-                </template>
-              </v-hover>
-              <v-hover>
-                <template v-slot:default="{ hover }">
-                  <v-btn
-                    class="outlineBtn text-button"
-                    color="success"
-                    :elevation="hover ? 6 : 2"
-                    @click="updateReview"
-                    :loading="loading"
-                  >
-                    保存并返回
-                  </v-btn>
-                </template>
-              </v-hover>
-            </v-row>
+            <template v-if="mode === 'new'">
+              <v-row class="my-4">
+                <v-hover :value="showClearCheck">
+                  <template v-slot:default="{ hover }">
+                    <v-btn
+                      class="outlineBtn text-button"
+                      outlined
+                      color="error"
+                      @click.stop="onClearClicked"
+                      :elevation="hover ? 6 : 2"
+                      :loading="loading"
+                      :disabled="loading"
+                    >
+                      清空全部
+                    </v-btn>
+                  </template>
+                </v-hover>
+                <v-spacer></v-spacer>
+                <v-hover>
+                  <template v-slot:default="{ hover }">
+                    <v-btn
+                      class="outlineBtn text-button success--text"
+                      outlined
+                      :elevation="hover ? 6 : 2"
+                      @click="onSaveRenderClicked"
+                      :loading="loading"
+                    >
+                      保存并生成截图
+                    </v-btn>
+                  </template>
+                </v-hover>
+              </v-row>
+              <v-row class="mt-6">
+                <v-hover>
+                  <template v-slot:default="{ hover }">
+                    <v-btn
+                      class="outlineBtn text-button"
+                      block
+                      color="success"
+                      :elevation="hover ? 6 : 2"
+                      @click="sendReview"
+                      :loading="loading"
+                    >
+                      保存至云端
+                    </v-btn>
+                  </template>
+                </v-hover>
+              </v-row>
+            </template>
+            <template v-if="mode === 'edit'">
+              <v-row class="justify-space-between my-4">
+                <v-hover>
+                  <template v-slot:default="{ hover }">
+                    <v-btn
+                      class="outlineBtn text-button"
+                      color="error"
+                      outlined
+                      @click.stop="onDeleteClicked"
+                      :elevation="hover ? 6 : 2"
+                      :loading="loading"
+                    >
+                      删除
+                    </v-btn>
+                  </template>
+                </v-hover>
+                <v-hover>
+                  <template v-slot:default="{ hover }">
+                    <v-btn
+                      class="outlineBtn text-button"
+                      color="body"
+                      outlined
+                      :elevation="hover ? 6 : 2"
+                      @click="cancelUpdate"
+                      :loading="loading"
+                    >
+                      取消
+                    </v-btn>
+                  </template>
+                </v-hover>
+                <v-hover>
+                  <template v-slot:default="{ hover }">
+                    <v-btn
+                      class="outlineBtn text-button success--text"
+                      outlined
+                      :elevation="hover ? 6 : 2"
+                      @click="onUpdateRenderClicked"
+                      :loading="loading"
+                    >
+                      保存并生成截图
+                    </v-btn>
+                  </template>
+                </v-hover>
+              </v-row>
+              <v-row class="mt-6">
+                <v-hover>
+                  <template v-slot:default="{ hover }">
+                    <v-btn
+                      class="text-button"
+                      color="success"
+                      block
+                      :elevation="hover ? 6 : 2"
+                      @click="updateReview"
+                      :loading="loading"
+                    >
+                      保存并返回
+                    </v-btn>
+                  </template>
+                </v-hover>
+              </v-row>
+            </template>
           </div>
         </v-expansion-panel-content>
       </v-expansion-panel>
@@ -275,6 +310,14 @@ export default {
     /*
     create mode
      */
+    async onSaveRenderClicked() {
+      this.loading = true;
+      await this.$store.dispatch("saveUserReview", this.$store.state.movie);
+      await this.$store.dispatch("generatePoster");
+      this.loading = false;
+      this.$store.commit("showToast", { type: "success", message: "生成成功" });
+      await this.$router.push(`/poster/${this.movie.reviewId}`);
+    },
     onClearClicked() {
       this.$store.commit("showToast", {
         dialog: true,
@@ -299,6 +342,14 @@ export default {
     /*
     edit mode
      */
+    async onUpdateRenderClicked() {
+      this.loading = true;
+      await this.$store.dispatch("updateUserReview", this.$store.state.movie);
+      await this.$store.dispatch("generatePoster");
+      this.loading = false;
+      this.$store.commit("showToast", { type: "success", message: "生成成功" });
+      await this.$router.push(`/poster/${this.movie.reviewId}`);
+    },
     async onDeleteClicked() {
       this.$store.commit("showToast", {
         dialog: true,
