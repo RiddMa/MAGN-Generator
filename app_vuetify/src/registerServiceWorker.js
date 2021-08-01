@@ -27,8 +27,9 @@ if (process.env.NODE_ENV === "production") {
       });
       // alert("应用有更新，正在加载并更新页面");
     },
-    updated() {
+    async updated(registration) {
       console.log("New content is available; please refresh.");
+      await registration.update();
       caches.keys().then(function (names) {
         for (let name of names)
           caches.delete(name).then(() => window.location.reload(true));
