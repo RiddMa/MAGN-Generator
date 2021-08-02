@@ -13,6 +13,7 @@
             @click="onLeaveClicked"
             :loading="loading"
           >
+            <v-icon dense> mdi-chevron-left </v-icon>
             返回
           </v-btn>
           <v-btn
@@ -22,6 +23,7 @@
             style="max-width: 45%"
             :loading="loading"
           >
+            <v-icon dense class="mr-1">mdi-image</v-icon>
             渲染截图
           </v-btn>
         </v-row>
@@ -43,6 +45,7 @@
                 style="max-width: 45%"
                 :loading="loading"
               >
+                <v-icon dense> mdi-chevron-left </v-icon>
                 返回
               </v-btn>
             </template>
@@ -56,6 +59,7 @@
                 style="max-width: 45%"
                 :loading="loading"
               >
+                <v-icon dense class="mr-1">mdi-image</v-icon>
                 渲染截图
               </v-btn>
             </template>

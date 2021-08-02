@@ -122,6 +122,7 @@
                       :elevation="hover ? 6 : 2"
                       :loading="loading"
                     >
+                      <v-icon dense class="mr-1">mdi-backspace-outline</v-icon>
                       清空全部
                     </v-btn>
                   </template>
@@ -156,6 +157,7 @@
                     @click="onSaveRenderClicked"
                     :loading="loading"
                   >
+                    <v-icon dense class="mr-1">mdi-image</v-icon>
                     保存并渲染截图
                   </v-btn>
                 </template>
@@ -169,6 +171,7 @@
                     @click="sendReview"
                     :loading="loading"
                   >
+                    <v-icon dense class="mr-1">mdi-content-save</v-icon>
                     保存至云端
                   </v-btn>
                 </template>
@@ -191,6 +194,9 @@
                       :elevation="hover ? 6 : 2"
                       :loading="loading"
                     >
+                      <v-icon dense class="mr-1">
+                        mdi-delete-forever-outline
+                      </v-icon>
                       删除影评
                     </v-btn>
                   </template>
@@ -224,6 +230,7 @@
                     @click="cancelUpdate"
                     :loading="loading"
                   >
+                    <v-icon dense> mdi-chevron-left </v-icon>
                     取消
                   </v-btn>
                 </template>
@@ -237,6 +244,7 @@
                     @click="onUpdateRenderClicked"
                     :loading="loading"
                   >
+                    <v-icon dense class="mr-1">mdi-image</v-icon>
                     保存并渲染截图
                   </v-btn>
                 </template>
@@ -250,6 +258,7 @@
                     @click="updateReview"
                     :loading="loading"
                   >
+                    <v-icon dense class="mr-1">mdi-content-save</v-icon>
                     保存并返回
                   </v-btn>
                 </template>

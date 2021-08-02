@@ -132,6 +132,7 @@
                       :loading="loading"
                       :disabled="loading"
                     >
+                      <v-icon dense class="mr-1">mdi-delete-outline</v-icon>
                       清空全部
                     </v-btn>
                   </template>
@@ -146,7 +147,8 @@
                       @click="onSaveRenderClicked"
                       :loading="loading"
                     >
-                      保存并生成截图
+                      <v-icon dense class="mr-1">mdi-image</v-icon>
+                      保存并渲染
                     </v-btn>
                   </template>
                 </v-hover>
@@ -162,6 +164,7 @@
                       @click="sendReview"
                       :loading="loading"
                     >
+                      <v-icon dense class="mr-1">mdi-content-save</v-icon>
                       保存至云端
                     </v-btn>
                   </template>
@@ -173,13 +176,16 @@
                 <v-hover>
                   <template v-slot:default="{ hover }">
                     <v-btn
-                      class="outlineBtn text-button"
+                      class="outlineBtn text-button mr-2 grow"
                       color="error"
                       outlined
                       @click.stop="onDeleteClicked"
                       :elevation="hover ? 6 : 2"
                       :loading="loading"
                     >
+                      <v-icon dense class="mr-1"
+                        >mdi-delete-forever-outline</v-icon
+                      >
                       删除
                     </v-btn>
                   </template>
@@ -187,42 +193,44 @@
                 <v-hover>
                   <template v-slot:default="{ hover }">
                     <v-btn
-                      class="outlineBtn text-button"
+                      class="outlineBtn text-button ml-2 grow"
                       color="body"
                       outlined
                       :elevation="hover ? 6 : 2"
                       @click="cancelUpdate"
                       :loading="loading"
                     >
+                      <v-icon dense>mdi-chevron-left</v-icon>
                       取消
                     </v-btn>
                   </template>
                 </v-hover>
+              </v-row>
+              <v-row class="justify-lg-space-between mt-6">
                 <v-hover>
                   <template v-slot:default="{ hover }">
                     <v-btn
-                      class="outlineBtn text-button success--text"
+                      class="outlineBtn text-button success--text mr-2 grow"
                       outlined
                       :elevation="hover ? 6 : 2"
                       @click="onUpdateRenderClicked"
                       :loading="loading"
                     >
-                      保存并生成截图
+                      <v-icon dense class="mr-1">mdi-image</v-icon>
+                      保存并渲染
                     </v-btn>
                   </template>
                 </v-hover>
-              </v-row>
-              <v-row class="mt-6">
                 <v-hover>
                   <template v-slot:default="{ hover }">
                     <v-btn
-                      class="text-button"
+                      class="text-button ml-2 grow"
                       color="success"
-                      block
                       :elevation="hover ? 6 : 2"
                       @click="updateReview"
                       :loading="loading"
                     >
+                      <v-icon dense class="mr-1">mdi-content-save</v-icon>
                       保存并返回
                     </v-btn>
                   </template>
