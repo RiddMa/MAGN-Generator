@@ -185,7 +185,9 @@ export default {
   },
   methods: {},
   async mounted() {
-    await sleep(1500);
+    if (!this.$store.state.isSSR) {
+      await sleep(1500);
+    }
     // this.$store.dispatch("heartbeat");
     this.$store.commit("setReviewDate");
     this.$store.commit("setMovieRatingAvg");
