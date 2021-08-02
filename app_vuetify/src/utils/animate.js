@@ -1,9 +1,12 @@
 import anime from "animejs";
 import { gsap } from "gsap";
+import { CustomEase } from "gsap/CustomEase";
+gsap.registerPlugin(CustomEase);
 
 const easeIn = "cubicBezier(1,0,.6,-0.1)";
 const easeOut = "cubicBezier(0.4,1.1,0,1)";
-const easeCurve = "power4.out";
+// const easeCurve = "power4.out";
+const easeCurve = CustomEase.create("custom", "0.35,1.15,0.1,1");
 
 export function sleep(delay) {
   return new Promise((resolve) => setTimeout(resolve, delay));
@@ -21,6 +24,7 @@ export function gsapRouteEnterFrom(direction, el, done) {
         ease: easeCurve,
         x: width,
         autoAlpha: 0,
+        clearProps: "all",
         onComplete: done,
       });
       break;
@@ -31,6 +35,7 @@ export function gsapRouteEnterFrom(direction, el, done) {
         ease: easeCurve,
         x: -width,
         autoAlpha: 0,
+        clearProps: "all",
         onComplete: done,
       });
       break;
@@ -41,6 +46,7 @@ export function gsapRouteEnterFrom(direction, el, done) {
         ease: easeCurve,
         y: -height,
         autoAlpha: 0,
+        clearProps: "all",
         onComplete: done,
       });
       break;
@@ -51,6 +57,7 @@ export function gsapRouteEnterFrom(direction, el, done) {
         ease: easeCurve,
         y: height,
         autoAlpha: 0,
+        clearProps: "all",
         onComplete: done,
       });
       break;
@@ -73,6 +80,7 @@ export function gsapRouteLeaveWhen(direction, el, done) {
         ease: easeCurve,
         x: -width,
         autoAlpha: 0,
+        clearProps: "all",
         onComplete: done,
       });
       break;
@@ -83,6 +91,7 @@ export function gsapRouteLeaveWhen(direction, el, done) {
         ease: easeCurve,
         x: width,
         autoAlpha: 0,
+        clearProps: "all",
         onComplete: done,
       });
       break;
@@ -93,6 +102,7 @@ export function gsapRouteLeaveWhen(direction, el, done) {
         ease: easeCurve,
         y: height,
         autoAlpha: 0,
+        clearProps: "all",
         onComplete: done,
       });
       break;
@@ -103,6 +113,7 @@ export function gsapRouteLeaveWhen(direction, el, done) {
         ease: easeCurve,
         y: -height,
         autoAlpha: 0,
+        clearProps: "all",
         onComplete: done,
       });
       break;
@@ -230,6 +241,7 @@ export function gsapListItemEnter(el, done, delay) {
     ease: easeCurve,
     y: 500,
     autoAlpha: 0,
+    clearProps: "all",
     onComplete: done,
   });
 }
@@ -241,6 +253,7 @@ export function gsapListItemLeave(el, done) {
     ease: easeCurve,
     scale: 0,
     autoAlpha: 0,
+    clearProps: "all",
     onComplete: done,
   });
 }
@@ -286,6 +299,7 @@ export function gsapFadeOut(el, done) {
     duration: 0.5,
     ease: easeCurve,
     autoAlpha: 0,
+    clearProps: "all",
     onComplete: done,
   });
 }
