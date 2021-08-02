@@ -1,5 +1,5 @@
 <template>
-  <v-container v-if="fitPhone" id="newBase" fluid class="ma-0 pa-0">
+  <v-container v-if="fitPhone" id="newBase" class="ma-0 pa-0">
     <v-row class="ma-0 pa-0">
       <v-col class="ma-0 pa-0">
         <SettingsPhone mode="new"></SettingsPhone>
@@ -32,7 +32,14 @@ export default {
       fitPhone: (state) => state.fitPhone,
     }),
   },
-  mounted() {},
+  // methods: {
+  //   onResize() {
+  //     document.querySelector("#newBase").style.width = `${window.innerWidth}px`;
+  //   },
+  // },
+  // mounted() {
+  //   this.onResize();
+  // },
   beforeDestroy() {},
   async beforeRouteEnter(to, from, next) {
     const tag = "/";

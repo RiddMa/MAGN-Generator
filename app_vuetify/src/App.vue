@@ -100,7 +100,7 @@
 <script>
 import VToast from "@/components/vToast";
 import { mapState } from "vuex";
-import { routeEnter, routeLeave } from "@/utils/animate";
+import { gsapRouteEnterFrom, gsapRouteLeaveWhen } from "@/utils/animate";
 export default {
   name: "App",
   head: {
@@ -126,13 +126,15 @@ export default {
   },
   methods: {
     routeAppearCaller(el, done) {
-      routeEnter("up", el, done);
+      gsapRouteEnterFrom("down", el, done);
     },
     routeEnterCaller(el, done) {
-      routeEnter(this.transitionDirection, el, done);
+      // routeEnter(this.transitionDirection, el, done);
+      gsapRouteEnterFrom(this.transitionDirection, el, done);
     },
     routeLeaveCaller(el, done) {
-      routeLeave(this.transitionDirection, el, done);
+      // routeLeave(this.transitionDirection, el, done);
+      gsapRouteLeaveWhen(this.transitionDirection, el, done);
     },
     onResize() {
       this.windowSize = { x: window.innerWidth, y: window.innerHeight };
@@ -181,16 +183,16 @@ export default {
       this.transitionDirection = toPos > fromPos ? "right" : "left"; //正常导航方向选择
       //类弹窗导航方向选择
       if (to.path === "/login") {
-        this.transitionDirection = "down";
+        this.transitionDirection = "up";
       }
       if (from.path === "/login") {
-        this.transitionDirection = "up";
-      }
-      if (to.path.startsWith("/poster")) {
         this.transitionDirection = "down";
       }
-      if (from.path.startsWith("/poster")) {
+      if (to.path.startsWith("/poster")) {
         this.transitionDirection = "up";
+      }
+      if (from.path.startsWith("/poster")) {
+        this.transitionDirection = "down";
       }
     },
   },

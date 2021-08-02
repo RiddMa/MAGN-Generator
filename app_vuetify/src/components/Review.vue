@@ -118,6 +118,7 @@
 <script>
 import { mapGetters, mapState } from "vuex";
 import RatingRow from "@/components/RatingRow";
+import { sleep } from "@/utils/animate";
 
 export default {
   name: "Review",
@@ -184,6 +185,7 @@ export default {
   },
   methods: {},
   async mounted() {
+    await sleep(1500);
     // this.$store.dispatch("heartbeat");
     this.$store.commit("setReviewDate");
     this.$store.commit("setMovieRatingAvg");

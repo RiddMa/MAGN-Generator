@@ -129,7 +129,13 @@ import { mapGetters, mapState } from "vuex";
 import ReviewCard from "@/components/ReviewCard";
 import ReviewCardPhone from "@/components/ReviewCardPhone";
 import { mdiFileHidden } from "@mdi/js";
-import { fadeIn, fadeOut, tabItemEnter, tabItemLeave } from "@/utils/animate";
+import {
+  gsapFadeIn,
+  gsapFadeOut,
+  gsapListItemEnter,
+  gsapListItemLeave,
+  sleep,
+} from "@/utils/animate";
 import store from "@/store/store";
 import { setCSSBlur } from "@/utils/util";
 
@@ -166,22 +172,27 @@ export default {
     animation
      */
     tabItemEnterCaller(el, done) {
-      tabItemEnter(el, done, el.dataset.index * 100);
+      // tabItemEnter(el, done, el.dataset.index * 100);
+      gsapListItemEnter(el, done, el.dataset.index * 0.2);
     },
     tabItemLeaveCaller(el, done) {
-      tabItemLeave(el, done);
+      // tabItemLeave(el, done);
+      gsapListItemLeave(el, done);
     },
     fadeInCaller(el, done) {
-      fadeIn(el, done);
+      // fadeIn(el, done);
+      gsapFadeIn(el, done);
     },
     fadeOutCaller(el, done) {
-      fadeOut(el, done);
+      // fadeOut(el, done);
+      gsapFadeOut(el, done);
     },
     /*
     animation
      */
   },
   async mounted() {
+    await sleep(1000);
     this.listLoading = true;
     if (this.$store.state.reloadWarning) {
       store.commit("showToast", {
