@@ -37,19 +37,34 @@
       >
         <v-tabs class="navTab" v-model="activeTab" centered>
           <v-tab to="/" v-bind:key="0" class="TAB grow">
-            <span class="tabText">新建</span>
+            <span class="tabText">
+              <!--              <v-icon dense class="pb-1">mdi-file-outline</v-icon>-->
+              新建
+            </span>
           </v-tab>
           <v-tab to="/user" v-bind:key="1" class="TAB grow">
-            <span class="tabText">用户</span>
+            <span class="tabText">
+              <!--              <v-icon dense class="pb-1">mdi-account-circle-outline</v-icon>-->
+              用户
+            </span>
           </v-tab>
           <v-tab v-if="isViewing" :to="viewURL" v-bind:key="2" class="TAB grow">
-            <span class="tabText">查看</span>
+            <span class="tabText">
+              <!--              <v-icon dense class="pb-1">mdi-account-circle-outline</v-icon>-->
+              查看
+            </span>
           </v-tab>
           <v-tab v-if="isEditing" :to="editURL" v-bind:key="3" class="TAB grow">
-            <span class="tabText">编辑</span>
+            <span class="tabText">
+              <!--              <v-icon dense class="pb-1">mdi-account-circle-outline</v-icon>-->
+              编辑
+            </span>
           </v-tab>
           <v-tab to="/about" v-bind:key="4" class="TAB grow">
-            <span class="tabText">关于</span>
+            <span class="tabText">
+              <!--              <v-icon dense class="pb-1">mdi-account-circle-outline</v-icon>-->
+              关于
+            </span>
           </v-tab>
         </v-tabs>
       </v-app-bar>
