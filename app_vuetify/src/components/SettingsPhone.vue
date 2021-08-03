@@ -1,7 +1,7 @@
 <template>
   <v-container fluid class="px-0">
-    <v-expansion-panels class="settings" hover popout v-model="showSettings">
-      <v-expansion-panel class="settings">
+    <v-expansion-panels hover popout v-model="showSettings">
+      <v-expansion-panel>
         <v-expansion-panel-header class="pb-4 pt-auto px-auto">
           信息
         </v-expansion-panel-header>
@@ -14,7 +14,6 @@
                 type="text"
                 label="标题"
                 placeholder="请输入电影英文标题……"
-                :color="'#40ba83'"
                 clearable
                 validate-on-blur
                 :loading="loading"
@@ -29,7 +28,6 @@
                 type="text"
                 label="中文标题"
                 placeholder="请输入电影中文标题……"
-                :color="'#40ba83'"
                 clearable
                 validate-on-blur
                 :loading="loading"
@@ -62,7 +60,6 @@
                 @click:prepend-inner="year -= 1"
                 append-icon="mdi-plus"
                 @click:append="year += 1"
-                :color="'#40ba83'"
                 :loading="loading"
                 :disabled="loading || !showYear"
                 @keydown.enter="enterBlur"

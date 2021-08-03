@@ -1,3 +1,5 @@
+import moment from "moment";
+
 const md5 = require("md5");
 const userStore = {
   state: {
@@ -9,14 +11,51 @@ const userStore = {
     setUsername(state, username) {
       state.username = username;
     },
-    setPassword(state, password) {
-      state.password = password;
-    },
     setMD5Password(state, password) {
       state.password = md5(password);
     },
     setReviewList(state, reviewList) {
       state.reviewList = reviewList;
+    },
+    sortMovie(state, sortType) {
+      switch (sortType) {
+        case "dateDesc": {
+          state.reviewList = state.reviewList.sort((a, b) => {
+            return moment(a.timestamp).isBefore(moment(b.timestamp));
+          });
+          break;
+        }
+        case "dateAsc": {
+          state.reviewList = state.reviewList.sort((a, b) => {
+            return moment(a.timestamp).isBefore(moment(b.timestamp));
+          });
+          break;
+        }
+        case "ratingDesc": {
+          state.reviewList = state.reviewList.sort((a, b) => {
+            return b.rating.avg - a.rating.avg;
+          });
+          break;
+        }
+        case "ratingAsc": {
+          state.reviewList = state.reviewList.sort((a, b) => {
+            return a.rating.avg - b.rating.avg;
+          });
+          break;
+        }
+        case "yearDesc": {
+          state.reviewList = state.reviewList.sort((a, b) => {
+            return b.year - a.year;
+          });
+          break;
+        }
+        case "yearAsc": {
+          state.reviewList = state.reviewList.sort((a, b) => {
+            return a.year - b.year;
+          });
+          break;
+        }
+      }
     },
   },
   getters: {

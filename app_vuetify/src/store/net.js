@@ -185,7 +185,7 @@ const netStore = {
           .post(`/internal/getMovieAttr/${info.uuid}/${info.reviewId}`)
           .then((response) => {
             // context.rootState.movie = response.data;
-            context.commit("setMovie", response.data);
+            context.commit("setMovieForSSR", response.data);
             context.commit("setMovieRatingAvg");
             context.dispatch("updateRadar");
             resolve(response);
