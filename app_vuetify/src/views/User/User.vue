@@ -65,77 +65,7 @@
     </v-row>
   </v-container>
   <v-container v-else fluid id="userBase">
-    <v-row class="justify-center">
-      <v-col class="userBase px-6">
-        <v-expansion-panels popout hover v-model="showSettings">
-          <v-expansion-panel>
-            <v-expansion-panel-header>
-              <v-row
-                class="
-                  justify-center
-                  align-baseline
-                  ma-auto
-                  pa-auto
-                  text--secondary
-                "
-              >
-                <transition-group
-                  name="flip-list"
-                  v-on:enter="fadeInCaller"
-                  v-on:leave="fadeOutCaller"
-                >
-                  <span
-                    v-if="listLoading"
-                    class="ma-auto pa-auto text--secondary"
-                    key="0"
-                    >加载中……</span
-                  >
-                  <span v-else class="ma-auto pa-auto text--secondary" key="1">
-                    你好，{{ username }}!
-                  </span>
-                </transition-group>
-              </v-row>
-            </v-expansion-panel-header>
-            <v-expansion-panel-content>
-              <v-row class="justify-center ma-auto pa-auto">
-                <v-radio-group v-model="sortType" row>
-                  <v-radio label="无" value="none"></v-radio>
-                  <v-radio label="年份" value="year"></v-radio>
-                  <v-radio label="评分" value="rating"></v-radio>
-                  <v-radio label="观影日期" value="date"></v-radio>
-                </v-radio-group>
-              </v-row>
-              <v-row class="justify-center ma-auto pa-auto">
-                <v-radio-group v-model="sortOrder" row>
-                  <v-radio label="降序" value="Desc"></v-radio>
-                  <v-radio label="升序" value="Asc"></v-radio>
-                </v-radio-group>
-              </v-row>
-              <v-row class="justify-center ma-auto pa-auto">
-                <v-radio-group v-model="filterType" row>
-                  <v-radio label="无" value="none"></v-radio>
-                  <v-radio label="年份" value="year"></v-radio>
-                  <v-radio label="评分" value="rating"></v-radio>
-                  <v-radio label="观影日期" value="date"></v-radio>
-                </v-radio-group>
-              </v-row>
-              <v-row class="justify-center ma-auto pa-auto">
-                <v-radio-group v-model="sortOrder" row>
-                  <v-radio label="降序" value="Desc"></v-radio>
-                  <v-radio label="升序" value="Asc"></v-radio>
-                </v-radio-group>
-              </v-row>
-              <v-row class="justify-center ma-auto pa-auto">
-                <v-date-picker v-model="picker"></v-date-picker>
-              </v-row>
-              <v-row class="justify-center my-4 pa-auto">
-                <v-btn @click="sortMovie">Go</v-btn>
-              </v-row>
-            </v-expansion-panel-content>
-          </v-expansion-panel>
-        </v-expansion-panels>
-      </v-col>
-    </v-row>
+    <UserSearch :list-loading="listLoading"></UserSearch>
     <v-row style="position: relative">
       <v-col class="userBase ma-auto" style="position: relative">
         <transition-group
@@ -187,26 +117,20 @@ import {
 } from "@/utils/animate";
 import store from "@/store/store";
 import { setCSSBlur } from "@/utils/util";
+import UserSearch from "@/components/UserSearch";
 
 export default {
   name: "UserProfile",
   components: {
+    UserSearch,
     ReviewCardPhone,
     ReviewCard,
   },
   data() {
     return {
-      showSettings: 0,
-      drawerVisible: false,
-      drawerHeight: 256,
-      editingMovie: null,
-      scrollDistance: 0,
-      drawerLoading: false,
       listLoading: false,
       svgPath: mdiFileHidden,
       testList: [],
-      sortType: "none",
-      sortOrder: "Desc",
     };
   },
   computed: {
@@ -220,9 +144,6 @@ export default {
     }),
   },
   methods: {
-    sortMovie() {
-      this.$store.commit("sortMovie", "ratingDesc");
-    },
     /*
     animation
      */
@@ -247,8 +168,6 @@ export default {
      */
   },
   async mounted() {
-    await sleep(750);
-    this.showSettings = undefined;
     this.listLoading = true;
     if (this.$store.state.reloadWarning) {
       store.commit("showToast", {
@@ -268,19 +187,9 @@ export default {
 };
 </script>
 
-<style>
-.flip-list-move {
-  transition: transform 0.75s;
-  transition-timing-function: cubic-bezier(0.35, 1.15, 0.1, 1);
-}
-</style>
+<style src="../../styles/flipAnimation.css"></style>
 <style scoped>
 .userBase {
   max-width: 1024px;
-}
-::v-deep .v-expansion-panels {
-  /*margin-right: 40px;*/
-  /*max-width: 800px;*/
-  /*margin-left: 40px;*/
 }
 </style>

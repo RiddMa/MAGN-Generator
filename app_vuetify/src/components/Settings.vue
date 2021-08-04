@@ -58,6 +58,7 @@
                 maxlength="4"
                 style="max-width: 175px"
               ></v-text-field>
+              <v-date-picker v-model="timestamp"></v-date-picker>
             </v-row>
             <v-row>
               <v-chip-group class="mb-4" v-model="genreChecked" column multiple>
@@ -304,6 +305,14 @@ export default {
     };
   },
   computed: {
+    reviewDate: {
+      get() {
+        return this.$store.state.movie.timestamp;
+      },
+      set(newDate) {
+        this.$store.state.movie.timestamp = newDate;
+      },
+    },
     genreChecked: {
       get() {
         return this.$store.getters.genreList;
