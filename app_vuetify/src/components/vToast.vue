@@ -22,11 +22,7 @@
           {{ toast.message }}
         </span>
       </v-row>
-      <v-row
-        class="justify-space-between mx-0 mt-4 mb-0 pa-0"
-        style="width: 100%"
-        v-if="toast.dialog"
-      >
+      <v-row class="justify-space-between mx-0 mt-4 mb-0 pa-0" style="width: 100%" v-if="toast.dialog">
         <v-spacer></v-spacer>
         <v-btn
           class="text-button ma-auto pa-auto"
@@ -88,10 +84,7 @@ export default {
             break;
           }
           case "deleteMovie": {
-            await this.$store.dispatch(
-              "deleteUserReview",
-              this.$store.state.movie.reviewId
-            );
+            await this.$store.dispatch("deleteUserReview", this.$store.state.movie.reviewId);
             this.$store.commit("setIsEditing", false);
             this.loading = false;
             await this.$router.replace("/user");

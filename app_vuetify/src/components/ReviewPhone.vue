@@ -1,20 +1,14 @@
 <template>
   <v-hover>
     <template v-slot:default="{ hover }">
-      <v-card
-        class="reviewCard mx-0 mt-4 pa-0 mb-10 transition-swing"
-        outlined
-        :elevation="hover ? 12 : 6"
-      >
+      <v-card class="reviewCard mx-0 mt-4 pa-0 mb-10 transition-swing" outlined :elevation="hover ? 12 : 6">
         <v-card-title class="text-h3 pa-auto mx-1 mb-auto mt-2">
           <div class="reviewTitle">
             {{ movie.title }}
           </div>
         </v-card-title>
         <v-card-subtitle class="text-h4 pa-auto mx-1 my-auto">
-          <span v-if="movie.year !== 0" class="reviewSubTitle">
-            {{ movie.titleCN }}.{{ movie.year }}
-          </span>
+          <span v-if="movie.year !== 0" class="reviewSubTitle"> {{ movie.titleCN }}.{{ movie.year }} </span>
           <span v-else class="reviewSubTitle">
             {{ movie.titleCN }}
           </span>
@@ -37,11 +31,7 @@
         <v-card-text>
           <v-hover>
             <template v-slot:default="{ hover }">
-              <v-card
-                class="reviewCard mt-2 mb-4 mx-1 px-2 pt-4 transition-swing"
-                outlined
-                :elevation="hover ? 6 : 0"
-              >
+              <v-card class="reviewCard mt-2 mb-4 mx-1 px-2 pt-4 transition-swing" outlined :elevation="hover ? 6 : 0">
                 <v-card-text class="text-center text--primary">
                   <RatingRowPhone
                     class="ratingRow"
@@ -84,11 +74,7 @@
 
           <v-hover>
             <template v-slot:default="{ hover }">
-              <v-card
-                class="reviewCard my-6 mx-1 px-4 transition-swing"
-                outlined
-                :elevation="hover ? 6 : 0"
-              >
+              <v-card class="reviewCard my-6 mx-1 px-4 transition-swing" outlined :elevation="hover ? 6 : 0">
                 <v-card-text class="text-center body--text">
                   <v-textarea
                     v-model="comment"

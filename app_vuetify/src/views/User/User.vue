@@ -1,18 +1,8 @@
 <template>
-  <v-container
-    v-if="fitPhone"
-    fluid
-    id="userBase"
-    style="position: relative"
-    class="ma-0 pa-0"
-  >
+  <v-container v-if="fitPhone" fluid id="userBase" style="position: relative" class="ma-0 pa-0">
     <v-row style="position: relative" class="ma-0 pa-0">
       <v-col class="ma-0 pa-0" style="position: relative">
-        <transition-group
-          name="flip-list"
-          v-on:enter="fadeInCaller"
-          v-on:leave="fadeOutCaller"
-        >
+        <transition-group name="flip-list" v-on:enter="fadeInCaller" v-on:leave="fadeOutCaller">
           <p
             v-if="listLoading"
             class="mb-2 text--secondary text-center"
@@ -21,21 +11,12 @@
           >
             加载中……
           </p>
-          <p
-            v-else
-            class="mb-2 text--secondary text-center"
-            key="1"
-            style="width: 100%; position: relative"
-          >
+          <p v-else class="mb-2 text--secondary text-center" key="1" style="width: 100%; position: relative">
             你好，{{ username }}!
           </p>
         </transition-group>
 
-        <transition-group
-          name="flip-list"
-          v-on:enter="tabItemEnterCaller"
-          v-on:leave="tabItemLeaveCaller"
-        >
+        <transition-group name="flip-list" v-on:enter="tabItemEnterCaller" v-on:leave="tabItemLeaveCaller">
           <ReviewCardPhone
             v-for="(movie, index) in reviewList"
             v-bind:key="movie.reviewId"
@@ -43,11 +24,7 @@
             class="mx-0 my-6 pa-0"
             :movie.sync="movie"
           ></ReviewCardPhone>
-          <v-container
-            fluid
-            v-if="reviewList.length === 0"
-            v-bind:key="'EmptyReminder'"
-          >
+          <v-container fluid v-if="reviewList.length === 0" v-bind:key="'EmptyReminder'">
             <v-row class="justify-center mt-4">
               <v-icon x-large>{{ svgPath }}</v-icon>
             </v-row>
@@ -68,11 +45,7 @@
     <UserSearch :list-loading="listLoading"></UserSearch>
     <v-row style="position: relative">
       <v-col class="userBase ma-auto" style="position: relative">
-        <transition-group
-          name="flip-list"
-          v-on:enter="tabItemEnterCaller"
-          v-on:leave="tabItemLeaveCaller"
-        >
+        <transition-group name="flip-list" v-on:enter="tabItemEnterCaller" v-on:leave="tabItemLeaveCaller">
           <ReviewCard
             v-for="(movie, index) in reviewList"
             v-bind:key="movie.reviewId"
@@ -80,11 +53,7 @@
             class="ma-auto"
             :movie.sync="movie"
           ></ReviewCard>
-          <v-container
-            fluid
-            v-if="reviewList.length === 0"
-            v-bind:key="'EmptyReminder'"
-          >
+          <v-container fluid v-if="reviewList.length === 0" v-bind:key="'EmptyReminder'">
             <v-row class="justify-center mt-4">
               <v-icon x-large>{{ svgPath }}</v-icon>
             </v-row>
@@ -108,13 +77,7 @@ import { mapGetters, mapState } from "vuex";
 import ReviewCard from "@/components/ReviewCard";
 import ReviewCardPhone from "@/components/ReviewCardPhone";
 import { mdiFileHidden } from "@mdi/js";
-import {
-  gsapFadeIn,
-  gsapFadeOut,
-  gsapListItemEnter,
-  gsapListItemLeave,
-  sleep,
-} from "@/utils/animate";
+import { gsapFadeIn, gsapFadeOut, gsapListItemEnter, gsapListItemLeave, sleep } from "@/utils/animate";
 import store from "@/store/store";
 import { setCSSBlur } from "@/utils/util";
 import UserSearch from "@/components/UserSearch";

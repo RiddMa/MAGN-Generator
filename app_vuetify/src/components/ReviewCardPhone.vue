@@ -14,13 +14,8 @@
           <v-row class="reviewTitle text-h4 mt-4 ml-4 mb-0 pa-auto">
             {{ movie.title }}
           </v-row>
-          <v-row class="reviewSubTitle text-h5 ml-4 my-0 pa-auto">
-            {{ movie.titleCN }}.{{ movie.year }}
-          </v-row>
-          <v-row
-            class="ratingRow ma-0 pa-0 justify-space-between"
-            style="width: 100%"
-          >
+          <v-row class="reviewSubTitle text-h5 ml-4 my-0 pa-auto"> {{ movie.titleCN }}.{{ movie.year }} </v-row>
+          <v-row class="ratingRow ma-0 pa-0 justify-space-between" style="width: 100%">
             <div class="yellow--text text--darken-3">
               <span class="ml-4 text-h6">
                 {{ movie.rating.avg }}
@@ -55,23 +50,14 @@
           </v-row>
 
           <v-expand-transition>
-            <div
-              v-if="reveal"
-              class="transition-fast-in-fast-out v-card--reveal"
-            >
+            <div v-if="reveal" class="transition-fast-in-fast-out v-card--reveal">
               <!--              <v-divider class="mx-3"></v-divider>-->
               <v-container fluid class="mb-3">
                 <v-row class="justify-space-between">
                   <v-hover>
                     <template v-slot:default="{ hover }">
                       <v-btn
-                        class="
-                          outlineBtn
-                          transition-swing
-                          text-button
-                          error--text
-                          ml-4
-                        "
+                        class="outlineBtn transition-swing text-button error--text ml-4"
                         outlined
                         :elevation="hover ? 6 : 2"
                         :disabled="loading"
@@ -85,12 +71,7 @@
                   <v-hover>
                     <template v-slot:default="{ hover }">
                       <v-btn
-                        class="
-                          outlineBtn
-                          transition-swing
-                          text-button
-                          info--text
-                        "
+                        class="outlineBtn transition-swing text-button info--text"
                         outlined
                         :elevation="hover ? 6 : 2"
                         color="info"
@@ -105,13 +86,7 @@
                   <v-hover>
                     <template v-slot:default="{ hover }">
                       <v-btn
-                        class="
-                          outlineBtn
-                          transition-swing
-                          text-button
-                          success--text
-                          mr-4
-                        "
+                        class="outlineBtn transition-swing text-button success--text mr-4"
                         outlined
                         :elevation="hover ? 6 : 2"
                         color="success"
@@ -180,19 +155,9 @@ export default {
       }
     },
     scroll() {
-      let scrollTop =
-        window.pageYOffset ||
-        document.documentElement.scrollTop ||
-        document.body.scrollTop ||
-        0;
-      let scrollBottom =
-        document.body.scrollHeight -
-        scrollTop -
-        document.documentElement.clientHeight;
-      let offset =
-        document
-          .querySelector(`#RC${this.movie.reviewId}`)
-          .getBoundingClientRect().height - scrollBottom;
+      let scrollTop = window.pageYOffset || document.documentElement.scrollTop || document.body.scrollTop || 0;
+      let scrollBottom = document.body.scrollHeight - scrollTop - document.documentElement.clientHeight;
+      let offset = document.querySelector(`#RC${this.movie.reviewId}`).getBoundingClientRect().height - scrollBottom;
       if (offset > 0) {
         let scrollTo = scrollTop - offset + 10;
         goTo(scrollTo);

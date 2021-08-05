@@ -1,16 +1,8 @@
 <template>
   <v-hover>
     <template v-slot:default="{ hover }">
-      <v-card
-        v-if="fitPhone"
-        class="aboutCard ma-0 pa-0 transition-swing"
-        :elevation="hover ? 12 : 6"
-        outlined
-      >
-        <v-card-title
-          id="aboutTitle"
-          class="primary--text text-h4 ma-auto pa-auto align-baseline"
-        >
+      <v-card v-if="fitPhone" class="aboutCard ma-0 pa-0 transition-swing" :elevation="hover ? 12 : 6" outlined>
+        <v-card-title id="aboutTitle" class="primary--text text-h4 ma-auto pa-auto align-baseline">
           {{ text[0] }}
           <v-spacer></v-spacer>
           <span class="text-body-1 body--text">{{ text[1] }}</span>
@@ -22,12 +14,7 @@
           {{ text[3] }}<br />
           {{ text[4] }}<br />
           {{ text[5] }}
-          <a
-            href="https://en.wikipedia.org/wiki/Film_genre"
-            rel="noopener"
-            target="_blank"
-            >维基百科
-          </a>
+          <a href="https://en.wikipedia.org/wiki/Film_genre" rel="noopener" target="_blank">维基百科 </a>
           {{ text[6] }}<br />
           {{ text[7] }}<br />
           {{ text[8] }}<br />
@@ -47,28 +34,12 @@
           <p class="text-h6 secondary--text mx-0 mt-3 mb-1 pa-0">
             {{ text[18] }}
           </p>
-          <a
-            href="https://github.com/RiddMa/MAGN-Generator"
-            rel="noopener"
-            target="_blank"
-          >
-            Github
-          </a>
-          <p class="text-h6 text-right mx-0 mt-3 mb-1 pa-0">
-            ——Designed by Ridd.
-          </p>
+          <a href="https://github.com/RiddMa/MAGN-Generator" rel="noopener" target="_blank"> Github </a>
+          <p class="text-h6 text-right mx-0 mt-3 mb-1 pa-0">——Designed by Ridd.</p>
         </v-card-text>
       </v-card>
-      <v-card
-        v-else
-        class="aboutCard ma-4 px-6 py-6 transition-swing"
-        :elevation="hover ? 12 : 6"
-        outlined
-      >
-        <v-card-title
-          id="aboutTitle"
-          class="primary--text text-h3 ma-auto pa-auto align-baseline"
-        >
+      <v-card v-else class="aboutCard ma-4 px-6 py-6 transition-swing" :elevation="hover ? 12 : 6" outlined>
+        <v-card-title id="aboutTitle" class="primary--text text-h3 ma-auto pa-auto align-baseline">
           {{ text[0] }}
           <v-spacer></v-spacer>
           <span class="text-body-1 body--text">{{ text[1] }}</span>
@@ -80,12 +51,7 @@
           {{ text[3] }}<br />
           {{ text[4] }}<br />
           {{ text[5] }}
-          <a
-            href="https://en.wikipedia.org/wiki/Film_genre"
-            rel="noopener"
-            target="_blank"
-            >维基百科
-          </a>
+          <a href="https://en.wikipedia.org/wiki/Film_genre" rel="noopener" target="_blank">维基百科 </a>
           {{ text[6] }}<br />
           {{ text[7] }}<br />
           {{ text[8] }}<br />
@@ -105,16 +71,8 @@
           <p class="text-h6 secondary--text mx-0 mt-3 mb-1 pa-0">
             {{ text[18] }}
           </p>
-          <a
-            href="https://github.com/RiddMa/MAGN-Generator"
-            rel="noopener"
-            target="_blank"
-          >
-            Github
-          </a>
-          <p class="text-h6 text-right mx-0 mt-3 mb-1 pa-0">
-            ——Designed by Ridd.
-          </p>
+          <a href="https://github.com/RiddMa/MAGN-Generator" rel="noopener" target="_blank"> Github </a>
+          <p class="text-h6 text-right mx-0 mt-3 mb-1 pa-0">——Designed by Ridd.</p>
         </v-card-text>
       </v-card>
     </template>

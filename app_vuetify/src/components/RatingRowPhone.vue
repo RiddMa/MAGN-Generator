@@ -7,9 +7,7 @@
         <span class="text-h6">
           {{ rating }}
         </span>
-        <span class="text-right body--text" style="font-size: 0.7rem">
-          /10
-        </span>
+        <span class="text-right body--text" style="font-size: 0.7rem"> /10 </span>
       </span>
       <v-divider class="mr-0 ml-2 px-0 pb-2"></v-divider>
     </v-row>

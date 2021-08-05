@@ -206,12 +206,9 @@ const netStore = {
     },
     async getUsername(context, uuid) {
       try {
-        let response = await context.state.instance.post(
-          "/internal/getUsername",
-          {
-            uuid: uuid,
-          }
-        );
+        let response = await context.state.instance.post("/internal/getUsername", {
+          uuid: uuid,
+        });
         context.commit("setUsername", response.data);
         return response.data;
       } catch (e) {

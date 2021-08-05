@@ -26,15 +26,7 @@
       <!--          <v-tab to="/about" v-bind:key="4">关于</v-tab>-->
       <!--        </v-tabs>-->
       <!--      </v-app-bar>-->
-      <v-app-bar
-        id="appBar"
-        class="appBar"
-        app
-        light
-        dense
-        elevation="4"
-        color="rgba(255, 255, 255, 0.5)"
-      >
+      <v-app-bar id="appBar" class="appBar" app light dense elevation="4" color="rgba(255, 255, 255, 0.5)">
         <v-tabs class="navTab" v-model="activeTab" centered>
           <v-tab to="/" v-bind:key="0" class="TAB grow">
             <span class="tabText">
@@ -82,9 +74,7 @@
         </v-container>
       </v-main>
       <v-footer padless style="position: relative">
-        <v-col class="text-center">
-          {{ new Date().getFullYear() }} — <strong>Ridd</strong>
-        </v-col>
+        <v-col class="text-center"> {{ new Date().getFullYear() }} — <strong>Ridd</strong> </v-col>
       </v-footer>
     </template>
     <template v-else>
@@ -201,16 +191,14 @@ export default {
 
 <style scoped>
 body {
-  font-family: "Helvetica Neue", Helvetica, Arial, "PingFang SC",
-    "Source Han Sans CN", "Hiragino Sans GB", "Heiti SC", "Microsoft YaHei UI",
-    "WenQuanYi Micro Hei", sans-serif;
+  font-family: "Helvetica Neue", Helvetica, Arial, "PingFang SC", "Source Han Sans CN", "Hiragino Sans GB", "Heiti SC",
+    "Microsoft YaHei UI", "WenQuanYi Micro Hei", sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
 #app {
-  font-family: "Helvetica Neue", Helvetica, Arial, "PingFang SC",
-    "Source Han Sans CN", "Hiragino Sans GB", "Heiti SC", "Microsoft YaHei UI",
-    "WenQuanYi Micro Hei", sans-serif;
+  font-family: "Helvetica Neue", Helvetica, Arial, "PingFang SC", "Source Han Sans CN", "Hiragino Sans GB", "Heiti SC",
+    "Microsoft YaHei UI", "WenQuanYi Micro Hei", sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }

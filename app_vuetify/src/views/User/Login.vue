@@ -12,12 +12,8 @@
             >
               <v-card-title>
                 <v-tabs v-blur v-model="tab" centered light>
-                  <v-tab v-blur href="#tab-0" class="text-h6 text--primary">
-                    登录
-                  </v-tab>
-                  <v-tab v-blur href="#tab-1" class="text-h6 text--primary">
-                    注册
-                  </v-tab>
+                  <v-tab v-blur href="#tab-0" class="text-h6 text--primary"> 登录 </v-tab>
+                  <v-tab v-blur href="#tab-1" class="text-h6 text--primary"> 注册 </v-tab>
                 </v-tabs>
               </v-card-title>
               <v-card-text>
@@ -82,49 +78,22 @@
                       <v-row class="ma-auto justify-end">
                         <v-dialog max-width="540">
                           <template v-slot:activator="{ on, attrs }">
-                            <v-btn
-                              outlined
-                              right
-                              ripple
-                              color="primary"
-                              v-bind="attrs"
-                              v-on="on"
-                              >忘记密码?</v-btn
-                            >
+                            <v-btn outlined right ripple color="primary" v-bind="attrs" v-on="on">忘记密码?</v-btn>
                           </template>
                           <template v-slot:default="dialog">
                             <v-card class="forgetPassDialog" elevation="24">
-                              <v-card-title
-                                class="
-                                  dialogTitle
-                                  text-h5
-                                  white--text
-                                  my-auto
-                                  pb-4
-                                "
-                              >
+                              <v-card-title class="dialogTitle text-h5 white--text my-auto pb-4">
                                 忘记密码?
                               </v-card-title>
-                              <v-card-text
-                                class="text-body-1 text--primary pb-0"
-                              >
+                              <v-card-text class="text-body-1 text--primary pb-0">
                                 <div class="pt-6 pb-0">
-                                  <p class="text-left">
-                                    请放松，并尝试回忆起密码。
-                                  </p>
+                                  <p class="text-left">请放松，并尝试回忆起密码。</p>
                                   <p class="text-right">祝你好运！</p>
                                 </div>
                               </v-card-text>
                               <v-card-actions class="justify-center mt-0">
                                 <v-btn
-                                  class="
-                                    mx-auto
-                                    mb-4
-                                    mt-0
-                                    py-auto
-                                    px-6
-                                    align-center
-                                  "
+                                  class="mx-auto mb-4 mt-0 py-auto px-6 align-center"
                                   color="primary"
                                   style="color: #36b079"
                                   outlined
@@ -301,29 +270,21 @@ export default {
         switch (msg) {
           case "saveUserReview": {
             this.loading = true;
-            await this.$store.dispatch(
-              "saveUserReview",
-              this.$store.state.movie
-            );
+            await this.$store.dispatch("saveUserReview", this.$store.state.movie);
             this.$store.commit("clearPending");
             await this.$router.replace(`/user`);
             break;
           }
           case "save&Render": {
             this.loading = true;
-            await this.$store.dispatch(
-              "saveUserReview",
-              this.$store.state.movie
-            );
+            await this.$store.dispatch("saveUserReview", this.$store.state.movie);
             await this.$store.dispatch("generatePoster");
             this.$store.commit("showToast", {
               type: "success",
               message: "生成成功",
             });
             this.$store.commit("clearPending");
-            await this.$router.replace(
-              `/poster/${this.$store.state.movie.reviewId}`
-            );
+            await this.$router.replace(`/poster/${this.$store.state.movie.reviewId}`);
             break;
           }
         }

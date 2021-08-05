@@ -13,15 +13,9 @@
           :elevation="hover ? 12 : 6"
           @click="onCardClicked"
         >
-          <v-row
-            class="justify-space-between mt-1 mb-0 pb-0"
-            style="width: 100%"
-          >
+          <v-row class="justify-space-between mt-1 mb-0 pb-0" style="width: 100%">
             <v-col>
-              <v-row
-                class="justify-space-between align-baseline ml-4 mt-4 pa-auto"
-                style="width: 100%"
-              >
+              <v-row class="justify-space-between align-baseline ml-4 mt-4 pa-auto" style="width: 100%">
                 <v-col class="justify-start align-baseline ma-0 pa-0">
                   <span class="reviewTitle mb-2 text-h4">
                     {{ movie.title }}
@@ -29,13 +23,7 @@
                 </v-col>
                 <v-col class="shrink ma-0 pa-0">
                   <span
-                    class="
-                      text-right text-h4
-                      ma-0
-                      pa-0
-                      yellow--text
-                      text--darken-3
-                    "
+                    class="text-right text-h4 ma-0 pa-0 yellow--text text--darken-3"
                     style="white-space: nowrap; display: inline-block"
                   >
                     {{ movie.rating.avg }}
@@ -43,39 +31,27 @@
                   </span>
                 </v-col>
               </v-row>
-              <v-row
-                class="justify-space-between align-baseline ml-4 mt-4 pa-auto"
-                style="width: 100%"
-              >
-                <span class="reviewSubTitle text-h5 mb-0 pb-0">
-                  {{ movie.titleCN }}.{{ movie.year }}
-                </span>
+              <v-row class="justify-space-between align-baseline ml-4 mt-4 pa-auto" style="width: 100%">
+                <span class="reviewSubTitle text-h5 mb-0 pb-0"> {{ movie.titleCN }}.{{ movie.year }} </span>
                 <span class="text-right text--secondary mt-3">
                   {{ reviewDate }}
                 </span>
               </v-row>
             </v-col>
-            <v-col
-              class="shrink justify-end align-center mr-0 pr-0 ma-auto pa-auto"
-            >
+            <v-col class="shrink justify-end align-center mr-0 pr-0 ma-auto pa-auto">
               <v-btn text depressed right height="100" width="30" min-width="0">
                 <v-icon> mdi-dots-vertical </v-icon>
               </v-btn>
             </v-col>
           </v-row>
           <v-row class="my-4 mr-0 pa-0" style="width: 100%">
-            <span
-              class="reviewQuote ml-7 mr-1 mb-0 pl-2 pr-0 py-0 text--secondary"
-            >
+            <span class="reviewQuote ml-7 mr-1 mb-0 pl-2 pr-0 py-0 text--secondary">
               {{ movie.comment }}
             </span>
           </v-row>
 
           <v-expand-transition>
-            <div
-              v-if="reveal"
-              class="transition-fast-in-fast-out v-card--reveal"
-            >
+            <div v-if="reveal" class="transition-fast-in-fast-out v-card--reveal">
               <!--              <v-divider class="mx-3"></v-divider>-->
               <v-container class="mt-0 mb-2">
                 <v-row>
@@ -83,12 +59,7 @@
                     <v-hover>
                       <template v-slot:default="{ hover }">
                         <v-btn
-                          class="
-                            outlineBtn
-                            transition-swing
-                            text-button
-                            error--text
-                          "
+                          class="outlineBtn transition-swing text-button error--text"
                           outlined
                           block
                           :elevation="hover ? 6 : 2"
@@ -106,12 +77,7 @@
                     <v-hover>
                       <template v-slot:default="{ hover }">
                         <v-btn
-                          class="
-                            outlineBtn
-                            transition-swing
-                            text-button
-                            info--text
-                          "
+                          class="outlineBtn transition-swing text-button info--text"
                           outlined
                           block
                           :elevation="hover ? 6 : 2"
@@ -129,12 +95,7 @@
                     <v-hover>
                       <template v-slot:default="{ hover }">
                         <v-btn
-                          class="
-                            outlineBtn
-                            transition-swing
-                            text-button
-                            success--text
-                          "
+                          class="outlineBtn transition-swing text-button success--text"
                           outlined
                           block
                           :elevation="hover ? 6 : 2"
@@ -204,19 +165,9 @@ export default {
       }
     },
     scroll() {
-      let scrollTop =
-        window.pageYOffset ||
-        document.documentElement.scrollTop ||
-        document.body.scrollTop ||
-        0;
-      let scrollBottom =
-        document.body.scrollHeight -
-        scrollTop -
-        document.documentElement.clientHeight;
-      let offset =
-        document
-          .querySelector(`#RC${this.movie.reviewId}`)
-          .getBoundingClientRect().height - scrollBottom;
+      let scrollTop = window.pageYOffset || document.documentElement.scrollTop || document.body.scrollTop || 0;
+      let scrollBottom = document.body.scrollHeight - scrollTop - document.documentElement.clientHeight;
+      let offset = document.querySelector(`#RC${this.movie.reviewId}`).getBoundingClientRect().height - scrollBottom;
       if (offset > 0) {
         let scrollTo = scrollTop - offset;
         goTo(scrollTo);

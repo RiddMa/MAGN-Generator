@@ -100,7 +100,7 @@
                     </v-btn>
                   </span>
                   <v-range-slider
-                    v-model="onScreenYearRange"
+                    v-model="ratingFilterRange"
                     thumb-label="always"
                     step="1"
                     hint="评分范围"
@@ -129,15 +129,16 @@
                 </v-row>
                 <v-row class="grow">
                   <span class="text--secondary mr-4">
-                    <v-btn icon @click="onScreenYearMin -= 1">
+                    <v-btn icon @click="onScreenYearMin -= 1" key="yearMin-">
                       <v-icon>mdi-minus</v-icon>
                     </v-btn>
                     <span class="mt-1">最早: {{ onScreenYearRange[0] }} </span>
-                    <v-btn icon @click="onScreenYearMin += 1">
+                    <v-btn icon @click="onScreenYearMin += 1" key="yearMin+">
                       <v-icon>mdi-plus</v-icon>
                     </v-btn>
                   </span>
                   <v-range-slider
+                    key="yearSlider"
                     v-model="onScreenYearRange"
                     thumb-label="always"
                     step="1"
@@ -148,11 +149,11 @@
                     track-color="green lighten-3"
                   ></v-range-slider>
                   <span class="text--secondary ml-4">
-                    <v-btn icon @click="onScreenYearMax -= 1">
+                    <v-btn icon @click="onScreenYearMax -= 1" key="yearMax-">
                       <v-icon>mdi-minus</v-icon>
                     </v-btn>
                     <span class="mt-1">最晚: {{ onScreenYearRange[1] }} </span>
-                    <v-btn icon @click="onScreenYearMax += 1">
+                    <v-btn icon @click="onScreenYearMax += 1" key="yearMax+">
                       <v-icon>mdi-plus</v-icon>
                     </v-btn>
                   </span>
@@ -226,7 +227,14 @@
                 </v-row>
               </template>
               <v-row class="justify-center my-4 pa-auto">
-                <v-btn class="primary text-button ma-2 mt-0 pa-auto" elevation="2" @click="sortMovie">
+                <v-btn
+                  class="primary text-button ma-2 mt-0 pa-auto"
+                  elevation="2"
+                  @click="
+                    filterMovie();
+                    sortMovie();
+                  "
+                >
                   排序 || 过滤
                 </v-btn>
               </v-row>
@@ -283,7 +291,7 @@ export default {
       ],
       genreFilter: [],
       genreFilterList: this.$store.getters.genreTags,
-      ratingFilter: [],
+      ratingFilterType: "avg",
       ratingFilterList: this.sortRatingTypeList,
       defaultRatingFilterRange: [0, 10],
       ratingFilterRangeMin: 0,
@@ -323,13 +331,31 @@ export default {
     }),
   },
   methods: {
-    onMinYearMinusClicked() {
-      console.log(this.onScreenYearMin);
-      this.onScreenYearMin -= 1;
-      console.log(this.onScreenYearMin);
-    },
     sortMovie() {
-      this.$store.commit("sortMovie", "ratingDesc");
+      this.$store.commit("sortMovie", {
+        sortType: this.sortType,
+        sortRatingType: this.sortRatingType,
+        sortOrder: this.sortOrder,
+      });
+    },
+    filterMovie() {
+      let payload = {};
+      if (this.filterType.contains("genre")) {
+        payload.genre = this.genreFilter;
+      }
+      if (this.filterType.contains("rating")) {
+        payload.rating = {
+          type: this.ratingFilterType,
+          range: this.ratingFilterRange,
+        };
+      }
+      if (this.filterType.contains("year")) {
+        payload.year = this.onScreenYearRange;
+      }
+      if (this.filterType.contains("date")) {
+        payload.date = this.reviewDateRange;
+      }
+      this.$store.commit("filterMovie", payload);
     },
     /*
     animation

@@ -3,10 +3,7 @@
     <!--          标题-->
     <a-row align="middle" justify="start" type="flex">
       <a-col :span="24">
-        <a-typography-title
-          class="awesomeTitle"
-          id="awesomeTitle"
-          ref="awesomeTitle"
+        <a-typography-title class="awesomeTitle" id="awesomeTitle" ref="awesomeTitle"
           >{{ movie.title }}
         </a-typography-title>
         <!--        <a-typography-title-->
@@ -31,10 +28,7 @@
     </a-row>
     <a-row>
       <a-col>
-        <a-typography-title
-          class="awesomeTitle"
-          v-if="!showTitleInput"
-          :level="2"
+        <a-typography-title class="awesomeTitle" v-if="!showTitleInput" :level="2"
           >{{ movie.titleCN + "." + movie.year }}
         </a-typography-title>
       </a-col>

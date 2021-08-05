@@ -32,9 +32,7 @@
               <span style="width: 44px; font-size: 1.2rem">
                 {{ rating }}
               </span>
-              <span class="text-right" style="width: 20px; font-size: 0.7rem">
-                /10
-              </span>
+              <span class="text-right" style="width: 20px; font-size: 0.7rem"> /10 </span>
             </v-row>
           </template>
         </v-col>

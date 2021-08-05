@@ -2,9 +2,7 @@
   <v-container fluid class="px-0">
     <v-expansion-panels hover popout v-model="showSettings">
       <v-expansion-panel>
-        <v-expansion-panel-header class="pb-4 pt-auto px-auto">
-          信息
-        </v-expansion-panel-header>
+        <v-expansion-panel-header class="pb-4 pt-auto px-auto"> 信息 </v-expansion-panel-header>
         <v-expansion-panel-content>
           <div class="my-6 mx-2 px-auto">
             <v-row>
@@ -35,14 +33,7 @@
                 @keydown.enter="titleCNHandler"
               ></v-text-field>
             </v-row>
-            <v-row
-              style="
-                white-space: nowrap;
-                display: flex;
-                flex-direction: row;
-                flex-wrap: nowrap;
-              "
-            >
+            <v-row style="white-space: nowrap; display: flex; flex-direction: row; flex-wrap: nowrap">
               <v-checkbox
                 :input-value="showYear"
                 hide-details
@@ -69,15 +60,7 @@
             <v-row>
               <v-chip-group class="mb-4" v-model="genreChecked" column multiple>
                 <template v-for="item in genreTags">
-                  <v-chip
-                    :key="item.genre"
-                    :value="item.genre"
-                    :ripple="false"
-                    label
-                    filter
-                    outlined
-                    v-blur
-                  >
+                  <v-chip :key="item.genre" :value="item.genre" :ripple="false" label filter outlined v-blur>
                     {{ item.genreCN }}
                   </v-chip>
                 </template>
@@ -180,9 +163,7 @@
                       :elevation="hover ? 6 : 2"
                       :loading="loading"
                     >
-                      <v-icon dense class="mr-1"
-                        >mdi-delete-forever-outline</v-icon
-                      >
+                      <v-icon dense class="mr-1">mdi-delete-forever-outline</v-icon>
                       删除
                     </v-btn>
                   </template>
@@ -295,10 +276,7 @@ export default {
         return this.$store.state.movie.year;
       },
       set(newYear) {
-        if (
-          newYear.toString().length === 4 &&
-          !newYear.toString().includes(".")
-        ) {
+        if (newYear.toString().length === 4 && !newYear.toString().includes(".")) {
           this.$store.commit("setMovieYear", newYear);
         }
       },
