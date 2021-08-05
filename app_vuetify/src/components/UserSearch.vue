@@ -27,6 +27,7 @@
                   color="primary"
                   outlined
                   dense
+                  :menu-props="{ bottom: true, offsetY: true }"
                 ></v-select>
                 <v-select
                   v-if="sortType === 'rating'"
@@ -37,6 +38,7 @@
                   color="primary"
                   outlined
                   dense
+                  :menu-props="{ bottom: true, offsetY: true }"
                 ></v-select>
                 <v-radio-group v-model="sortOrder" class="my-auto pa-auto" column>
                   <v-radio label="降序" value="Desc"></v-radio>
@@ -57,13 +59,14 @@
                   multiple
                   outlined
                   dense
+                  :menu-props="{ bottom: true, offsetY: true }"
                 ></v-select>
               </v-row>
               <!--              电影类型-->
               <template v-if="filterType.includes('genre')">
                 <v-row class="grow align-center mb-2 mt-4">
                   <!--                  <hr class="yearDivider grow mr-2" />-->
-                  <strong>电影类型</strong>
+                  <strong class="primary--text">电影类型</strong>
                   <!--                  <hr class="yearDivider grow ml-2" />-->
                 </v-row>
                 <v-row class="grow align-center">
@@ -79,6 +82,7 @@
                     dense
                     clearable
                     outlined
+                    :menu-props="{ bottom: true, offsetY: true }"
                   ></v-select>
                 </v-row>
               </template>
@@ -86,7 +90,7 @@
               <template v-if="filterType.includes('rating')">
                 <v-row class="grow align-center mb-2 mt-4">
                   <!--                  <hr class="yearDivider grow mr-2" />-->
-                  <strong>我的评分</strong>
+                  <strong class="primary--text">我的评分</strong>
                   <!--                  <hr class="yearDivider grow ml-2" />-->
                 </v-row>
                 <v-row class="grow">
@@ -124,7 +128,7 @@
               <template v-if="filterType.includes('year')">
                 <v-row class="grow align-center mb-2 mt-4">
                   <!--                  <hr class="yearDivider grow mr-2" />-->
-                  <strong>上映年份</strong>
+                  <strong class="primary--text">上映年份</strong>
                   <!--                  <hr class="yearDivider grow ml-2" />-->
                 </v-row>
                 <v-row class="grow">
@@ -163,7 +167,7 @@
               <template v-if="filterType.includes('date')" class="grow">
                 <v-row class="grow align-center mb-2 mt-4">
                   <!--                  <hr class="yearDivider grow mr-2" />-->
-                  <strong>观影日期</strong>
+                  <strong class="primary--text">观影日期</strong>
                   <!--                  <hr class="yearDivider grow ml-2" />-->
                 </v-row>
                 <v-row class="grow align-center mb-2 mt-4">
@@ -192,6 +196,7 @@
                         v-on:click:append="reviewDateRange = []"
                         v-bind="attrs"
                         v-on="on"
+                        :menu-props="{ bottom: true, offsetY: true }"
                       ></v-text-field>
                     </template>
                     <v-date-picker

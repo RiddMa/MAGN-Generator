@@ -9,22 +9,21 @@ const { rootDir } = require("../../config");
 
 const sleep = (delay) => new Promise((resolve) => setTimeout(resolve, delay));
 
+const browser = await puppeteer.launch({
+  // headless: false,
+  defaultViewport: {
+    width: 1280,
+    height: 720,
+    deviceScaleFactor: 3,
+  },
+  args: ["--disable-web-security", "--no-sandbox"],
+});
+
 async function getScreenshot(url, uuid, reviewId, width = 1440, height = 900) {
-  const browser = await puppeteer.launch({
-    // headless: false,
-    defaultViewport: {
-      width: width,
-      height: height,
-      deviceScaleFactor: 3,
-    },
-    args: ["--disable-web-security", "--no-sandbox"],
-  });
   const page = await browser.newPage();
   console.log("Going to " + url);
   await page.goto(url);
-  await page.waitForResponse(
-    `https://www.ridd.xyz/api/internal/getMovieAttr/${uuid}/${reviewId}`
-  );
+  await page.waitForResponse("https://www.ridd.xyz/api/internal/getUsername");
 
   await fse.ensureDir(`${rootDir}/screenshot`);
   let filename = `${uuid}_${reviewId}`;
@@ -37,7 +36,6 @@ async function getScreenshot(url, uuid, reviewId, width = 1440, height = 900) {
   });
 
   await page.close();
-  await browser.close();
   return `${filename}.png`;
 }
 
