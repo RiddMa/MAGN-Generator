@@ -1,7 +1,7 @@
 const puppeteer = require("puppeteer");
 const { v1: UUIDv1 } = require("uuid");
 const path = require("path");
-const fse = require("fs-extra")
+const fse = require("fs-extra");
 const Token = require("../lib/token");
 const store = require("../lib/store");
 const UserReviewDAO = require("../models/UserReviewModel");
@@ -17,7 +17,7 @@ async function getScreenshot(url, uuid, reviewId, width = 1440, height = 900) {
       height: height,
       deviceScaleFactor: 3,
     },
-    args: ["--disable-web-security","--no-sandbox"],
+    args: ["--disable-web-security", "--no-sandbox"],
   });
   const page = await browser.newPage();
   console.log("Going to " + url);

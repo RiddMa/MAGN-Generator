@@ -2,9 +2,7 @@
   <v-container fluid class="px-0">
     <v-expansion-panels class="settings" hover popout v-model="showSettings">
       <v-expansion-panel class="settings">
-        <v-expansion-panel-header class="pb-4 pt-auto px-auto">
-          信息
-        </v-expansion-panel-header>
+        <v-expansion-panel-header class="pb-4 pt-auto px-auto"> 信息 </v-expansion-panel-header>
         <v-expansion-panel-content>
           <div class="my-6 mx-2 px-auto">
             <v-row>
@@ -63,15 +61,7 @@
             <v-row>
               <v-chip-group class="mb-4" v-model="genreChecked" column multiple>
                 <template v-for="item in genreTags">
-                  <v-chip
-                    :key="item.genre"
-                    :value="item.genre"
-                    :ripple="false"
-                    label
-                    filter
-                    outlined
-                    v-blur
-                  >
+                  <v-chip :key="item.genre" :value="item.genre" :ripple="false" label filter outlined v-blur>
                     {{ item.genreCN }}
                   </v-chip>
                 </template>
@@ -107,11 +97,7 @@
               ></RatingInput>
             </v-row>
             <v-row v-if="mode === 'new'">
-              <v-scale-transition
-                origin="left center 0"
-                leave-absolute
-                mode="out-in"
-              >
+              <v-scale-transition origin="left center 0" leave-absolute mode="out-in">
                 <v-hover :value="showClearCheck">
                   <template v-slot:default="{ hover }">
                     <v-btn
@@ -129,11 +115,7 @@
                   </template>
                 </v-hover>
               </v-scale-transition>
-              <v-scale-transition
-                origin="left center 0"
-                leave-absolute
-                mode="out-in"
-              >
+              <v-scale-transition origin="left center 0" leave-absolute mode="out-in">
                 <v-btn
                   id="clearCheckAgain"
                   v-if="showClearCheck"
@@ -179,11 +161,7 @@
               </v-hover>
             </v-row>
             <v-row v-if="mode === 'edit'">
-              <v-scale-transition
-                origin="left center 0"
-                leave-absolute
-                mode="out-in"
-              >
+              <v-scale-transition origin="left center 0" leave-absolute mode="out-in">
                 <v-hover>
                   <template v-slot:default="{ hover }">
                     <v-btn
@@ -195,19 +173,13 @@
                       :elevation="hover ? 6 : 2"
                       :loading="loading"
                     >
-                      <v-icon dense class="mr-1">
-                        mdi-delete-forever-outline
-                      </v-icon>
+                      <v-icon dense class="mr-1"> mdi-delete-forever-outline </v-icon>
                       删除影评
                     </v-btn>
                   </template>
                 </v-hover>
               </v-scale-transition>
-              <v-scale-transition
-                origin="left center 0"
-                leave-absolute
-                mode="out-in"
-              >
+              <v-scale-transition origin="left center 0" leave-absolute mode="out-in">
                 <v-btn
                   id="deleteCheck"
                   v-if="showDeleteCheck"
@@ -334,10 +306,7 @@ export default {
         return this.$store.state.movie.year;
       },
       set(newYear) {
-        if (
-          newYear.toString().length === 4 &&
-          !newYear.toString().includes(".")
-        ) {
+        if (newYear.toString().length === 4 && !newYear.toString().includes(".")) {
           this.$store.commit("setMovieYear", newYear);
         }
       },
