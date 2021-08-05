@@ -171,7 +171,7 @@ export default {
   },
   methods: {},
   async mounted() {
-    if (!this.$store.state.isSSR) {
+    if (!this.$store.state.isSSR || !(this.mode === "view")) {
       await sleep(1500);
     }
     // this.$store.dispatch("heartbeat");

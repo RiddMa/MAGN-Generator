@@ -1,5 +1,6 @@
 <template>
   <v-container v-if="fitPhone" fluid id="userBase" style="position: relative" class="ma-0 pa-0">
+    <!--    <UserSearch :list-loading="listLoading"></UserSearch>-->
     <v-row style="position: relative" class="ma-0 pa-0">
       <v-col class="ma-0 pa-0" style="position: relative">
         <transition-group name="flip-list" v-on:enter="fadeInCaller" v-on:leave="fadeOutCaller">
@@ -15,7 +16,6 @@
             你好，{{ username }}!
           </p>
         </transition-group>
-
         <transition-group name="flip-list" v-on:enter="tabItemEnterCaller" v-on:leave="tabItemLeaveCaller">
           <ReviewCardPhone
             v-for="(movie, index) in reviewList"
@@ -44,13 +44,13 @@
   <v-container v-else fluid id="userBase">
     <UserSearch :list-loading="listLoading"></UserSearch>
     <v-row style="position: relative">
-      <v-col class="userBase ma-auto" style="position: relative">
+      <v-col class="userBase ma-auto my-0 py-0" style="position: relative">
         <transition-group name="flip-list" v-on:enter="tabItemEnterCaller" v-on:leave="tabItemLeaveCaller">
           <ReviewCard
             v-for="(movie, index) in reviewList"
             v-bind:key="movie.reviewId"
             v-bind:data-index="index"
-            class="ma-auto"
+            class="ma-auto pa-auto"
             :movie.sync="movie"
           ></ReviewCard>
           <v-container fluid v-if="reviewList.length === 0" v-bind:key="'EmptyReminder'">

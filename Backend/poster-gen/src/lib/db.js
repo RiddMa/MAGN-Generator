@@ -10,7 +10,6 @@ const {
 module.exports = {
   connect2Db() {
     let uri = `mongodb://${dbUser}:${dbPassword}@${dbDomain}:${dbPort}/${dbName}`;
-    console.log(uri);
     mongoose.connect(
       uri,
       {

@@ -18,8 +18,9 @@ const userStore = {
       state.reviewList = reviewList;
     },
     filterMovie(state, filters) {
+      console.log(filters);
       if (filters.genre !== undefined) {
-        state.reviewList.filter((v) => {
+        state.reviewList = state.reviewList.filter((v) => {
           for (let i = 0; i < filters.genre.length; i++) {
             if (v.genre[filters.genre[i]] === true) {
               return true;
@@ -29,7 +30,7 @@ const userStore = {
         });
       }
       if (filters.rating !== undefined) {
-        state.reviewList.filter((v) => {
+        state.reviewList = state.reviewList.filter((v) => {
           return (
             filters.rating.range[0] <= v.rating[filters.rating.type] &&
             v.rating[filters.rating.type] <= filters.rating.range[1]
@@ -37,12 +38,12 @@ const userStore = {
         });
       }
       if (filters.year !== undefined) {
-        state.reviewList.filter((v) => {
+        state.reviewList = state.reviewList.filter((v) => {
           return filters.year[0] <= v.year && v.year <= filters.year[1];
         });
       }
       if (filters.date !== undefined) {
-        state.reviewList.filter((v) => {
+        state.reviewList = state.reviewList.filter((v) => {
           return moment(v.timestamp).isBetween(moment(filters.date[0]), moment(filters.date[1]));
         });
       }

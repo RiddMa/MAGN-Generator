@@ -12,7 +12,7 @@
             </v-row>
           </v-expansion-panel-header>
           <v-expansion-panel-content>
-            <v-container fluid class="searchRow justify-end">
+            <v-container fluid class="searchContainer justify-end">
               <v-row class="grow align-center mb-4 mt-0 primary--text">
                 <hr class="yearDivider grow mr-2" />
                 <span class="text-h6">排序</span>
@@ -50,188 +50,193 @@
                 <span class="text-h6">过滤</span>
                 <hr class="yearDivider grow ml-2" />
               </v-row>
-              <v-row class="justify-center grow">
+              <v-row class="justify-center grow" style="height: 80px">
                 <v-select
                   v-model="filterType"
                   :items="filterTypeList"
                   label="过滤类型"
                   color="primary"
                   multiple
+                  clearable
                   outlined
                   dense
                   :menu-props="{ bottom: true, offsetY: true }"
                 ></v-select>
               </v-row>
-              <!--              电影类型-->
-              <template v-if="filterType.includes('genre')">
-                <v-row class="grow align-center mb-2 mt-4">
-                  <!--                  <hr class="yearDivider grow mr-2" />-->
-                  <strong class="primary--text">电影类型</strong>
-                  <!--                  <hr class="yearDivider grow ml-2" />-->
-                </v-row>
-                <v-row class="grow align-center">
-                  <v-select
-                    v-model="genreFilter"
-                    :items="genreFilterList"
-                    item-text="genreCN"
-                    item-value="genre"
-                    label="电影类型"
-                    color="primary"
-                    class="align-center"
-                    multiple
-                    dense
-                    clearable
-                    outlined
-                    :menu-props="{ bottom: true, offsetY: true }"
-                  ></v-select>
-                </v-row>
-              </template>
-              <!--              我的评分-->
-              <template v-if="filterType.includes('rating')">
-                <v-row class="grow align-center mb-2 mt-4">
-                  <!--                  <hr class="yearDivider grow mr-2" />-->
-                  <strong class="primary--text">我的评分</strong>
-                  <!--                  <hr class="yearDivider grow ml-2" />-->
-                </v-row>
-                <v-row class="grow">
-                  <span class="text--secondary mr-4">
-                    <v-btn icon @click="ratingFilterRangeMin -= 1">
-                      <v-icon>mdi-minus</v-icon>
-                    </v-btn>
-                    <span class="mt-1">最低: {{ ratingFilterRange[0] }} </span>
-                    <v-btn icon @click="ratingFilterRangeMin += 1">
-                      <v-icon>mdi-plus</v-icon>
-                    </v-btn>
-                  </span>
-                  <v-range-slider
-                    v-model="ratingFilterRange"
-                    thumb-label="always"
-                    step="1"
-                    hint="评分范围"
-                    :min="defaultRatingFilterRange[0]"
-                    :max="defaultRatingFilterRange[1]"
-                    color="primary"
-                    track-color="green lighten-3"
-                  ></v-range-slider>
-                  <span class="text--secondary ml-4">
-                    <v-btn icon @click="ratingFilterRangeMax -= 1">
-                      <v-icon>mdi-minus</v-icon>
-                    </v-btn>
-                    <span class="mt-1">最高: {{ ratingFilterRange[1] }} </span>
-                    <v-btn icon @click="ratingFilterRangeMax += 1">
-                      <v-icon>mdi-plus</v-icon>
-                    </v-btn>
-                  </span>
-                </v-row>
-              </template>
-              <!--              上映年份-->
-              <template v-if="filterType.includes('year')">
-                <v-row class="grow align-center mb-2 mt-4">
-                  <!--                  <hr class="yearDivider grow mr-2" />-->
-                  <strong class="primary--text">上映年份</strong>
-                  <!--                  <hr class="yearDivider grow ml-2" />-->
-                </v-row>
-                <v-row class="grow">
-                  <span class="text--secondary mr-4">
-                    <v-btn icon @click="onScreenYearMin -= 1" key="yearMin-">
-                      <v-icon>mdi-minus</v-icon>
-                    </v-btn>
-                    <span class="mt-1">最早: {{ onScreenYearRange[0] }} </span>
-                    <v-btn icon @click="onScreenYearMin += 1" key="yearMin+">
-                      <v-icon>mdi-plus</v-icon>
-                    </v-btn>
-                  </span>
-                  <v-range-slider
-                    key="yearSlider"
-                    v-model="onScreenYearRange"
-                    thumb-label="always"
-                    step="1"
-                    hint="电影上映年份范围"
-                    :min="defaultOnScreenYearRange[0]"
-                    :max="defaultOnScreenYearRange[1]"
-                    color="primary"
-                    track-color="green lighten-3"
-                  ></v-range-slider>
-                  <span class="text--secondary ml-4">
-                    <v-btn icon @click="onScreenYearMax -= 1" key="yearMax-">
-                      <v-icon>mdi-minus</v-icon>
-                    </v-btn>
-                    <span class="mt-1">最晚: {{ onScreenYearRange[1] }} </span>
-                    <v-btn icon @click="onScreenYearMax += 1" key="yearMax+">
-                      <v-icon>mdi-plus</v-icon>
-                    </v-btn>
-                  </span>
-                </v-row>
-              </template>
-              <!--              观影日期-->
-              <template v-if="filterType.includes('date')" class="grow">
-                <v-row class="grow align-center mb-2 mt-4">
-                  <!--                  <hr class="yearDivider grow mr-2" />-->
-                  <strong class="primary--text">观影日期</strong>
-                  <!--                  <hr class="yearDivider grow ml-2" />-->
-                </v-row>
-                <v-row class="grow align-center mb-2 mt-4">
-                  <v-menu
-                    class="grow"
-                    key="date"
-                    ref="reviewDatePickerMenu"
-                    v-model="reviewDatePickerMenu"
-                    :close-on-content-click="false"
-                    :nudge-right="40"
-                    color="primary"
-                    transition="scale-transition"
-                    offset-y
-                    min-width="auto"
-                  >
-                    <template v-slot:activator="{ on, attrs }">
-                      <v-text-field
-                        v-model="reviewDateRangeText"
-                        label="观影日期范围"
-                        prepend-icon="mdi-calendar"
-                        color="primary"
-                        outlined
-                        dense
-                        readonly
-                        append-icon="mdi-close"
-                        v-on:click:append="reviewDateRange = []"
-                        v-bind="attrs"
-                        v-on="on"
-                        :menu-props="{ bottom: true, offsetY: true }"
-                      ></v-text-field>
-                    </template>
-                    <v-date-picker
-                      v-model="reviewDateRange"
+
+              <transition-group name="flip-list" v-on:enter="expandInCaller" v-on:leave="expandOutCaller">
+                <!--              电影类型-->
+                <div v-if="filterType.includes('genre')" class="searchRow" key="genre">
+                  <v-row class="grow align-center my-auto pa-auto">
+                    <!--                  <hr class="yearDivider grow mr-2" />-->
+                    <strong class="primary--text">电影类型</strong>
+                    <!--                  <hr class="yearDivider grow ml-2" />-->
+                  </v-row>
+                  <v-row class="grow align-center my-auto pa-auto">
+                    <v-select
+                      v-model="genreFilter"
+                      :items="genreFilterList"
+                      item-text="genreCN"
+                      item-value="genre"
+                      label="电影类型"
                       color="primary"
-                      light
-                      scrollable
-                      range
-                      no-title
-                      show-current
-                      show-adjacent-months
-                      locale="zh-cn"
-                      elevation="12"
+                      class="align-center"
+                      multiple
+                      dense
+                      clearable
+                      outlined
+                      :menu-props="{ bottom: true, offsetY: true }"
+                    ></v-select>
+                  </v-row>
+                </div>
+                <!--              我的评分-->
+                <div v-if="filterType.includes('rating')" class="searchRow" key="rating">
+                  <v-row class="grow align-center my-auto pa-auto">
+                    <!--                  <hr class="yearDivider grow mr-2" />-->
+                    <strong class="primary--text">我的评分</strong>
+                    <!--                  <hr class="yearDivider grow ml-2" />-->
+                  </v-row>
+                  <v-row class="grow">
+                    <span class="text--secondary mr-4">
+                      <v-btn icon @click="ratingFilterRangeMin -= 1">
+                        <v-icon>mdi-minus</v-icon>
+                      </v-btn>
+                      <span class="mt-1">最低: {{ ratingFilterRange[0] }} </span>
+                      <v-btn icon @click="ratingFilterRangeMin += 1">
+                        <v-icon>mdi-plus</v-icon>
+                      </v-btn>
+                    </span>
+                    <v-range-slider
+                      v-model="ratingFilterRange"
+                      thumb-label="always"
+                      step="1"
+                      hint="评分范围"
+                      :min="defaultRatingFilterRange[0]"
+                      :max="defaultRatingFilterRange[1]"
+                      color="primary"
+                      track-color="green lighten-3"
+                    ></v-range-slider>
+                    <span class="text--secondary ml-4">
+                      <v-btn icon @click="ratingFilterRangeMax -= 1">
+                        <v-icon>mdi-minus</v-icon>
+                      </v-btn>
+                      <span class="mt-1">最高: {{ ratingFilterRange[1] }} </span>
+                      <v-btn icon @click="ratingFilterRangeMax += 1">
+                        <v-icon>mdi-plus</v-icon>
+                      </v-btn>
+                    </span>
+                  </v-row>
+                </div>
+                <!--              上映年份-->
+                <div v-if="filterType.includes('year')" class="searchRow" key="year">
+                  <v-row class="grow align-center my-auto pa-auto">
+                    <!--                  <hr class="yearDivider grow mr-2" />-->
+                    <strong class="primary--text">上映年份</strong>
+                    <!--                  <hr class="yearDivider grow ml-2" />-->
+                  </v-row>
+                  <v-row class="grow">
+                    <span class="text--secondary mr-4">
+                      <v-btn icon @click="onScreenYearMin -= 1" key="yearMin-">
+                        <v-icon>mdi-minus</v-icon>
+                      </v-btn>
+                      <span class="mt-1">最早: {{ onScreenYearRange[0] }} </span>
+                      <v-btn icon @click="onScreenYearMin += 1" key="yearMin+">
+                        <v-icon>mdi-plus</v-icon>
+                      </v-btn>
+                    </span>
+                    <v-range-slider
+                      key="yearSlider"
+                      v-model="onScreenYearRange"
+                      thumb-label="always"
+                      step="1"
+                      hint="电影上映年份范围"
+                      :min="defaultOnScreenYearRange[0]"
+                      :max="defaultOnScreenYearRange[1]"
+                      color="primary"
+                      track-color="green lighten-3"
+                    ></v-range-slider>
+                    <span class="text--secondary ml-4">
+                      <v-btn icon @click="onScreenYearMax -= 1" key="yearMax-">
+                        <v-icon>mdi-minus</v-icon>
+                      </v-btn>
+                      <span class="mt-1">最晚: {{ onScreenYearRange[1] }} </span>
+                      <v-btn icon @click="onScreenYearMax += 1" key="yearMax+">
+                        <v-icon>mdi-plus</v-icon>
+                      </v-btn>
+                    </span>
+                  </v-row>
+                </div>
+                <!--              观影日期-->
+                <div v-if="filterType.includes('date')" class="searchRow" key="date">
+                  <v-row class="grow align-center my-auto pa-auto">
+                    <!--                  <hr class="yearDivider grow mr-2" />-->
+                    <strong class="primary--text">观影日期</strong>
+                    <!--                  <hr class="yearDivider grow ml-2" />-->
+                  </v-row>
+                  <v-row class="grow align-center my-auto pa-auto">
+                    <v-menu
+                      class="grow"
+                      key="date"
+                      ref="reviewDatePickerMenu"
+                      v-model="reviewDatePickerMenu"
+                      :close-on-content-click="false"
+                      :nudge-right="40"
+                      color="primary"
+                      transition="scale-transition"
+                      offset-y
+                      min-width="auto"
                     >
-                      <v-btn
-                        class="outlineBtn primary--text text-button ma-2 mt-0 pa-auto"
-                        outlined
-                        elevation="2"
-                        @click="reviewDatePickerMenu = false"
+                      <template v-slot:activator="{ on, attrs }">
+                        <v-text-field
+                          v-model="reviewDateRangeText"
+                          label="观影日期范围"
+                          prepend-icon="mdi-calendar"
+                          color="primary"
+                          outlined
+                          dense
+                          readonly
+                          append-icon="mdi-close"
+                          v-on:click:append="reviewDateRange = []"
+                          v-bind="attrs"
+                          v-on="on"
+                          :menu-props="{ bottom: true, offsetY: true }"
+                        ></v-text-field>
+                      </template>
+                      <v-date-picker
+                        v-model="reviewDateRange"
+                        color="primary"
+                        light
+                        scrollable
+                        range
+                        no-title
+                        show-current
+                        show-adjacent-months
+                        locale="zh-cn"
+                        elevation="12"
                       >
-                        取消
-                      </v-btn>
-                      <v-spacer></v-spacer>
-                      <v-btn
-                        class="primary text-button ma-2 mt-0 pa-auto"
-                        elevation="2"
-                        @click="$refs.reviewDatePickerMenu.save(reviewDateRange)"
-                      >
-                        好
-                      </v-btn>
-                    </v-date-picker>
-                  </v-menu>
-                </v-row>
-              </template>
-              <v-row class="justify-center my-4 pa-auto">
+                        <v-btn
+                          class="outlineBtn primary--text text-button ma-2 mt-0 pa-auto"
+                          outlined
+                          elevation="2"
+                          @click="reviewDatePickerMenu = false"
+                        >
+                          取消
+                        </v-btn>
+                        <v-spacer></v-spacer>
+                        <v-btn
+                          class="primary text-button ma-2 mt-0 pa-auto"
+                          elevation="2"
+                          @click="$refs.reviewDatePickerMenu.save(reviewDateRange)"
+                        >
+                          好
+                        </v-btn>
+                      </v-date-picker>
+                    </v-menu>
+                  </v-row>
+                </div>
+              </transition-group>
+
+              <v-row class="justify-center" style="height: 60px">
                 <v-btn
                   class="primary text-button ma-2 mt-0 pa-auto"
                   elevation="2"
@@ -252,7 +257,7 @@
 </template>
 
 <script>
-import { gsapFadeIn, gsapFadeOut, sleep } from "@/utils/animate";
+import { gsapExpandIn, gsapExpandOut, gsapFadeIn, gsapFadeOut, sleep } from "@/utils/animate";
 import { mapState } from "vuex";
 import moment from "moment";
 
@@ -286,9 +291,8 @@ export default {
         { text: "音乐/音效", value: "sound" },
       ],
       sortOrder: "Desc",
-      filterType: ["genre", "rating", "year", "date"],
+      filterType: [],
       filterTypeList: [
-        { text: "无", value: "none" },
         { text: "影片类型", value: "genre" },
         { text: "我的评分", value: "rating" },
         { text: "上映年份", value: "year" },
@@ -343,21 +347,22 @@ export default {
         sortOrder: this.sortOrder,
       });
     },
-    filterMovie() {
+    async filterMovie() {
+      // await this.$store.dispatch("getAllUserReview");
       let payload = {};
-      if (this.filterType.contains("genre")) {
+      if (this.filterType.includes("genre") && this.genreFilter.length !== 0) {
         payload.genre = this.genreFilter;
       }
-      if (this.filterType.contains("rating")) {
+      if (this.filterType.includes("rating")) {
         payload.rating = {
           type: this.ratingFilterType,
           range: this.ratingFilterRange,
         };
       }
-      if (this.filterType.contains("year")) {
+      if (this.filterType.includes("year")) {
         payload.year = this.onScreenYearRange;
       }
-      if (this.filterType.contains("date")) {
+      if (this.filterType.includes("date") && this.reviewDateRange.length !== 0) {
         payload.date = this.reviewDateRange;
       }
       this.$store.commit("filterMovie", payload);
@@ -366,12 +371,16 @@ export default {
     animation
      */
     fadeInCaller(el, done) {
-      // fadeIn(el, done);
       gsapFadeIn(el, done);
     },
     fadeOutCaller(el, done) {
-      // fadeOut(el, done);
       gsapFadeOut(el, done);
+    },
+    expandInCaller(el, done) {
+      gsapExpandIn(el, done);
+    },
+    expandOutCaller(el, done) {
+      gsapExpandOut(el, done);
     },
     /*
     animation
@@ -379,7 +388,7 @@ export default {
   },
   async mounted() {
     await sleep(750);
-    // this.showSettings = undefined;
+    this.showSettings = undefined;
   },
 };
 </script>
@@ -390,8 +399,11 @@ export default {
 .userBase {
   max-width: 1024px;
 }
-.searchRow {
+.searchContainer {
   max-width: 800px;
+}
+.searchRow {
+  height: 95px;
 }
 .yearDivider {
   border: 0;

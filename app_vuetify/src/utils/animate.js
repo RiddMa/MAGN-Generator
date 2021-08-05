@@ -5,7 +5,7 @@ gsap.registerPlugin(CustomEase);
 
 const easeIn = "cubicBezier(1,0,.6,-0.1)";
 const easeOut = "cubicBezier(0.4,1.1,0,1)";
-// const easeCurve = "power4.out";
+
 const easeCurve = CustomEase.create("custom", "0.35,1.15,0.1,1");
 
 export function sleep(delay) {
@@ -15,7 +15,6 @@ export function sleep(delay) {
 export function gsapRouteEnterFrom(direction, el, done) {
   const width = window.innerWidth;
   const height = window.innerHeight;
-  // const easeCurve = gsap.parseEase("");
   const duration = 1;
   switch (direction) {
     case "right": {
@@ -69,8 +68,6 @@ export function gsapRouteLeaveWhen(direction, el, done) {
   el.style.position = "absolute";
   const width = window.innerWidth;
   const height = window.innerHeight;
-  const easeCurve = "power4.out";
-  // const easeCurve = gsap.parseEase("");
   const duration = 1;
   switch (direction) {
     // 与enter配合，方向颠倒
@@ -119,6 +116,75 @@ export function gsapRouteLeaveWhen(direction, el, done) {
       break;
     }
   }
+}
+
+export function gsapListItemEnter(el, done, delay) {
+  gsap.from(el, {
+    duration: 1,
+    delay: delay,
+    ease: easeCurve,
+    height: 0,
+    y: 500,
+    autoAlpha: 0,
+    clearProps: "all",
+    onComplete: done,
+  });
+}
+
+export function gsapListItemLeave(el, done) {
+  // el.style.position = "absolute";
+  gsap.to(el, {
+    duration: 1,
+    ease: easeCurve,
+    scale: 0,
+    height: 0,
+    autoAlpha: 0,
+    clearProps: "all",
+    onComplete: done,
+  });
+}
+
+export function gsapExpandIn(el, done) {
+  gsap.from(el, {
+    duration: 0.5,
+    ease: easeCurve,
+    autoAlpha: 0,
+    height: 0,
+    clearProps: "all",
+    onComplete: done,
+  });
+}
+
+export function gsapExpandOut(el, done) {
+  gsap.to(el, {
+    duration: 0.5,
+    ease: easeCurve,
+    autoAlpha: 0,
+    height: 0,
+    clearProps: "all",
+    onComplete: done,
+  });
+}
+
+export function gsapFadeIn(el, done) {
+  gsap.from(el, {
+    duration: 0.5,
+    ease: easeCurve,
+    autoAlpha: 0,
+    clearProps: "all",
+    onComplete: done,
+  });
+}
+
+export function gsapFadeOut(el, done) {
+  el.style.position = "absolute";
+  gsap.to(el, {
+    duration: 0.5,
+    ease: easeCurve,
+    autoAlpha: 0,
+    clearProps: "all",
+    onComplete: done,
+  });
 }
 
 export function routeEnter(direction, el, done) {
@@ -181,7 +247,7 @@ export function routeEnter(direction, el, done) {
 }
 
 export function routeLeave(direction, el, done) {
-  el.style.position = "absolute";
+  // el.style.position = "absolute";
   const width = window.innerWidth;
   const height = window.innerHeight;
   const easeCurve = "cubicBezier(0.4,1.1,0,1)";
@@ -234,30 +300,6 @@ export function routeLeave(direction, el, done) {
   }
 }
 
-export function gsapListItemEnter(el, done, delay) {
-  gsap.from(el, {
-    duration: 1,
-    delay: delay,
-    ease: easeCurve,
-    y: 500,
-    autoAlpha: 0,
-    clearProps: "all",
-    onComplete: done,
-  });
-}
-
-export function gsapListItemLeave(el, done) {
-  el.style.position = "absolute";
-  gsap.to(el, {
-    duration: 1,
-    ease: easeCurve,
-    scale: 0,
-    autoAlpha: 0,
-    clearProps: "all",
-    onComplete: done,
-  });
-}
-
 export function tabItemEnter(el, done, delay) {
   anime({
     direction: "reverse",
@@ -281,26 +323,6 @@ export function tabItemLeave(el, done) {
     // translateY: -window.innerHeight,
     easing: easeOut,
     complete: done,
-  });
-}
-
-export function gsapFadeIn(el, done) {
-  gsap.from(el, {
-    duration: 0.5,
-    ease: easeCurve,
-    autoAlpha: 0,
-    onComplete: done,
-  });
-}
-
-export function gsapFadeOut(el, done) {
-  el.style.position = "absolute";
-  gsap.to(el, {
-    duration: 0.5,
-    ease: easeCurve,
-    autoAlpha: 0,
-    clearProps: "all",
-    onComplete: done,
   });
 }
 
