@@ -1,6 +1,6 @@
 <template>
-  <v-row class="justify-center">
-    <v-col class="userBase px-6">
+  <v-row class="justify-center ma-0 pa-0">
+    <v-col class="userBase ma-0 px-6">
       <v-expansion-panels popout hover v-model="showSettings">
         <v-expansion-panel>
           <v-expansion-panel-header>
@@ -238,6 +238,14 @@
 
               <v-row class="justify-center" style="height: 60px">
                 <v-btn
+                  class="outlineBtn primary--text text-button ma-2 mt-0 pa-auto"
+                  elevation="2"
+                  outlined
+                  @click="refreshMovie"
+                >
+                  清空
+                </v-btn>
+                <v-btn
                   class="primary text-button ma-2 mt-0 pa-auto"
                   elevation="2"
                   @click="
@@ -366,6 +374,9 @@ export default {
         payload.date = this.reviewDateRange;
       }
       this.$store.commit("filterMovie", payload);
+    },
+    refreshMovie() {
+      this.$store.dispatch("getAllUserReview");
     },
     /*
     animation
