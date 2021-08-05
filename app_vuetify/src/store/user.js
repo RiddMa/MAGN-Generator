@@ -42,6 +42,9 @@ const userStore = {
         });
       }
       if (filters.date !== undefined) {
+        state.reviewList.filter((v) => {
+          return moment(v.timestamp).isBetween(moment(filters.date[0]), moment(filters.date[1]));
+        });
       }
     },
     /**

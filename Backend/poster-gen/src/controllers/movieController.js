@@ -9,7 +9,7 @@ const { rootDir } = require("../../config");
 
 const sleep = (delay) => new Promise((resolve) => setTimeout(resolve, delay));
 
-const browser = await puppeteer.launch({
+const browser = puppeteer.launch({
   // headless: false,
   defaultViewport: {
     width: 1280,
@@ -20,7 +20,7 @@ const browser = await puppeteer.launch({
 });
 
 async function getScreenshot(url, uuid, reviewId, width = 1440, height = 900) {
-  const page = await browser.newPage();
+  const page = await (await browser).newPage();
   console.log("Going to " + url);
   await page.goto(url);
   await page.waitForResponse("https://www.ridd.xyz/api/internal/getUsername");
