@@ -1,21 +1,21 @@
 <template>
   <v-container v-if="fitPhone" fluid id="userBase" style="position: relative" class="ma-0 pa-0">
-    <!--    <UserSearch :list-loading="listLoading"></UserSearch>-->
+    <UserSearchPhone :list-loading="listLoading"></UserSearchPhone>
     <v-row style="position: relative" class="ma-0 pa-0">
       <v-col class="ma-0 pa-0" style="position: relative">
-        <transition-group name="flip-list" v-on:enter="fadeInCaller" v-on:leave="fadeOutCaller">
-          <p
-            v-if="listLoading"
-            class="mb-2 text--secondary text-center"
-            key="0"
-            style="width: 100%; position: relative"
-          >
-            加载中……
-          </p>
-          <p v-else class="mb-2 text--secondary text-center" key="1" style="width: 100%; position: relative">
-            你好，{{ username }}!
-          </p>
-        </transition-group>
+        <!--        <transition-group name="flip-list" v-on:enter="fadeInCaller" v-on:leave="fadeOutCaller">-->
+        <!--          <p-->
+        <!--            v-if="listLoading"-->
+        <!--            class="mb-2 text&#45;&#45;secondary text-center"-->
+        <!--            key="0"-->
+        <!--            style="width: 100%; position: relative"-->
+        <!--          >-->
+        <!--            加载中……-->
+        <!--          </p>-->
+        <!--          <p v-else class="mb-2 text&#45;&#45;secondary text-center" key="1" style="width: 100%; position: relative">-->
+        <!--            你好，{{ username }}!-->
+        <!--          </p>-->
+        <!--        </transition-group>-->
         <transition-group name="flip-list" v-on:enter="tabItemEnterCaller" v-on:leave="tabItemLeaveCaller">
           <ReviewCardPhone
             v-for="(movie, index) in reviewList"
@@ -81,10 +81,12 @@ import { gsapFadeIn, gsapFadeOut, gsapListItemEnter, gsapListItemLeave, sleep } 
 import store from "@/store/store";
 import { setCSSBlur } from "@/utils/util";
 import UserSearch from "@/components/UserSearch";
+import UserSearchPhone from "@/components/UserSearchPhone";
 
 export default {
   name: "UserProfile",
   components: {
+    UserSearchPhone,
     UserSearch,
     ReviewCardPhone,
     ReviewCard,
@@ -145,6 +147,11 @@ export default {
     await sleep(750);
     await this.$store.dispatch("heartbeat");
     await this.$store.dispatch("getAllUserReview");
+    // await sleep(750);
+    // this.$store.commit("sortMovie", {
+    //   sortType: "date",
+    //   sortOrder: "Desc",
+    // });
     this.listLoading = false;
   },
 };

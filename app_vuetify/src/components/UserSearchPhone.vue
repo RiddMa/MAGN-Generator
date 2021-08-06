@@ -1,6 +1,6 @@
 <template>
   <v-row class="justify-center ma-0 pa-0">
-    <v-col class="userBase ma-0 px-6">
+    <v-col class="userBase ma-0 px-0">
       <v-expansion-panels popout hover v-model="showSettings">
         <v-expansion-panel>
           <v-expansion-panel-header>
@@ -22,25 +22,25 @@
                 <v-select
                   v-model="sortType"
                   :items="sortTypeList"
-                  class="mr-6"
                   label="排序类型"
                   color="primary"
                   outlined
                   dense
                   :menu-props="{ bottom: true, offsetY: true }"
                 ></v-select>
+              </v-row>
+              <v-row class="justify-center align-center grow">
                 <v-select
                   v-if="sortType === 'rating'"
                   v-model="sortRatingType"
                   :items="sortRatingTypeList"
-                  class="mr-6"
                   label="排序键值"
                   color="primary"
                   outlined
                   dense
                   :menu-props="{ bottom: true, offsetY: true }"
                 ></v-select>
-                <v-radio-group v-model="sortOrder" class="my-auto pa-auto" column>
+                <v-radio-group v-model="sortOrder" class="my-auto pa-auto" row>
                   <v-radio label="降序" value="Desc"></v-radio>
                   <v-radio label="升序" value="Asc"></v-radio>
                 </v-radio-group>
@@ -66,19 +66,17 @@
 
               <transition-group name="flip-list" v-on:enter="expandInCaller" v-on:leave="expandOutCaller">
                 <!--              电影类型-->
-                <div v-if="filterType.includes('genre')" class="searchRow" key="genre">
-                  <v-row class="grow align-center my-auto pa-auto">
-                    <!--                  <hr class="yearDivider grow mr-2" />-->
-                    <strong class="primary--text">电影类型</strong>
-                    <!--                  <hr class="yearDivider grow ml-2" />-->
+                <v-container fluid v-if="filterType.includes('genre')" class="searchRow mx-0 my-4 pa-0" key="genre">
+                  <v-row class="grow justify-center align-center my-auto pa-auto">
+                    <span class="primary--text">影片类型</span>
                   </v-row>
-                  <v-row class="grow align-center my-auto pa-auto">
+                  <v-row class="grow align-center my-4">
                     <v-select
                       v-model="genreFilter"
                       :items="genreFilterList"
                       item-text="genreCN"
                       item-value="genre"
-                      label="电影类型"
+                      label="选择包含的类型"
                       color="primary"
                       class="align-center"
                       multiple
@@ -88,24 +86,13 @@
                       :menu-props="{ bottom: true, offsetY: true }"
                     ></v-select>
                   </v-row>
-                </div>
+                </v-container>
                 <!--              我的评分-->
-                <div v-if="filterType.includes('rating')" class="searchRow" key="rating">
-                  <v-row class="grow align-center my-auto pa-auto">
-                    <!--                  <hr class="yearDivider grow mr-2" />-->
-                    <strong class="primary--text">我的评分</strong>
-                    <!--                  <hr class="yearDivider grow ml-2" />-->
+                <v-container fluid v-if="filterType.includes('rating')" class="searchRow mx-0 my-4 pa-0" key="rating">
+                  <v-row class="grow justify-center align-center my-auto pa-auto">
+                    <span class="primary--text">我的评分</span>
                   </v-row>
-                  <v-row class="grow">
-                    <span class="text--secondary mr-4">
-                      <v-btn icon @click="ratingFilterRangeMin -= 1">
-                        <v-icon>mdi-minus</v-icon>
-                      </v-btn>
-                      <span class="mt-1">最低: {{ ratingFilterRange[0] }} </span>
-                      <v-btn icon @click="ratingFilterRangeMin += 1">
-                        <v-icon>mdi-plus</v-icon>
-                      </v-btn>
-                    </span>
+                  <v-row class="grow mt-6">
                     <v-range-slider
                       v-model="ratingFilterRange"
                       thumb-label="always"
@@ -116,34 +103,37 @@
                       color="primary"
                       track-color="green lighten-3"
                     ></v-range-slider>
+                  </v-row>
+                  <v-row class="grow justify-space-between align-baseline my-0 py-0">
+                    <span class="text--secondary mr-4">
+                      <v-btn icon @click="ratingFilterRangeMin -= 1">
+                        <v-icon>mdi-minus</v-icon>
+                      </v-btn>
+                      <span> {{ ratingFilterRange[0] }} </span>
+                      <v-btn icon @click="ratingFilterRangeMin += 1">
+                        <v-icon>mdi-plus</v-icon>
+                      </v-btn>
+                    </span>
+                    <span>至</span>
                     <span class="text--secondary ml-4">
                       <v-btn icon @click="ratingFilterRangeMax -= 1">
                         <v-icon>mdi-minus</v-icon>
                       </v-btn>
-                      <span class="mt-1">最高: {{ ratingFilterRange[1] }} </span>
+                      <span> {{ ratingFilterRange[1] }} </span>
                       <v-btn icon @click="ratingFilterRangeMax += 1">
                         <v-icon>mdi-plus</v-icon>
                       </v-btn>
                     </span>
                   </v-row>
-                </div>
+                </v-container>
                 <!--              上映年份-->
-                <div v-if="filterType.includes('year')" class="searchRow" key="year">
-                  <v-row class="grow align-center my-auto pa-auto">
-                    <!--                  <hr class="yearDivider grow mr-2" />-->
-                    <strong class="primary--text">上映年份</strong>
-                    <!--                  <hr class="yearDivider grow ml-2" />-->
+                <v-container fluid v-if="filterType.includes('year')" class="searchRow mx-0 my-4 pa-0" key="year">
+                  <v-row class="grow justify-center align-center my-auto pa-auto">
+                    <!--                    <hr class="yearDivider grow mr-2" />-->
+                    <span class="primary--text">上映年份</span>
+                    <!--                    <hr class="yearDivider grow ml-2" />-->
                   </v-row>
-                  <v-row class="grow">
-                    <span class="text--secondary mr-4">
-                      <v-btn icon @click="onScreenYearMin -= 1" key="yearMin-">
-                        <v-icon>mdi-minus</v-icon>
-                      </v-btn>
-                      <span class="mt-1">最早: {{ onScreenYearRange[0] }} </span>
-                      <v-btn icon @click="onScreenYearMin += 1" key="yearMin+">
-                        <v-icon>mdi-plus</v-icon>
-                      </v-btn>
-                    </span>
+                  <v-row class="grow mt-6">
                     <v-range-slider
                       key="yearSlider"
                       v-model="onScreenYearRange"
@@ -155,17 +145,29 @@
                       color="primary"
                       track-color="green lighten-3"
                     ></v-range-slider>
+                  </v-row>
+                  <v-row class="grow justify-space-between align-baseline my-0 py-0">
+                    <span class="text--secondary mr-4">
+                      <v-btn icon @click="onScreenYearMin -= 1" key="yearMin-">
+                        <v-icon>mdi-minus</v-icon>
+                      </v-btn>
+                      <span>{{ onScreenYearRange[0] }} </span>
+                      <v-btn icon @click="onScreenYearMin += 1" key="yearMin+">
+                        <v-icon>mdi-plus</v-icon>
+                      </v-btn>
+                    </span>
+                    <span>至</span>
                     <span class="text--secondary ml-4">
                       <v-btn icon @click="onScreenYearMax -= 1" key="yearMax-">
                         <v-icon>mdi-minus</v-icon>
                       </v-btn>
-                      <span class="mt-1">最晚: {{ onScreenYearRange[1] }} </span>
+                      <span> {{ onScreenYearRange[1] }} </span>
                       <v-btn icon @click="onScreenYearMax += 1" key="yearMax+">
                         <v-icon>mdi-plus</v-icon>
                       </v-btn>
                     </span>
                   </v-row>
-                </div>
+                </v-container>
                 <!--              观影日期-->
                 <div v-if="filterType.includes('date')" class="searchRow" key="date">
                   <v-row class="grow align-center my-auto pa-auto">
@@ -270,7 +272,7 @@ import { mapState } from "vuex";
 import moment from "moment";
 
 export default {
-  name: "UserSearch",
+  name: "UserSearchPhone",
   props: {
     listLoading: {
       required: true,
@@ -424,7 +426,7 @@ export default {
   max-width: 800px;
 }
 .searchRow {
-  height: 95px;
+  /*height: 150px;*/
 }
 .yearDivider {
   border: 0;
