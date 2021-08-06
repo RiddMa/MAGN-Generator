@@ -170,12 +170,10 @@
                 </v-container>
                 <!--              观影日期-->
                 <div v-if="filterType.includes('date')" class="searchRow" key="date">
-                  <v-row class="grow align-center my-auto pa-auto">
-                    <!--                  <hr class="yearDivider grow mr-2" />-->
-                    <strong class="primary--text">观影日期</strong>
-                    <!--                  <hr class="yearDivider grow ml-2" />-->
+                  <v-row class="grow justify-center align-center my-auto pa-auto">
+                    <span class="primary--text">观影日期</span>
                   </v-row>
-                  <v-row class="grow align-center my-auto pa-auto">
+                  <v-row class="grow align-center my-4">
                     <v-menu
                       class="grow"
                       key="date"
@@ -247,14 +245,7 @@
                 >
                   清空
                 </v-btn>
-                <v-btn
-                  class="primary text-button ma-2 mt-0 pa-auto"
-                  elevation="2"
-                  @click="
-                    filterMovie();
-                    sortMovie();
-                  "
-                >
+                <v-btn class="primary text-button ma-2 mt-0 pa-auto" elevation="2" @click="onSortFilterClicked">
                   排序 || 过滤
                 </v-btn>
               </v-row>
@@ -349,6 +340,11 @@ export default {
     }),
   },
   methods: {
+    onSortFilterClicked() {
+      this.$store.commit("restoreMovieList");
+      this.filterMovie();
+      this.sortMovie();
+    },
     sortMovie() {
       this.$store.commit("sortMovie", {
         sortType: this.sortType,
@@ -356,8 +352,7 @@ export default {
         sortOrder: this.sortOrder,
       });
     },
-    async filterMovie() {
-      // await this.$store.dispatch("getAllUserReview");
+    filterMovie() {
       let payload = {};
       if (this.filterType.includes("genre") && this.genreFilter.length !== 0) {
         payload.genre = this.genreFilter;

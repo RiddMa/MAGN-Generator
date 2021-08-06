@@ -245,14 +245,7 @@
                 >
                   清空
                 </v-btn>
-                <v-btn
-                  class="primary text-button ma-2 mt-0 pa-auto"
-                  elevation="2"
-                  @click="
-                    filterMovie();
-                    sortMovie();
-                  "
-                >
+                <v-btn class="primary text-button ma-2 mt-0 pa-auto" elevation="2" @click="onSortFilterClicked">
                   排序 || 过滤
                 </v-btn>
               </v-row>
@@ -347,6 +340,11 @@ export default {
     }),
   },
   methods: {
+    onSortFilterClicked() {
+      this.$store.commit("restoreMovieList");
+      this.filterMovie();
+      this.sortMovie();
+    },
     sortMovie() {
       this.$store.commit("sortMovie", {
         sortType: this.sortType,
@@ -354,8 +352,7 @@ export default {
         sortOrder: this.sortOrder,
       });
     },
-    async filterMovie() {
-      // await this.$store.dispatch("getAllUserReview");
+    filterMovie() {
       let payload = {};
       if (this.filterType.includes("genre") && this.genreFilter.length !== 0) {
         payload.genre = this.genreFilter;

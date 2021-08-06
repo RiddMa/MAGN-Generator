@@ -125,6 +125,7 @@ const netStore = {
               return moment(a.timestamp).isBefore(moment(b.timestamp)) ? 1 : -1;
             });
             context.commit("setReviewList", result);
+            context.commit("backupMovieList");
             resolve(response);
           })
           .catch((e) => {

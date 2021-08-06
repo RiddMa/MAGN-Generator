@@ -1,4 +1,5 @@
 import moment from "moment";
+import _ from "lodash";
 
 const md5 = require("md5");
 const userStore = {
@@ -6,6 +7,7 @@ const userStore = {
     username: "",
     password: "",
     reviewList: [],
+    reviewListBak: undefined,
   },
   mutations: {
     setUsername(state, username) {
@@ -17,8 +19,15 @@ const userStore = {
     setReviewList(state, reviewList) {
       state.reviewList = reviewList;
     },
+    backupMovieList(state) {
+      const _ = require("lodash");
+      state.reviewListBak = _.cloneDeep(state.reviewList);
+    },
+    restoreMovieList(state) {
+      const _ = require("lodash");
+      state.reviewList = _.cloneDeep(state.reviewListBak);
+    },
     filterMovie(state, filters) {
-      console.log(filters);
       if (filters.genre !== undefined) {
         state.reviewList = state.reviewList.filter((v) => {
           for (let i = 0; i < filters.genre.length; i++) {
