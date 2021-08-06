@@ -1,5 +1,6 @@
 import axios from "axios";
 import QS from "qs";
+import moment from "moment";
 const { v1: UUIDv1 } = require("uuid");
 
 const netStore = {
@@ -48,7 +49,10 @@ const netStore = {
         localStorage.setItem("token", response.data.token);
         return { status: response.status, data: response.data };
       } catch (e) {
-        console.log(e);
+        context.commit("showToast", {
+          type: "error",
+          message: `登录失败:${e.response.data.errors}`,
+        });
         return { status: e.response.status, data: e.response.data };
       }
     },
@@ -61,7 +65,10 @@ const netStore = {
         localStorage.setItem("token", response.data.token);
         return { status: response.status, data: response.data };
       } catch (e) {
-        console.log(e);
+        context.commit("showToast", {
+          type: "error",
+          message: `注册失败:${e.response.data.errors}`,
+        });
         return { status: e.response.status, data: e.response.data };
       }
     },
@@ -79,7 +86,10 @@ const netStore = {
             resolve(response);
           })
           .catch((e) => {
-            // message.error("保存失败：" + e.response.data.errors);
+            context.commit("showToast", {
+              type: "error",
+              message: `保存失败:${e.response.data.errors}`,
+            });
             reject(e.response.data.errors);
           });
       });
@@ -98,7 +108,10 @@ const netStore = {
             resolve(response);
           })
           .catch((e) => {
-            // message.error("更新失败：" + e.response.data.errors);
+            context.commit("showToast", {
+              type: "error",
+              message: `更新失败:${e.response.data.errors}`,
+            });
             reject(e.response.data.errors);
           });
       });
@@ -108,15 +121,17 @@ const netStore = {
         context.state.instance
           .post("/getAllUserReview")
           .then((response) => {
-            context.commit("setReviewList", response.data);
-            // context.commit("showToast", {
-            //   type: "success",
-            //   message: "获取成功",
-            // });
+            let result = response.data.sort((a, b) => {
+              return moment(a.timestamp).isBefore(moment(b.timestamp)) ? 1 : -1;
+            });
+            context.commit("setReviewList", result);
             resolve(response);
           })
           .catch((e) => {
-            // message.error("获取失败：" + e.response.data.errors);
+            context.commit("showToast", {
+              type: "error",
+              message: `删除失败:${e.response.data.errors}`,
+            });
             reject(e.response.data.errors);
           });
       });
@@ -154,6 +169,10 @@ const netStore = {
             resolve(response);
           })
           .catch((e) => {
+            context.commit("showToast", {
+              type: "error",
+              message: `生成失败:${e.response.data.errors}`,
+            });
             reject(e.response.data.errors);
           });
       });
@@ -175,6 +194,10 @@ const netStore = {
             resolve(response);
           })
           .catch((e) => {
+            context.commit("showToast", {
+              type: "error",
+              message: `加载图片失败:${e.response.data.errors}`,
+            });
             reject(e.response.data.errors);
           });
       });
