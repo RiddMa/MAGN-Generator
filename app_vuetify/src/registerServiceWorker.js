@@ -25,12 +25,13 @@ if (process.env.NODE_ENV === "production") {
         message: "应用有更新，正在加载并更新页面",
       });
     },
-    async updated(registration) {
+    async updated() {
       console.log("New content is available; please refresh.");
-      await registration.update();
-      caches.keys().then(function (names) {
-        for (let name of names) caches.delete(name).then(() => window.location.reload(true));
-      });
+      // await registration.update();
+      // caches.keys().then(function (names) {
+      //   for (let name of names) caches.delete(name);
+      // });
+      window.location.reload(true);
     },
     offline() {
       console.log("No internet connection found. App is running in offline mode.");
