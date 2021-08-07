@@ -23,7 +23,7 @@ async function getScreenshot(url, uuid, reviewId, width = 1440, height = 900) {
   const page = await (await browser).newPage();
   console.log("Going to " + url);
   await page.goto(url);
-  await page.waitForResponse("https://www.ridd.xyz/api/internal/getUsername");
+  await page.waitForResponse("https://www.riddma.com/api/internal/getUsername");
 
   await fse.ensureDir(`${rootDir}/screenshot`);
   let filename = `${uuid}_${reviewId}`;
@@ -81,7 +81,7 @@ module.exports = {
     const uuid = ctx.state.jwtData.uuid;
     const reviewId = ctx.request.body.reviewId;
 
-    const url = `https://www.ridd.xyz/render/${uuid}/${reviewId}`;
+    const url = `https://www.riddma.com/render/${uuid}/${reviewId}`;
     // const url = `http://localhost:8080/render/${uuid}/${reviewId}`;
     const res = await getScreenshot(url, uuid, reviewId);
     await ctx.rest(ctx, next, 200, { filename: res });

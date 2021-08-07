@@ -12,7 +12,7 @@ const netStore = {
   actions: {
     initStore(context) {
       let newInstance = axios.create({
-        baseURL: "https://www.ridd.xyz/api/",
+        baseURL: "https://www.riddma.com/api/",
         // baseURL: "http://localhost:8090/api/",
         method: "post",
         timeout: 10000,
