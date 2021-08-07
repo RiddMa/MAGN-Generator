@@ -24,7 +24,6 @@ if (process.env.NODE_ENV === "production") {
         type: "updatePage",
         message: "应用有更新，正在加载并更新页面",
       });
-      // alert("应用有更新，正在加载并更新页面");
     },
     async updated(registration) {
       console.log("New content is available; please refresh.");
