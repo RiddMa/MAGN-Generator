@@ -14,7 +14,6 @@ if (process.env.NODE_ENV === "production") {
       console.log("Service worker has been registered.");
     },
     cached() {
-      alert();
       console.log("Content has been cached for offline use.");
     },
     updatefound() {
@@ -25,12 +24,12 @@ if (process.env.NODE_ENV === "production") {
         message: "应用有更新，正在加载并更新页面",
       });
     },
-    async updated() {
+    async updated(registration) {
       console.log("New content is available; please refresh.");
-      // await registration.update();
-      // caches.keys().then(function (names) {
-      //   for (let name of names) caches.delete(name);
-      // });
+      await registration.update();
+      caches.keys().then(function (names) {
+        for (let name of names) caches.delete(name);
+      });
       window.location.reload(true);
     },
     offline() {
