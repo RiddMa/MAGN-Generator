@@ -15,23 +15,23 @@ if (process.env.NODE_ENV === "production") {
     },
     cached() {
       console.log("Content has been cached for offline use.");
-      window.location.reload(true);
+      // window.location.reload(true);
     },
     updatefound() {
       console.log("New content is downloading.");
       store.commit("showToast", {
         dialog: true,
         type: "updatePage",
-        message: "应用有更新，正在加载并更新页面",
+        message: "应用有更新，请刷新页面",
       });
     },
     async updated(registration) {
       console.log("New content is available; please refresh.");
       await registration.update();
-      caches.keys().then(function (names) {
-        for (let name of names) caches.delete(name);
-      });
-      window.location.reload(true);
+      // caches.keys().then(function (names) {
+      //   for (let name of names) caches.delete(name);
+      // });
+      // window.location.reload(true);
     },
     offline() {
       console.log("No internet connection found. App is running in offline mode.");
