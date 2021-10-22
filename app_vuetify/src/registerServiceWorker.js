@@ -29,9 +29,9 @@ if (process.env.NODE_ENV === "production") {
       store.commit("showToast", {
         dialog: true,
         type: "updatePage",
-        message: "应用已更新，正在刷新页面",
+        message: "应用已更新，请刷新页面",
       });
-      window.location.reload(true);
+      // window.location.reload(true);
     },
     offline() {
       console.log("No internet connection found. App is running in offline mode.");
